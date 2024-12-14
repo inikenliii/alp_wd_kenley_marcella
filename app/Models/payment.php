@@ -10,6 +10,8 @@ class payment extends Model
 {
     use HasFactory;
 
+    protected $table = 'payments';
+
     public function payment (): BelongsTo
     {
         return $this->belongsTo(User::class);

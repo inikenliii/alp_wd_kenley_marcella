@@ -15,7 +15,7 @@ class AttendanceSeeder extends Seeder
      */
     public function run(): void
     {
-        attendance::factory(10)->create();
+        attendance::factory(3)->create();
         // attendance::factory()->count(10)->recycle(User::factory(3)->create())->create();
         // attendance::factory()->count(10)->recycle(trainsession::factory(3)->create())->create();
     }

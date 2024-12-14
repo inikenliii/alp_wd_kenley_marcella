@@ -11,6 +11,8 @@ class trainsession extends Model
 {
     use HasFactory;
 
+    protected $table = 'trainsessions';
+
     public function trainsession1 (): HasMany
     {
         return $this->HasMany(attendance::class);

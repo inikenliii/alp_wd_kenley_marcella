@@ -10,6 +10,8 @@ class attendance extends Model
 {
     use HasFactory;
 
+    protected $table = 'attendances';
+
     public function attendance (): BelongsTo
     {
         return $this->belongsTo(User::class);

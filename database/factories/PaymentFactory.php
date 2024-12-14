@@ -17,9 +17,7 @@ class PaymentFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'payment_id'=> payment::factory(),
-            'payment_date' => $this->faker->date(),
+        return [            'payment_date' => $this->faker->date(),
             'amount' => $this->faker->integer(),
             'month_paid' => $this->faker->monthName(),
             'payment_status' => $this->faker->enum(['paid'],['pending'])

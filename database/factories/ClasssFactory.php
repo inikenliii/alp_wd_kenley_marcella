@@ -6,9 +6,9 @@ use App\Models\classs;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\classs>
  */
-class ClassFactory extends Factory
+class ClasssFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,9 +18,8 @@ class ClassFactory extends Factory
     public function definition(): array
     {
         return [
-            'class_id'=> classs::factory(),
-            'class_name' => $this->faker->classname(),
-            'description' => $this->faker->text()
+            'class_name' => $this->faker->name(),
+            'description' => $this->faker->name()
         ];
     }
 }

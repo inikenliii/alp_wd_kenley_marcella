@@ -18,7 +18,6 @@ class AttendanceFactory extends Factory
     public function definition(): array
     {
         return [
-            'attendance_id'=> attendance::factory(),
             'attendance_status' => $this->faker->randomElement(['present', 'absent']),
             'attendance_date' => $this->faker->date()
         ];

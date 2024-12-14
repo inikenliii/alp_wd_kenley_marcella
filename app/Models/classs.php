@@ -10,12 +10,14 @@ class classs extends Model
 {
     use HasFactory;
 
-    public function class1 (): HasMany
+    protected $table = 'classes';
+
+    public function users (): HasMany
     {
         return $this->HasMany(User::class);
     }
 
-    public function class2 (): HasMany
+    public function trainsessions (): HasMany
     {
         return $this->HasMany(trainsession::class);
     }

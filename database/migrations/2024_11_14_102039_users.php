@@ -17,7 +17,7 @@ return new class extends Migration
             $table->String('password');
             $table->String('name');
             $table->String('phone_number');
-            $table->text('address');
+            $table->string('address');
             $table->date('birth_date');
             $table->string('image_profile')->nullable();
             $table->foreignId('class_id')->constrained( 
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        
+        Schema::dropIfExists('users');
     }
 };
