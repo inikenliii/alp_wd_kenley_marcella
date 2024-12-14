@@ -16,10 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        attendance::factory()->count(10)->recycle(User::factory(3)->create())->create();
-        User::factory()->count(10)->recycle(classs::factory(3)->create())->create();
-        trainsession::factory()->count(10)->recycle(classs::factory(3)->create())->create();
-        payment::factory()->count(10)->recycle(User::factory(3)->create())->create();
-        attendance::factory()->count(10)->recycle(trainsession::factory(3)->create())->create();
+        
+        
     }
 }

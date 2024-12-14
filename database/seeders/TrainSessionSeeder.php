@@ -1,0 +1,20 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\classs;
+use App\Models\trainsession;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class TrainSessionSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        trainsession::factory(10)->create();
+        // trainsession::factory()->count(10)->recycle(classs::factory(3)->create())->create();
+    }
+}
