@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\classs;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,6 +18,7 @@ class ClassFactory extends Factory
     public function definition(): array
     {
         return [
+            'class_id'=> classs::factory(),
             'class_name' => $this->faker->classname(),
             'description' => $this->faker->text()
         ];

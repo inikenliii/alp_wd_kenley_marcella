@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\trainsession;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,6 +18,7 @@ class TrainSessionFactory extends Factory
     public function definition(): array
     {
         return [
+            'trainsession_id'=> trainsession::factory(),
             'trainsession_date' => $this->faker->date(),
             'start_time' => $this->faker->time(),
             'end_time' => $this->faker->time(),

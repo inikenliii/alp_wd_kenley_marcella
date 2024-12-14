@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\payment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,6 +18,7 @@ class PaymentFactory extends Factory
     public function definition(): array
     {
         return [
+            'payment_id'=> payment::factory(),
             'payment_date' => $this->faker->date(),
             'amount' => $this->faker->integer(),
             'month_paid' => $this->faker->monthName(),
