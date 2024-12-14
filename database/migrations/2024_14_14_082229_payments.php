@@ -19,7 +19,7 @@ return new class extends Migration
             );
             $table->date('payment_date');
             $table->decimal('amount');
-            $table->date('month_paid');
+            $table->string('month_paid');
             $table->enum('payment_status',['paid', 'pending']);
             $table->timestamps();
         });

@@ -17,6 +17,10 @@ return new class extends Migration
                 table: 'users',
                 indexName: 'attendances_user_id' 
             );
+            $table->foreignId('trainsession_id')->constrained( 
+                table: 'trainsessions',
+                indexName: 'attendances_trainsession_id' 
+            );
             $table->enum('attendance_status', ['present', 'absent']);
             $table->timestamp('attendance_date');
             $table->timestamps();

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\classs;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -31,7 +32,8 @@ class UserFactory extends Factory
             'phone_number' => $this->faker->phoneNumber(),
             'address' => $this->faker->address(),
             'birth_date' => $this->faker->date(),
-            'image_profile' => $this->faker->image()  
+            'image_profile' => $this->faker->image(),
+            'class_id' => classs::factory(),  
         ];
     }
 }
