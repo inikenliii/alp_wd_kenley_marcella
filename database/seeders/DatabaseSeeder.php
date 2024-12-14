@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\attendance;
+use App\Models\classs;
+use App\Models\payment;
+use App\Models\trainsession;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +16,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        attendance::factory()->count(10)->recycle(User::factory(3)->create())->create();
+        User::factory()->count(10)->recycle(classs::factory(3)->create())->create();
+        trainsession::factory()->count(10)->recycle(classs::factory(3)->create())->create();
+        payment::factory()->count(10)->recycle(User::factory(3)->create())->create();
+        attendance::factory()->count(10)->recycle(trainsession::factory(3)->create())->create();
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('trainsessions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('class_id')->constrained( 
-                table: 'class',
+                table: 'classes',
                 indexName: 'trainsessions_class_id' 
             );
             $table->date('trainsession_date');

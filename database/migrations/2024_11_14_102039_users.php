@@ -14,12 +14,16 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->String('username');
-            $table->String('password')->unique();
+            $table->String('password');
             $table->String('name');
-            $table->String('phone');
+            $table->String('phone_number');
             $table->text('address');
             $table->date('birth_date');
-            $table->string('image_profile');
+            $table->string('image_profile')->nullable();
+            $table->foreignId('class_id')->constrained( 
+                table: 'classes',
+                indexName: 'users_class_id' 
+            );
             $table->timestamps();
         });
     }
@@ -29,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        
     }
 };
