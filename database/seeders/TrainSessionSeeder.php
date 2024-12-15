@@ -14,7 +14,7 @@ class TrainSessionSeeder extends Seeder
      */
     public function run(): void
     {
-        trainsession::factory(3)->create();
-        // trainsession::factory()->count(10)->recycle(classs::factory(3)->create())->create();
+        // trainsession::factory(3)->create();
+        trainsession::factory()->count(100)->recycle(classs::factory(3)->create())->create();
     }
 }
