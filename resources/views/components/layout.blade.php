@@ -11,7 +11,7 @@
 
     <div class="min-h-full">
         <x-navbar></x-navbar>
-        <x-header>{{ $headertitle }}</x-header>
+        {{-- <x-header>{{ $headertitle }}</x-header> --}}
     </div>
 
         <main>

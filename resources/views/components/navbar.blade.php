@@ -27,50 +27,24 @@
         </button>
       </div>
       <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-        <div class="flex shrink-0 items-center">
-          <img class="h-8 w-auto" src="https://th.bing.com/th/id/R.0809f8d114f821d2ffd31c38e21a56f6?rik=VPpy8MkYM9fqcA&riu=http%3a%2f%2fpngimg.com%2fuploads%2fbasketball%2fbasketball_PNG1100.png&ehk=X2dsCAnoqCC8AiL%2bbjHI5cxNPBmUCxR92FgSupg%2fADU%3d&risl=&pid=ImgRaw&r=0" alt="Your Company">
+        <div class="flex shrink-0 items-center border-2 border-yellow-400 rounded-3xl">
+          <img class="h-8 w-auto p-1" src="https://th.bing.com/th/id/R.0809f8d114f821d2ffd31c38e21a56f6?rik=VPpy8MkYM9fqcA&riu=http%3a%2f%2fpngimg.com%2fuploads%2fbasketball%2fbasketball_PNG1100.png&ehk=X2dsCAnoqCC8AiL%2bbjHI5cxNPBmUCxR92FgSupg%2fADU%3d&risl=&pid=ImgRaw&r=0" alt="Your Company">
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <a href="/" class="{{ request()-> is ('/') ? 'text-yellow-900' : 'bg-gray-700'}} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" aria-current="page">Home</a>
-            <a href="/about" class="{{ request()-> is ('about') ? 'text-yellow-900' : 'bg-gray-700'}} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">About</a>
-            <a href="/contact" class="{{ request()-> is ('contact') ? 'text-yellow-900' : 'bg-gray-700'}} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Contact</a>
-            <a href="/myprojects" class="{{ request()-> is ('contact') ? 'text-yellow-900' : 'bg-gray-700'}} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">myprojects</a>
+            <a href="/" class="{{ request()-> is ('/') ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white border-2 border-orange-700 hover:border-orange-400'}}" aria-current="page">Home</a>
+            <a href="/session" class="{{ request()-> is ('/session') ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white'}}" aria-current="page">Session</a>
+            <a href="/attendance" class="{{ request()-> is ('/attendance') ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white'}}" aria-current="page">Payment</a>
+            <a href="/payment" class="{{ request()-> is ('/payment') ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white'}}" aria-current="page">Payment</a>
           </div>
         </div>
       </div>
+
       <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-        <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-          <span class="absolute -inset-1.5"></span>
-          <span class="sr-only">View notifications</span>
-          <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-          </svg>
-        </button>
-
-        <!-- Profile dropdown -->
-        <div class="relative ml-3">
-          <div>
-            <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-              <span class="absolute -inset-1.5"></span>
-              <span class="sr-only">Open user menu</span>
-              <img class="size-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-            </button>
-          </div>
-
-          <!--
-            Dropdown menu, show/hide based on menu state.
-
-            Entering: "transition ease-out duration-100"
-              From: "transform opacity-0 scale-95"
-              To: "transform opacity-100 scale-100"
-            Leaving: "transition ease-in duration-75"
-              From: "transform opacity-100 scale-100"
-              To: "transform opacity-0 scale-95"
-          -->
-        </div>
+        
       </div>
+
     </div>
   </div>
 
