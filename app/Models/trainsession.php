@@ -18,8 +18,8 @@ class trainsession extends Model
         return $this->HasMany(attendance::class);
     }
 
-    public function trainsession2 (): BelongsTo
+    public function classs(): BelongsTo
     {
-        return $this->belongsTo(classs::class);
+    return $this->belongsTo(classs::class);
     }
 }

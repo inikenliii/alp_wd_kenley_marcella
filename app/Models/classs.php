@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class classs extends Model
 {
     use HasFactory;
-
+    protected $fillable = ['class_name', 'description'];
     protected $table = 'classes';
 
     public function users (): HasMany

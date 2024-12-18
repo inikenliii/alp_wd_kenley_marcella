@@ -14,15 +14,15 @@ class paymentSeeder extends Seeder
      */
     public function run(): void
     {
-        {
-            $user = user::count() > 0 
-                ? user::all() 
-                : user::factory(100)->create();
+        
+            $User = User::count() > 0 
+                ? User::all() 
+                : User::factory(100)->create();
     
             Payment::factory()
-                ->count(1)
-                ->recycle($user)
+                ->count(10)
+                ->recycle($User)
                 ->create();
-        }
+        
     }
 }

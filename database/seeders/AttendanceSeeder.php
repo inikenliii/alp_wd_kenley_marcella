@@ -15,17 +15,17 @@ class AttendanceSeeder extends Seeder
      */
     public function run(): void
     {
-        {
-            $user = user::count() > 0 
-                ? user::all() 
-                : user::factory(100)->create();
+        
+            $User = User::count() > 0 
+                ? User::all() 
+                : User::factory(100)->create();
     
             attendance::factory()
                 ->count(1)
-                ->recycle($user)
+                ->recycle($User)
                 ->create();
-        }
-        {
+        
+        
             $trainsession = trainsession::count() > 0 
                 ? trainsession::all() 
                 : trainsession::factory(100)->create();
@@ -34,6 +34,6 @@ class AttendanceSeeder extends Seeder
                 ->count(5)
                 ->recycle($trainsession)
                 ->create();
-        }
+        
     }
 }

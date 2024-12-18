@@ -14,15 +14,13 @@ class TrainSessionSeeder extends Seeder
      */
     public function run(): void
     {
-        {
-            $classes = Classs::count() > 0 
-                ? Classs::all() 
-                : Classs::factory(5)->create();
-    
-            TrainSession::factory()
-                ->count(100)
-                ->recycle($classes)
-                ->create();
-        }
+        $classes = Classs::count() > 0 
+        ? Classs::all() 
+        : Classs::factory(5)->create();
+
+    TrainSession::factory()
+        ->count(100)
+        ->recycle($classes)
+        ->create();
     }
 }

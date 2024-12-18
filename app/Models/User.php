@@ -30,10 +30,10 @@ class User extends Authenticatable
      {
          return $this->HasMany(payment::class);
      }
-     public function user3 (): belongsTo
-     {
-         return $this->belongsTo(classs::class);
-     }
+     public function classs(): BelongsTo
+    {
+    return $this->belongsTo(classs::class);
+    }
 
     protected $fillable = [
         'username',
