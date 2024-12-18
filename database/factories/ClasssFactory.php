@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ClasssFactory extends Factory
 {
+    protected $model = Classs::class;
     /**
      * Define the model's default state.
      *
@@ -18,8 +19,10 @@ class ClasssFactory extends Factory
     public function definition(): array
     {
         return [
-            'class_name' => $this->faker->name(),
-            'description' => $this->faker->name()
+            'class_name' => $this->faker->word(),
+            'description' => $this->faker->sentence(),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }
