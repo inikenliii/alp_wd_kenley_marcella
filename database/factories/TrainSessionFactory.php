@@ -20,6 +20,7 @@ class TrainSessionFactory extends Factory
     {
         return [
             'trainsession_date' => $this->faker->date(),
+            'image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thehoopsgeek.com%2Fbasketball-training-equipment%2F&psig=AOvVaw0dsJOzaiAxN4xx2PtnLu7L&ust=1734590911506000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCawu7csIoDFQAAAAAdAAAAABAJ',
             'start_time' => $this->faker->time(),
             'end_time' => $this->faker->time(),
             'description' => $this->faker->text(),

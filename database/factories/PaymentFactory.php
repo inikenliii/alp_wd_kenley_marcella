@@ -21,7 +21,7 @@ class PaymentFactory extends Factory
         return [
             'user_id' => User::factory(),
             'payment_date' => $this->faker->date(),
-            'amount' => $this->faker->randomFloat(2, 1000, 1000000),
+            'amount' => 200000,
             'month_paid' => $this->faker->monthName(),
             'payment_status' => $this->faker->randomElement(['paid'],['pending'])
         ];
