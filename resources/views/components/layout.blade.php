@@ -10,7 +10,8 @@
     <body class="{{ $bgColor }}">
 
     <div class="min-h-full">
-        <x-navbar></x-navbar>
+        <x-navbar>{{ 1 }}</x-navbar>
+        {{-- <x-navbar>{{ $userID }}</x-navbar> --}}
         {{-- <x-header>{{ $headerTitle }}</x-header> --}}
     </div>
 
