@@ -1,6 +1,4 @@
-<div>
-    <!-- It is never too late to be what you might have been. - George Eliot -->
-</div><nav class="bg-orange-900">
+<nav class="bg-black z-10 fixed top-0 left-0 w-full">
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -27,7 +25,7 @@
         </button>
       </div>
       <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-        <div class="flex shrink-0 items-center border-2 border-yellow-400 rounded-3xl">
+        <div class="flex shrink-0 items-center">
           <img class="h-8 w-auto p-1" src="https://th.bing.com/th/id/R.0809f8d114f821d2ffd31c38e21a56f6?rik=VPpy8MkYM9fqcA&riu=http%3a%2f%2fpngimg.com%2fuploads%2fbasketball%2fbasketball_PNG1100.png&ehk=X2dsCAnoqCC8AiL%2bbjHI5cxNPBmUCxR92FgSupg%2fADU%3d&risl=&pid=ImgRaw&r=0" alt="Your Company">
         </div>
         <div class="hidden sm:ml-6 sm:block">
@@ -42,7 +40,7 @@
       </div>
 
       <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-        
+
       </div>
 
     </div>
