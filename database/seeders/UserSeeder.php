@@ -15,7 +15,6 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         {
-            // Buat 5 instance Classs jika belum ada
             $classes = Classs::count() > 0 
                 ? Classs::all() 
                 : Classs::factory(5)->create();
