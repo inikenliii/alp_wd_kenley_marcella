@@ -2,38 +2,40 @@
 
 namespace Database\Seeders;
 
-use App\Models\attendance;
-use App\Models\trainsession;
+use App\Models\Attendance;
+use App\Models\TrainSession;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class AttendanceSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        
-            $User = User::count() > 0 
-                ? User::all() 
-                : User::factory(100)->create();
-    
-            attendance::factory()
-                ->count(1)
-                ->recycle($User)
-                ->create();
-        
-        
-            $trainsession = trainsession::count() > 0 
-                ? trainsession::all() 
-                : trainsession::factory(100)->create();
-    
-            attendance::factory()
-                ->count(5)
-                ->recycle($trainsession)
-                ->create();
-        
+        // Hapus data existing sebelum seeding
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Attendance::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        // Pastikan users ada
+        $users = User::count() > 0 
+            ? User::all() 
+            : User::factory(100)->create();
+
+        // Pastikan train sessions ada
+        $trainSessions = trainsession::count() > 0 
+            ? trainsession::all() 
+            : trainsession::factory(100)->create();
+
+        // Buat attendance dengan kombinasi unik
+        Attendance::factory()
+            ->count(10)
+            ->state(function () use ($users, $trainSessions) {
+                return [
+                    'user_id' => $users->random()->id,
+                    'trainsession_id' => $trainSessions->random()->id,
+                ];
+            })
+            ->create();
     }
 }

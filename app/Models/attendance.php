@@ -12,12 +12,12 @@ class attendance extends Model
 
     protected $table = 'attendances';
 
-    public function attendance (): BelongsTo
+    public function User (): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
     
-    public function attendance2 (): BelongsTo
+    public function trainsession (): BelongsTo
     {
         return $this->belongsTo(trainsession::class);
     }

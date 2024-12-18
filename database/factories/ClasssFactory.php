@@ -19,8 +19,8 @@ class ClasssFactory extends Factory
     public function definition(): array
     {
         return [
-            'class_name' => $this->faker->word(), // Atur nilai default untuk class_name
-            'description' => $this->faker->sentence(), // Atur default description
+            'class_name' => $this->faker->word(),
+            'description' => $this->faker->sentence(),
             'created_at' => now(),
             'updated_at' => now(),
         ];
