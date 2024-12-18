@@ -4,13 +4,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="stylesheet.css" rel="yaa.css">
-        <title>Laravel</title>
+        <title>{{ $headertitle }}</title>
         @vite('resources/css/app.css')
     </head>
     <body>
 
     <div class="min-h-full">
-        <x-navigation></x-navigation>
+        <x-navbar></x-navbar>
         <x-header>{{$headertitle}}</x-header>
     </div>
 
