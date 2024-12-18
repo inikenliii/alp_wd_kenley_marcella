@@ -66,17 +66,4 @@ class User extends Model
             'password' => 'hashed',
         ];
     }
-
-    public static function allData(){
-        return self::$fillable;
-    }
-
-    public static function findData($id) {
-        $all = self::$fillable;
-        foreach ($all as $pro) {
-            if ($pro[0]==$id){
-                return $pro;
-            }
-        }
-    }
 }

@@ -7,7 +7,7 @@
         <title>{{ $headertitle }}</title>
         @vite('resources/css/app.css')
     </head>
-    <body>
+    <body class="{{ $bgColor }}">
 
     <div class="min-h-full">
         <x-navbar></x-navbar>

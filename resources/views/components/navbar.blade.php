@@ -1,6 +1,6 @@
 <div>
     <!-- It is never too late to be what you might have been. - George Eliot -->
-</div><nav class="bg-gray-800">
+</div><nav class="bg-orange-900">
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -28,7 +28,7 @@
       </div>
       <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
         <div class="flex shrink-0 items-center">
-          <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+          <img class="h-8 w-auto" src="https://th.bing.com/th/id/R.0809f8d114f821d2ffd31c38e21a56f6?rik=VPpy8MkYM9fqcA&riu=http%3a%2f%2fpngimg.com%2fuploads%2fbasketball%2fbasketball_PNG1100.png&ehk=X2dsCAnoqCC8AiL%2bbjHI5cxNPBmUCxR92FgSupg%2fADU%3d&risl=&pid=ImgRaw&r=0" alt="Your Company">
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
