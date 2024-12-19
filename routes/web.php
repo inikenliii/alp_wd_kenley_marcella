@@ -5,11 +5,14 @@ use App\Http\Controllers\ClasssController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TrainSessionController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/{id}', function ($id) {
     return view('home', [
         "pagetitle" => "Home",
+        "id" => (int) $id,
+        "user" => User::with('classs')->get()
         //"userDB" =>
     ]);
 });

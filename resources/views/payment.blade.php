@@ -1,7 +1,7 @@
 <x-layout>
 
     <x-slot:headerTitle>{{$pagetitle}}</x-slot:headerTitle>
-    {{-- <x-slot:userID>{{ $id }}</x-slot:userID> --}}
+    <x-slot:userID>{{ (int) request() }}</x-slot:userID>
     <x-slot:bgColor>{{ 'bg-orange-950' }}</x-slot:bgColor>
     
     <div class="mb-20"></div>
@@ -26,16 +26,6 @@
                     ['January', '16 jan 2013', 'Paid', 'Rp.123.000'],
                     ['January', '15 jan 2013', 'Paid', 'Rp.122.000'],
                     ['January', '14 jan 2013', 'Not Paid Yet', 'Rp.121.000'],
-                    ['January', '13 jan 2013', 'Paid', 'Rp.120.000'],
-                    ['January', '12 jan 2013', 'Paid', 'Rp.119.000'],
-                    ['January', '16 jan 2013', 'Paid', 'Rp.123.000'],
-                    ['January', '15 jan 2013', 'Paid', 'Rp.122.000'],
-                    ['January', '14 jan 2013', 'Paid', 'Rp.121.000'],
-                    ['January', '13 jan 2013', 'Paid', 'Rp.120.000'],
-                    ['January', '12 jan 2013', 'Paid', 'Rp.119.000'],
-                    ['January', '16 jan 2013', 'Paid', 'Rp.123.000'],
-                    ['January', '15 jan 2013', 'Paid', 'Rp.122.000'],
-                    ['January', '14 jan 2013', 'Paid', 'Rp.121.000'],
                     ['January', '13 jan 2013', 'Paid', 'Rp.120.000'],
                     ['January', '12 jan 2013', 'Paid', 'Rp.119.000'],
                 ];

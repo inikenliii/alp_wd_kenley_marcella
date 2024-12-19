@@ -1,7 +1,7 @@
 <x-layout>
 
     <x-slot:headerTitle>{{$pagetitle}}</x-slot:headerTitle>
-    {{-- <x-slot:userID>{{ $id }}</x-slot:userID> --}}
+    <x-slot:userID>{{ (int) request() }}</x-slot:userID>
     <x-slot:bgColor>{{ 'bg-orange-950' }}</x-slot:bgColor>
     
     <div class="mb-20"></div>

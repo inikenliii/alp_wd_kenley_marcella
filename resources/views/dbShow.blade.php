@@ -9,10 +9,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        return view('profile', [
-            'pagetitle' => 'Users',
-            'users' => User::with('classs')->get(),
-        ]);
+        return view('notFound');
     }
 
     public function show($id)
