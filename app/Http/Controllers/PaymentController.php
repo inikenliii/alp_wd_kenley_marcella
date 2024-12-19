@@ -11,7 +11,7 @@ class PaymentController extends Controller
     {
         return view('payment.index', [
             'pagetitle' => 'Payments',
-            'payments' => Payment::with('user')->get(),
+            'payments' => Payment::with('payment')->get(),
         ]);
     }
 
@@ -19,7 +19,7 @@ class PaymentController extends Controller
     {
         return view('payment.show', [
             'title' => 'Payment Detail',
-            'payment' => Payment::with('user')->findOrFail($id),
+            'payment' => Payment::with('payment')->findOrFail($id),
         ]);
     }
 }

@@ -43,6 +43,101 @@
         @endforeach
 
     </table>
+    <div class="mb-20"></div>
+
+    <h1 class="text-7xl font-bold text-orange-300 text-center">Classes</h1>
+    <div class="mb-16"></div>
+
+    <table class="min w-full border-collapse bg-orange-100 rounded-lg shadow-md">
+        <thead class="bg-orange-900 text-orange-200 rounded-lg">
+            <tr>
+                <th class="p-2 border-collapse border-2">No</th>
+                <th class="p-2 border-collapse border-2">class name</th>
+                <th class="p-2 border-collapse border-2">description</th>
+                <th class="p-2 border-collapse border-2">user_id</th>
+                {{-- <th class="p-2 border-collapse border-2"></th> --}}
+            </tr>
+        </thead>
+
+        @foreach ($classes as $pro)
+        <tr>
+            <td class="p-2 border-collapse border-2">{{ $pro->id }}</td>
+            <td class="p-2 border-collapse border-2">{{ $pro->class_name }}</td>
+            <td class="p-2 border-collapse border-2">{{ $pro->description }}</td>
+            <td class="p-2 border-collapse border-2">{{ $pro->user_id }}</td>
+        </tr>
+        {{-- <td class="p-2 border-collapse border-2">{{ $pro }}</td> --}}
+        @endforeach
+
+    </table>
+    <div class="mb-20"></div>
+
+
+    <h1 class="text-7xl font-bold text-orange-300 text-center">Train Session</h1>
+    <div class="mb-16"></div>
+
+    <table class="min w-full border-collapse bg-orange-100 rounded-lg shadow-md">
+        <thead class="bg-orange-900 text-orange-200 rounded-lg">
+            <tr>
+                <th class="p-2 border-collapse border-2">No</th>
+                <th class="p-2 border-collapse border-2">class id</th>
+                <th class="p-2 border-collapse border-2">user id</th>
+                <th class="p-2 border-collapse border-2">image</th>
+                <th class="p-2 border-collapse border-2">date</th>
+                <th class="p-2 border-collapse border-2">start time</th>
+                <th class="p-2 border-collapse border-2">end time</th>
+                <th class="p-2 border-collapse border-2">desc</th>
+                {{-- <th class="p-2 border-collapse border-2"></th> --}}
+            </tr>
+        </thead>
+
+        @foreach ($trainsession as $pro)
+        <tr>
+            <td class="p-2 border-collapse border-2">{{ $pro->id }}</td>
+            <td class="p-2 border-collapse border-2">{{ $pro->class_id }}</td>
+            <td class="p-2 border-collapse border-2">{{ $pro->user_id }}</td>
+            <td class="p-2 border-collapse border-2">{{ $pro->image }}</td>
+            <td class="p-2 border-collapse border-2">{{ $pro->trainsession_date }}</td>
+            <td class="p-2 border-collapse border-2">{{ $pro->start_time }}</td>
+            <td class="p-2 border-collapse border-2">{{ $pro->end_time }}</td>
+            <td class="p-2 border-collapse border-2">{{ $pro->description }}</td>
+        </tr>
+        {{-- <td class="p-2 border-collapse border-2">{{ $pro }}</td> --}}
+        @endforeach
+
+    </table>
+    <div class="mb-20"></div>
+
+
+    <h1 class="text-7xl font-bold text-orange-300 text-center">Attendances</h1>
+    <div class="mb-16"></div>
+
+    <table class="min w-full border-collapse bg-orange-100 rounded-lg shadow-md">
+        <thead class="bg-orange-900 text-orange-200 rounded-lg">
+            <tr>
+                <th class="p-2 border-collapse border-2">No</th>
+                <th class="p-2 border-collapse border-2">user_id</th>
+                <th class="p-2 border-collapse border-2">session id</th>
+                <th class="p-2 border-collapse border-2">attendance status</th>
+                <th class="p-2 border-collapse border-2">attendance date</th>
+                {{-- <th class="p-2 border-collapse border-2"></th> --}}
+            </tr>
+        </thead>
+
+        @foreach ($attendence as $pro)
+        <tr>
+            <td class="p-2 border-collapse border-2">{{ $pro->id }}</td>
+            <td class="p-2 border-collapse border-2">{{ $pro->user_id }}</td>
+            <td class="p-2 border-collapse border-2">{{ $pro->trainsession_id }}</td>
+            <td class="p-2 border-collapse border-2">{{ $pro->attendance_status }}</td>
+            <td class="p-2 border-collapse border-2">{{ $pro->attendance_date }}</td>
+        </tr>
+        {{-- <td class="p-2 border-collapse border-2">{{ $pro }}</td> --}}
+        @endforeach
+
+    </table>
+    <div class="mb-20"></div>
+
 
     <h1 class="text-7xl font-bold text-orange-300 text-center">Payment</h1>
     <div class="mb-16"></div>
