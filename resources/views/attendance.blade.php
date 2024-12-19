@@ -27,21 +27,6 @@
                     ['Session Name', 'hadir', '14 jan 2013'],
                     ['Session Name', 'absen', '13 jan 2013'],
                     ['Session Name', 'hadir', '12 jan 2013'],
-                    ['Session Name', 'hadir', '16 jan 2013'],
-                    ['Session Name', 'absen', '15 jan 2013'],
-                    ['Session Name', 'hadir', '14 jan 2013'],
-                    ['Session Name', 'absen', '13 jan 2013'],
-                    ['Session Name', 'hadir', '12 jan 2013'],
-                    ['Session Name', 'hadir', '16 jan 2013'],
-                    ['Session Name', 'absen', '15 jan 2013'],
-                    ['Session Name', 'hadir', '14 jan 2013'],
-                    ['Session Name', 'absen', '13 jan 2013'],
-                    ['Session Name', 'hadir', '12 jan 2013'],
-                    ['Session Name', 'hadir', '16 jan 2013'],
-                    ['Session Name', 'absen', '15 jan 2013'],
-                    ['Session Name', 'hadir', '14 jan 2013'],
-                    ['Session Name', 'absen', '13 jan 2013'],
-                    ['Session Name', 'hadir', '12 jan 2013'],
                 ]
             @endphp
             
