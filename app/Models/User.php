@@ -22,11 +22,11 @@ class User extends Model
      * @var list<string>
      */
 
-     public function user1 (): HasMany
+     public function attendance (): HasMany
      {
          return $this->HasMany(attendance::class);
      }
-     public function user2 (): HasMany
+     public function payment (): HasMany
      {
          return $this->HasMany(payment::class);
      }
@@ -34,6 +34,10 @@ class User extends Model
     {
     return $this->belongsTo(classs::class);
     }
+    public function trainsession (): HasMany
+     {
+         return $this->HasMany(trainsession::class);
+     }
 
     protected $fillable = [
         'username',

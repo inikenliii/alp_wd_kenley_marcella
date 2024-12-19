@@ -13,7 +13,7 @@ class trainsession extends Model
 
     protected $table = 'trainsessions';
 
-    public function trainsession1 (): HasMany
+    public function attendance (): HasMany
     {
         return $this->HasMany(attendance::class);
     }
@@ -21,5 +21,10 @@ class trainsession extends Model
     public function classs(): BelongsTo
     {
     return $this->belongsTo(classs::class);
+    }
+    
+    public function user(): BelongsTo
+    {
+    return $this->belongsTo(User::class);
     }
 }

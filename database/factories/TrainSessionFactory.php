@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\classs;
 use App\Models\trainsession;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,7 +25,8 @@ class TrainSessionFactory extends Factory
             'start_time' => $this->faker->time(),
             'end_time' => $this->faker->time(),
             'description' => $this->faker->text(),
-            'class_id' => classs::factory(),  
+            'class_id' => classs::factory(),
+            'user_id' => User::factory(),  
         ];
     }
 }
