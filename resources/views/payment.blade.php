@@ -8,7 +8,7 @@
 
     <div class="p-4">
 
-        @if ($payment)
+        @if ($payment && $payment->count() > 0)
             <h1 class="text-7xl font-bold text-orange-300 text-center">Payment</h1>
             <div class="mb-16"></div>
 

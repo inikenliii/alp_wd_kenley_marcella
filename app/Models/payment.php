@@ -12,7 +12,7 @@ class payment extends Model
 
     protected $table = 'payments';
 
-    public function payment (): BelongsTo
+    public function user (): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

@@ -16,12 +16,11 @@ class PaymentController extends Controller
 
     public function show($id)
     {
-        $payment_ = payment::find($id);
 
         return view('payment', [
             'pagetitle' => 'Payment Detail',
             'id' => $id,
-            'payment' => $payment_,
+            'payment' => payment::where('user_id', $id)->with('user')->get()
         ]);
     }
 }
