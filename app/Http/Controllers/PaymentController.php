@@ -9,17 +9,17 @@ class PaymentController extends Controller
 {
     public function index()
     {
-        return view('payment.index', [
+        return view('payment', [
             'pagetitle' => 'Payments',
-            'payments' => Payment::with('payment')->get(),
         ]);
     }
 
     public function show($id)
     {
-        return view('payment.show', [
-            'title' => 'Payment Detail',
-            'payment' => Payment::with('payment')->findOrFail($id),
+        return view('payment', [
+            'pagetitle' => 'Payment Detail',
+            'id' => $id,
+            'payment' => Payment::findOrFail($id),
         ]);
     }
 }
