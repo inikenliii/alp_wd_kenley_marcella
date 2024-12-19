@@ -9,7 +9,7 @@ class AttendanceController extends Controller
 {
     public function index()
     {
-        return view('attendance.index', [
+        return view('attendance', [
             'pagetitle' => 'Attendance',
             'attendances' => Attendance::with(['user', 'trainsession'])->get(),
         ]);
@@ -17,8 +17,9 @@ class AttendanceController extends Controller
 
     public function show($id)
     {
-        return view('attendance.show', [
-            'title' => 'Attendance Detail',
+        return view('attendance', [
+            'pagetitle' => 'Attendance Detail',
+            'id' => $id,
             'attendance' => Attendance::with(['user', 'trainsession'])->findOrFail($id),
         ]);
     }

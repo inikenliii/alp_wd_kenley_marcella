@@ -5,7 +5,7 @@
     <x-slot:bgColor>{{ 'bg-black' }}</x-slot:bgColor>
 
     <div class="flex items-center justify-center bg-cover bg-center h-[780px]" style="background-image: url('https://images.pexels.com/photos/1331750/pexels-photo-1331750.jpeg?cs=srgb&dl=4k-wallpaper-backlit-basketball-1331750.jpg&fm=jpg');">
-        <h1 class="font-bold text-4xl text-white p-6 bg-opacity-50 bg-black rounded-lg">Welcome {{ $user[$id - 1]->name }}</h1>
+        <h1 class="font-bold text-4xl text-white p-6 bg-opacity-50 bg-black rounded-lg">Welcome {{ $user->name }}</h1>
     </div>
 
     <div>

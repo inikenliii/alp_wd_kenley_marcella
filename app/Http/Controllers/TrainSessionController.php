@@ -9,7 +9,7 @@ class TrainSessionController extends Controller
 {
     public function index()
     {
-        return view('trainsession.index', [
+        return view('session', [
             'pagetitle' => 'Train Sessions',
             'sessions' => TrainSession::with(['classs', 'user'])->get(),
         ]);
@@ -17,8 +17,9 @@ class TrainSessionController extends Controller
 
     public function show($id)
     {
-        return view('trainsession.show', [
-            'title' => 'Train Session Detail',
+        return view('session', [
+            'pagetitle' => 'Train Session Detail',
+            'id' => $id,
             'session' => TrainSession::with(['classs', 'user'])->findOrFail($id),
         ]);
     }
