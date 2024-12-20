@@ -46,6 +46,6 @@ Route::get('/dbshow/{id}', function ($id) {
         'classes' => classs::all(),
         'trainsession' => trainsession::all(),
         'attendence' => attendance::all(),
-        'payments' => payment::with('payment')->get(),
+        'payments' => payment::with('user')->get(),
     ]);
 });
