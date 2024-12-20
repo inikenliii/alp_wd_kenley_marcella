@@ -20,7 +20,7 @@ class TrainSessionController extends Controller
         return view('session', [
             'pagetitle' => 'Train Session Detail',
             'id' => $id,
-            'session' => TrainSession::with(['classs', 'user'])->findOrFail($id),
+            'sessions'=> TrainSession::with(['classs', 'user'])->findOrFail($id),
         ]);
     }
 }
