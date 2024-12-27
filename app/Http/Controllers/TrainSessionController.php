@@ -16,11 +16,11 @@ class TrainSessionController extends Controller
     }
 
     public function show($id)
-    {
-        return view('session', [
-            'pagetitle' => 'Train Session Detail',
-            'id' => $id,
-            'sessions'=> TrainSession::with(['classs', 'user'])->findOrFail($id),
-        ]);
-    }
+{
+    return view('session', [
+        'pagetitle' => 'Train Session Detail',
+        'id' => $id,
+        'sessions' => TrainSession::with(['classs', 'user'])->where('id', $id)->get(),  // Ini akan mengembalikan collection
+    ]);
+}
 }
