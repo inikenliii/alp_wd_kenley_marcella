@@ -7,18 +7,13 @@
         <title>{{  $headerTitle }}</title>
         @vite('resources/css/app.css')
     </head>
-    <body class="{{ $bgColor }}">
-
-    <div class="min-h-full">
-        <x-navbar>{{ $userID }}</x-navbar>
-        {{-- <x-header>{{ $headerTitle }}</x-header> --}}
-    </div>
+    <body class="bg-orange-950">
 
         <main>
-            <div>
-                {{ $slot }}
+            <div class="flex justify-center items-center h-screen">
+                <h1 class="font-bold">SORRY, NOT FOUND 404 :(</h1>
             </div>
         </main>
-        
+
     </body>
 </html>

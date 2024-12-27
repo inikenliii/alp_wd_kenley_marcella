@@ -24,7 +24,7 @@
                     </div>
                 </div>
             @empty
-                <p class="text-center text-gray-500">No attendance records found.</p>
+                <h1 class="text-5xl font-bold text-orange-300/50 text-center">No attendance records found.</h1>
             @endforelse
         </div>
     </div>

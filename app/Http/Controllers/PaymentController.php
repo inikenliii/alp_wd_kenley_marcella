@@ -11,12 +11,12 @@ class PaymentController extends Controller
     {
         return view('payment', [
             'pagetitle' => 'Payments',
+            'payment' => 'empty'
         ]);
     }
 
     public function show($id)
     {
-
         return view('payment', [
             'pagetitle' => 'Payment Detail',
             'id' => $id,

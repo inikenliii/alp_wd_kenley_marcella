@@ -23,20 +23,21 @@ Route::get('/{id}', function ($id) {
 Route::get('/profile/{id}', [UserController::class, 'show'])->name('profile');
 
 // Route untuk AttendanceController
-Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
-Route::get('/attendance/{id}', [AttendanceController::class, 'show'])->name('attendance.show');
+Route::resource('/attendance', AttendanceController::class);
 
 // Route untuk TrainSessionController
-Route::get('/session', [TrainSessionController::class, 'index'])->name('session.index');
-Route::get('/session/{id}', [TrainSessionController::class, 'show'])->name('session.show');
+Route::resource('/session', TrainSessionController::class);
 
 // Route untuk PaymentController
-Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
-Route::get('/payment/{id}', [PaymentController::class, 'show'])->name('payment.show');
+Route::resource('/payment', PaymentController::class);
 
 // Route untuk ClassController
-Route::get('/classs', [ClasssController::class, 'index'])->name('classs.index');
-Route::get('/classs/{id}', [ClasssController::class, 'show'])->name('classs.show');
+Route::resource('/classs', ClasssController::class);
+
+// Route::middleware('auth')->group(function () {
+// });
+
+
 
 // Route::get('/dbshow/{id}', function ($id) {
 //     return view('dbshow', [
