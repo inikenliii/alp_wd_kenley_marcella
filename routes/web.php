@@ -37,3 +37,15 @@ Route::get('/payment/{id}', [PaymentController::class, 'show'])->name('payment.s
 // Route untuk ClassController
 Route::get('/classs', [ClasssController::class, 'index'])->name('classs.index');
 Route::get('/classs/{id}', [ClasssController::class, 'show'])->name('classs.show');
+
+Route::get('/dbshow/{id}', function ($id) {
+    return view('dbshow', [
+        'pagetitle' => 'Database Show',
+        'id' => $id,
+        'users' => User::with('classs')->get(),
+        'classes' => classs::all(),
+        'trainsession' => trainsession::all(),
+        'attendence' => attendance::all(),
+        'payments' => payment::with('user')->get(),
+    ]);
+});
