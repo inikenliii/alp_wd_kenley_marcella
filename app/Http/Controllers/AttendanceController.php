@@ -8,19 +8,20 @@ use Illuminate\Http\Request;
 class AttendanceController extends Controller
 {
     public function index()
-    {
-        return view('attendance', [
-            'pagetitle' => 'Attendance',
-            'attendances' => Attendance::with(['user', 'trainsession'])->get(),
-        ]);
-    }
+{
+    return view('attendance', [
+        'pagetitle' => 'Attendance',
+        'id' => null,
+        'attendances' => Attendance::with(['user', 'trainsession.classs'])->get(),
+    ]);
+}
 
     public function show($id)
-    {
-        return view('attendance', [
-            'pagetitle' => 'Attendance Detail',
-            'id' => $id,
-            'attendance' => Attendance::with(['user', 'trainsession'])->findOrFail($id),
-        ]);
-    }
+{
+    return view('attendance', [
+        'pagetitle' => 'Attendance',
+        'id' => $id,
+        'attendances' => Attendance::with(['user', 'trainsession.classs'])->where('id', $id)->get(),
+    ]);
+}
 }
