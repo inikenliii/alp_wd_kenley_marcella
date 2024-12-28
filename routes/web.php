@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasssController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TrainSessionController;
@@ -8,13 +9,21 @@ use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/{id}', function ($id) {
-    return view('home', [
-        "pagetitle" => "Home",
-        "id" => (int) $id,
-        'user' => User::with('classs', 'attendance', 'payment', 'trainsession')->findOrFail($id),
-    ]);
+Route::get('/', function () {
+    return redirect('/login');
 });
+
+// Registration Routes
+Route::get('/register', [AuthController::class, 'showRegistrationForm']);
+Route::post('/register', [AuthController::class, 'register']);
+
+// Login Routes
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+// Logout Route
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 Route::get('/profile/{id}', [UserController::class, 'show'])->name('profile');
 
@@ -30,8 +39,15 @@ Route::resource('/payment', PaymentController::class);
 // Route untuk ClassController
 Route::resource('/classs', ClasssController::class);
 
-// Route::middleware('auth')->group(function () {
-// });
+Route::middleware('auth')->group(function () {
+    Route::get('/home/{id}', function ($id) {
+        return view('home', [
+            "pagetitle" => "Home",
+            "id" => (int) $id,
+            'user' => User::with('classs', 'attendance', 'payment', 'trainsession')->findOrFail($id),
+        ]);
+    })->name('home');
+});
 
 
 
