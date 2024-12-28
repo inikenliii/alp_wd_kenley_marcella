@@ -12,7 +12,14 @@ class AuthController extends Controller
     // Show registration form
     public function showRegistrationForm()
     {
-        return view('auth.register');
+        // Check if the user is already logged in
+        if (Auth::check()) {
+            // Redirect to the home page if the user is already logged in
+            return redirect()->route('home', ['id' => Auth::id()]);
+        }
+        else {
+            return view('auth.register');
+        }
     }
 
     // Handle registration
@@ -45,10 +52,18 @@ class AuthController extends Controller
     // Show login form
     public function showLoginForm()
     {
-        return view('auth.login');
+        // Check if the user is already logged in
+        if (Auth::check()) {
+            // Redirect to the home page if the user is already logged in
+            return redirect()->route('home', ['id' => Auth::id()]);
+        }
+        else {
+            return view('auth.login');
+        }
     }
 
     public function login(Request $request) {
+
         // Get the username and password from the request
         $credentials = $request->only('username', 'password');
 

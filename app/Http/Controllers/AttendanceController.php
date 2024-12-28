@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\attendance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AttendanceController extends Controller
 {
@@ -18,7 +20,11 @@ class AttendanceController extends Controller
 
     public function show($id)
     {
-    
+        // Check if the authenticated user id matches the route id
+        if (Auth::id() != $id) {
+            abort(403, 'Unauthorized action.');
+        }
+
         return view('attendance', [
             'pagetitle' => 'Attendance',
             'id' => $id,

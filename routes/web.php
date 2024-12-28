@@ -7,35 +7,38 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TrainSessionController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect('/login');
 });
 
-// Registration Routes
+// Registration
 Route::get('/register', [AuthController::class, 'showRegistrationForm']);
 Route::post('/register', [AuthController::class, 'register']);
-
-// Login Routes
+// Login
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-
-// Logout Route
+// Logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-
-Route::get('/profile/{id}', [UserController::class, 'show'])->name('profile');
-
-Route::middleware(['auth', \App\Http\Middleware\SameIdCheck::class])->group(function () {
+Route::middleware('auth')->group(function () {
 
     Route::get('/home/{id}', function ($id) {
+        // Check if the authenticated user id matches the route id
+        if (Auth::id() != $id) {
+            abort(403, 'Unauthorized action.');
+        }
+
         return view('home', [
             "pagetitle" => "Home",
             "id" => (int) $id,
             'user' => User::with('classs', 'attendance', 'payment', 'trainsession')->findOrFail($id),
         ]);
     })->name('home');
+
+    Route::get('/profile/{id}', [UserController::class, 'show'])->name('profile');
 
     // Route untuk AttendanceController
     Route::resource('/attendance', AttendanceController::class);
