@@ -17,11 +17,12 @@ class AttendanceController extends Controller
 }
 
     public function show($id)
-{
-    return view('attendance', [
-        'pagetitle' => 'Attendance',
-        'id' => $id,
-        'attendances' => Attendance::with(['user', 'trainsession.classs'])->where('id', $id)->get(),
-    ]);
-}
+    {
+    
+        return view('attendance', [
+            'pagetitle' => 'Attendance',
+            'id' => $id,
+            'attendances' => Attendance::with(['user', 'trainsession.classs'])->where('id', $id)->get(),
+        ]);
+    }
 }

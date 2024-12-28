@@ -27,19 +27,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/profile/{id}', [UserController::class, 'show'])->name('profile');
 
-// Route untuk AttendanceController
-Route::resource('/attendance', AttendanceController::class);
+Route::middleware(['auth', \App\Http\Middleware\SameIdCheck::class])->group(function () {
 
-// Route untuk TrainSessionController
-Route::resource('/session', TrainSessionController::class);
-
-// Route untuk PaymentController
-Route::resource('/payment', PaymentController::class);
-
-// Route untuk ClassController
-Route::resource('/classs', ClasssController::class);
-
-Route::middleware('auth')->group(function () {
     Route::get('/home/{id}', function ($id) {
         return view('home', [
             "pagetitle" => "Home",
@@ -47,7 +36,20 @@ Route::middleware('auth')->group(function () {
             'user' => User::with('classs', 'attendance', 'payment', 'trainsession')->findOrFail($id),
         ]);
     })->name('home');
+
+    // Route untuk AttendanceController
+    Route::resource('/attendance', AttendanceController::class);
+
+    // Route untuk TrainSessionController
+    Route::resource('/session', TrainSessionController::class);
+
+    // Route untuk PaymentController
+    Route::resource('/payment', PaymentController::class);
+
+    // Route untuk ClassController
+    Route::resource('/classs', ClasssController::class);
 });
+
 
 
 
