@@ -5,10 +5,6 @@ use App\Http\Controllers\ClasssController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TrainSessionController;
 use App\Http\Controllers\UserController;
-use App\Models\attendance;
-use App\Models\classs;
-use App\Models\payment;
-use App\Models\trainsession;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
