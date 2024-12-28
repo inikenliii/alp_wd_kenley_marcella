@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->String('username');
-            $table->String('password');
-            $table->String('name');
-            $table->String('phone_number');
+            $table->string('username');
+            $table->string('password');
+            $table->string('name');
+            $table->string('phone_number');
             $table->string('address');
             $table->date('birth_date');
             $table->string('image_profile')->nullable();
-            $table->foreignId('class_id')->constrained( 
+            $table->foreignId('class_id')->nullable()->constrained(
                 table: 'classes',
-                indexName: 'users_class_id' 
+                indexName: 'users_class_id'
             );
             $table->timestamps();
         });
