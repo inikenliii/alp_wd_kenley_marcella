@@ -40,7 +40,7 @@ class AuthController extends Controller
             'phone_number' => $request->phone_number,
             'address' => $request->address,
             'birth_date' => $request->birth_date,
-            'image_profile' => $request->image_profile, // Optional if you want to allow image upload
+            'image_profile' => 0, // Optional if you want to allow image upload
             'password' => Hash::make($request->password),
         ]);
 

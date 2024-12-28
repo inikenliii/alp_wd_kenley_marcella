@@ -35,14 +35,6 @@
             <a href="/session/{{ $slot }}" class="{{ request()-> is ('/sessiob') ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white'}}" aria-current="page">Session</a>
             <a href="/attendance/{{ $slot }}" class="{{ request()-> is ('/attendance') ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white'}}" aria-current="page">Attendance</a>
             <a href="/payment/{{ $slot }}" class="{{ request()-> is ('/payment') ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white'}}" aria-current="page">Payment</a>
-            <a href="#" onclick="document.getElementById('logoutForm').submit();" class="{{ request()->is('/lazytodelete') ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white'}}" aria-current="page">
-              Logout
-          </a>
-          
-          <form action="{{ route('logout') }}" method="POST" id="logoutForm" style="display: none;">
-              @csrf
-          </form>
-          
           
             {{-- <a href="/dbshow/{{ $slot }}" class="{{ request()-> is ('/paymentb') ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white'}}" aria-current="page">Database Show</a> --}}
           </div>
