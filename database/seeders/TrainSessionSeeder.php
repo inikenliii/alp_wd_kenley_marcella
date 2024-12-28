@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Classs;
 use App\Models\TrainSession;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -25,18 +24,13 @@ class TrainSessionSeeder extends Seeder
             ? Classs::all() 
             : Classs::factory(5)->create();
 
-        // Pastikan users ada
-        $users = User::count() > 0 
-            ? User::all() 
-            : User::factory(10)->create();
-
-        // Buat train sessions dengan kelas dan user yang tersedia
+        // Buat train sessions hanya untuk user_id 1-10
         TrainSession::factory()
             ->count(100)
-            ->state(function () use ($classes, $users) {
+            ->state(function () use ($classes) {
                 return [
                     'class_id' => $classes->random()->id, // Relasi ke class
-                    'user_id' => $users->random()->id,    // Relasi ke user
+                    'user_id' => rand(1, 10),             // Hanya user_id 1-10
                 ];
             })
             ->create();

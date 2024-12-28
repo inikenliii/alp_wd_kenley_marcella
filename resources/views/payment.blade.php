@@ -17,7 +17,7 @@
                             class="w-12 h-12 rounded-full" />
                         <div class="flex flex-col ml-4">
                             <span class="text-md text-gray-600">{{ $loop->index + 1 }}</td>
-                            <span class="text-md text-gray-600">{{ $pymt->month_paid }}</td>
+                            <spa class="text-md text-gray-600">{{ $pymt->month_paid }}</td>
                             <span class="text-md text-gray-600">{{ $pymt->payment_date }}</td>
                             <span class="text-md text-gray-600">{{ $pymt->status }}</td>
                             <span class="text-md text-gray-600">{{ $pymt->amount }}</td>
