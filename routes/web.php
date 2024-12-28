@@ -1,41 +1,58 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasssController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TrainSessionController;
 use App\Http\Controllers\UserController;
-use App\Models\attendance;
-use App\Models\classs;
-use App\Models\payment;
-use App\Models\trainsession;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/{id}', function ($id) {
-    return view('home', [
-        "pagetitle" => "Home",
-        "id" => (int) $id,
-        'user' => User::with('classs', 'attendance', 'payment', 'trainsession')->findOrFail($id),
-    ]);
+Route::get('/', function () {
+    return redirect('/login');
 });
 
-Route::get('/profile/{id}', [UserController::class, 'show'])->name('profile');
+// Registration
+Route::get('/register', [AuthController::class, 'showRegistrationForm']);
+Route::post('/register', [AuthController::class, 'register']);
+// Login
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+// Logout
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Route untuk AttendanceController
-Route::resource('/attendance', AttendanceController::class);
+Route::middleware('auth')->group(function () {
 
-// Route untuk TrainSessionController
-Route::resource('/session', TrainSessionController::class);
+    Route::get('/home/{id}', function ($id) {
+        // Check if the authenticated user id matches the route id
+        if (Auth::id() != $id) {
+            abort(403, 'Unauthorized action.');
+        }
 
-// Route untuk PaymentController
-Route::resource('/payment', PaymentController::class);
+        return view('home', [
+            "pagetitle" => "Home",
+            "id" => (int) $id,
+            'user' => User::with('classs', 'attendance', 'payment', 'trainsession')->findOrFail($id),
+        ]);
+    })->name('home');
 
-// Route untuk ClassController
-Route::resource('/classs', ClasssController::class);
+    Route::get('/profile/{id}', [UserController::class, 'show'])->name('profile');
 
-// Route::middleware('auth')->group(function () {
-// });
+    // Route untuk AttendanceController
+    Route::resource('/attendance', AttendanceController::class);
+
+    // Route untuk TrainSessionController
+    Route::resource('/session', TrainSessionController::class);
+
+    // Route untuk PaymentController
+    Route::resource('/payment', PaymentController::class);
+
+    // Route untuk ClassController
+    Route::resource('/classs', ClasssController::class);
+});
+
 
 
 
