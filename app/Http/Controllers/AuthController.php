@@ -46,7 +46,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect('/');
+        return redirect('/login');
     }
 
     // Show login form

@@ -1,6 +1,6 @@
 <x-layout>
 
-    <x-slot:headerTitle>{{ 'Login' }}</x-slot:headerTitle>
+    <x-slot:headerTitle>{{ 'Register' }}</x-slot:headerTitle>
     <x-slot:bgColor>{{ 'bg-amber-950' }}</x-slot:bgColor>
 
     <div class="h-screen flex justify-center items-center">
