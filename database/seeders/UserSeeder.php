@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
         // Pastikan classes tersedia
         $classes = Classs::count() > 0 
             ? Classs::all() 
-            : Classs::factory(5)->create();
+            : Classs::factory(5)->create(); // Buat kelas jika belum ada
 
         // Buat 100 pengguna dengan logika penempatan ke kelas
         User::factory()
@@ -26,6 +26,7 @@ class UserSeeder extends Seeder
                 $birthDate = $attributes['birth_date']; // Tanggal lahir dari factory
                 $age = now()->year - date('Y', strtotime($birthDate)); // Hitung umur
 
+                // Tentukan kelas berdasarkan umur
                 $classId = match (true) {
                     $age >= 10 && $age <= 12 => $classes->where('class_name', 'KU 12')->first()->id ?? $classes->random()->id,
                     $age >= 12 && $age <= 14 => $classes->where('class_name', 'KU 14')->first()->id ?? $classes->random()->id,
