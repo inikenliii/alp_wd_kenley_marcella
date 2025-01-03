@@ -18,7 +18,7 @@
             @error('password')
                 <div class="text-red-500 text-sm">{{ $message }}</div>
             @enderror
-            <div class="mb-5"></div>
+            <div class="mb-2"></div>
             
             <a href="/register" class="text-orange-800 text-sm hover:text-orange-500" aria-current="page">No account? Register here!</a>
             <div class="mb-5"></div>
