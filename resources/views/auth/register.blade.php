@@ -8,13 +8,47 @@
             @csrf
             <h2 class="text-3xl font-semibold text-center text-orange-800 mb-6">Register</h2>
             
-            <input type="text" name="username" placeholder="Username" required class="w-full p-3 mb-5 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
-            <input type="text" name="name" placeholder="Full Name" required class="w-full p-3 mb-5 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
-            <input type="text" name="phone_number" placeholder="Phone Number" required class="w-full p-3 mb-5 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
-            <input type="text" name="address" placeholder="Address" required class="w-full p-3 mb-5 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
-            <input type="date" name="birth_date" placeholder="Birth Date" required class="w-full p-3 mb-5 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
-            <input type="password" name="password" placeholder="Password" required class="w-full p-3 mb-5 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
-            <input type="password" name="password_confirmation" placeholder="Confirm Password" required class="w-full p-3 mb-5 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+            <input type="text" name="username" placeholder="Username" required class="w-full p-3 border @error('username') border-red-500 @else border-orange-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+            @error('username')
+                <div class="text-red-500 text-sm">{{ $message }}</div>
+            @enderror
+            <div class="mb-5"></div>
+
+            <input type="text" name="name" placeholder="Full Name" required class="w-full p-3 border @error('name') border-red-500 @else border-orange-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+            @error('name')
+                <div class="text-red-500 text-sm">{{ $message }}</div>
+            @enderror
+            <div class="mb-5"></div>
+
+            <input type="text" name="phone_number" placeholder="Phone Number" required class="w-full p-3 border @error('phone_number') border-red-500 @else border-orange-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+            @error('phone_number')
+                <div class="text-red-500 text-sm">{{ $message }}</div>
+            @enderror
+            <div class="mb-5"></div>
+
+            <input type="text" name="address" placeholder="Address" required class="w-full p-3 border @error('address') border-red-500 @else border-orange-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+            @error('address')
+                <div class="text-red-500 text-sm">{{ $message }}</div>
+            @enderror
+            <div class="mb-5"></div>
+
+            <input type="date" name="birth_date" placeholder="Birth Date" required class="w-full p-3 border @error('birth_date') border-red-500 @else border-orange-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+            @error('birth_date')
+                <div class="text-red-500 text-sm">{{ $message }}</div>
+            @enderror
+            <div class="mb-5"></div>
+
+            <input type="password" name="password" placeholder="Password" required class="w-full p-3 border @error('password') border-red-500 @else border-orange-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+            @error('password')
+                <div class="text-red-500 text-sm">{{ $message }}</div>
+            @enderror
+            <div class="mb-5"></div>
+
+            <input type="password" name="password_confirmation" placeholder="Confirm Password" required class="w-full p-3 border @error('password_confirmation') border-red-500 @else border-orange-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+            @error('password_confirmation')
+                <div class="text-red-500 text-sm">{{ $message }}</div>
+            @enderror
+            <div class="mb-5"></div>
         
             <button type="submit" class="w-full p-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500">Register</button>
         
