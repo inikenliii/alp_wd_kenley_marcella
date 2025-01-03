@@ -8,21 +8,17 @@ use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         // Pastikan classes tersedia
         $classes = Classs::count() > 0 
             ? Classs::all() 
-            : Classs::factory(5)->create(); // Buat kelas jika belum ada
+            : Classs::factory(5)->create();
 
-        // Buat 100 pengguna dengan logika penempatan ke kelas
+        // Buat 100 pengguna dan tetapkan mereka ke kelas berdasarkan usia
         User::factory()
             ->count(100)
             ->state(function (array $attributes) use ($classes) {
-                // Tentukan class_id berdasarkan rentang umur
                 $birthDate = $attributes['birth_date']; // Tanggal lahir dari factory
                 $age = now()->year - date('Y', strtotime($birthDate)); // Hitung umur
 
@@ -37,7 +33,7 @@ class UserSeeder extends Seeder
                 };
 
                 return [
-                    'class_id' => $classId, // Tetapkan class_id berdasarkan logika
+                    'class_id' => $classId,
                 ];
             })
             ->create();

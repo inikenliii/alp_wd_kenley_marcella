@@ -11,6 +11,16 @@ class trainsession extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'trainsession_date',
+        'image',
+        'start_time',
+        'end_time',
+        'description',
+        'class_id',
+        'user_id',
+    ];
+
     protected $table = 'trainsessions';
 
     public function attendance (): HasMany
@@ -25,6 +35,6 @@ class trainsession extends Model
     
     public function user()
     {
-    return $this->belongsTo(User::class);
+    return $this->belongsTo(User::class, 'user_id');
     }
 }

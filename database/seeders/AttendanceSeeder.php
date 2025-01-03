@@ -17,25 +17,20 @@ class AttendanceSeeder extends Seeder
         Attendance::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // Pastikan users ada
-        $users = User::count() > 0 
-            ? User::all() 
-            : User::factory(100)->create();
+        // Ambil semua user dan sesi pelatihan
+        $users = User::all();
+        $trainSessions = TrainSession::all();
 
-        // Pastikan train sessions ada
-        $trainSessions = trainsession::count() > 0 
-            ? trainsession::all() 
-            : trainsession::factory(100)->create();
+        // Untuk setiap user, tambahkan kehadiran di semua sesi pelatihan di kelasnya
+        foreach ($users as $user) {
+            $userTrainSessions = $trainSessions->where('class_id', $user->class_id);
 
-        // Buat attendance dengan kombinasi unik
-        Attendance::factory()
-            ->count(10)
-            ->state(function () use ($users, $trainSessions) {
-                return [
-                    'user_id' => $users->random()->id,
-                    'trainsession_id' => $trainSessions->random()->id,
-                ];
-            })
-            ->create();
+            foreach ($userTrainSessions as $session) {
+                Attendance::factory()->create([
+                    'user_id' => $user->id,
+                    'trainsession_id' => $session->id,
+                ]);
+            }
+        }
     }
 }

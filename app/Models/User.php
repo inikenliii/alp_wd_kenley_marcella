@@ -38,7 +38,7 @@ class User extends Authenticatable
     }
     public function trainSessions()
     {
-    return $this->hasMany(TrainSession::class);
+    return $this->hasMany(TrainSession::class, 'user_id', 'id');
     }
 
     protected $fillable = [
