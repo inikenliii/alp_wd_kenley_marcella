@@ -36,10 +36,10 @@ class User extends Authenticatable
     {
     return $this->belongsTo(classs::class);
     }
-    public function trainsession (): HasMany
-     {
-         return $this->HasMany(trainsession::class);
-     }
+    public function trainSessions()
+    {
+    return $this->hasMany(TrainSession::class);
+    }
 
     protected $fillable = [
         'username',

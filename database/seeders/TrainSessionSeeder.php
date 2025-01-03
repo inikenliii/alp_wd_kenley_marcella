@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Classs;
 use App\Models\TrainSession;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -24,15 +25,31 @@ class TrainSessionSeeder extends Seeder
             ? Classs::all() 
             : Classs::factory(5)->create();
 
-        // Buat train sessions hanya untuk user_id 1-10
-        TrainSession::factory()
-            ->count(100)
-            ->state(function () use ($classes) {
-                return [
-                    'class_id' => $classes->random()->id, // Relasi ke class
-                    'user_id' => rand(1, 10),             // Hanya user_id 1-10
-                ];
-            })
-            ->create();
+        // Untuk setiap kelas, buat 5 sesi pelatihan
+        foreach ($classes as $class) {
+            // Ambil user yang terdaftar pada kelas tersebut
+            $usersInClass = User::where('class_id', $class->id)->get();
+
+            // Buat 5 sesi pelatihan untuk setiap kelas
+            foreach (range(1, 5) as $index) {
+                // Buat sesi pelatihan baru
+                $trainSession = TrainSession::factory()->create([
+                    'class_id' => $class->id,
+                    // Pilih user secara acak dari pengguna yang terdaftar di kelas ini
+                    'user_id' => $usersInClass->random()->id,
+                ]);
+
+                // Pastikan sesi pelatihan sudah terkait dengan pengguna yang sesuai
+                foreach ($usersInClass as $user) {
+                    // Tidak perlu menggunakan attach, hanya verifikasi
+                    $exists = $user->trainSessions()->where('id', $trainSession->id)->exists();
+
+                    if (!$exists) {
+                        // Sudah otomatis terkait pada saat pembuatan TrainSession dengan user_id
+                        // Logika tambahan dapat ditambahkan di sini jika diperlukan
+                    }
+                }
+            }
+        }
     }
 }

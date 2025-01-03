@@ -23,8 +23,8 @@ class trainsession extends Model
     return $this->belongsTo(classs::class, 'class_id');
     }
     
-    public function user(): BelongsTo
+    public function user()
     {
-    return $this->belongsTo(User::class, 'user_id');
+    return $this->belongsTo(User::class);
     }
 }
