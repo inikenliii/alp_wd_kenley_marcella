@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -48,6 +49,29 @@ class UserController extends Controller
         }
 
         return redirect()->route('profile', $user->id)->with('success', 'Profile image updated successfully');
+    }
+
+    public function destroy(Request $request, User $user)
+    {
+        // Validate the password
+        $request->validate([
+            'password' => 'required|string',
+        ]);
+
+        // Check if the entered password matches the current user's password
+        if (!Hash::check($request->password, auth::user()->password)) {
+            return back()->withErrors(['password' => 'The provided password is incorrect.']);
+        }
+
+        // Delete the user's profile image if it exists
+        if ($user->image_profile && file_exists(storage_path('app/public/' . $user->image_profile))) {
+            unlink(storage_path('app/public/' . $user->image_profile));
+        }
+
+        // Delete the user account
+        $user->delete();
+
+        return redirect('/');
     }
 
 }

@@ -18,9 +18,9 @@ class UserSeeder extends Seeder
             ? Classs::all() 
             : Classs::factory(5)->create(); // Buat kelas jika belum ada
 
-        // Buat 100 pengguna dengan logika penempatan ke kelas
+        // Buat 10 pengguna dengan logika penempatan ke kelas
         User::factory()
-            ->count(100)
+            ->count(10)
             ->state(function (array $attributes) use ($classes) {
                 // Tentukan class_id berdasarkan rentang umur
                 $birthDate = $attributes['birth_date']; // Tanggal lahir dari factory

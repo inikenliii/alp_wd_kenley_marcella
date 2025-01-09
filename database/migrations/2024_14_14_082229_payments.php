@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained( 
                 table: 'users',
                 indexName: 'payments_user_id' 
-            );
+            )->onDelete('cascade');
             $table->date('payment_date');
             $table->decimal('amount');
             $table->string('month_paid');

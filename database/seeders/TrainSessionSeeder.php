@@ -30,7 +30,7 @@ class TrainSessionSeeder extends Seeder
             ->state(function () use ($classes) {
                 return [
                     'class_id' => $classes->random()->id, // Relasi ke class
-                    'user_id' => rand(1, 10),             // Hanya user_id 1-10
+                    'user_id' => DB::table('users')->pluck('id')->first(),  // sesuai banyak db user
                 ];
             })
             ->create();

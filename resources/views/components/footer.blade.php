@@ -14,6 +14,7 @@
                     <p class="text-gray-400">We are committed to providing quality services for all your needs to check and modify some of the sessions uh.. okay... lorem ispun. Hold It! why the footer give no details? Objection your honor! the prosecutor just blame if the footer is not detailed! I'm sorry defence... but i'm agree with the prosecutor...</p>
                 </div>
     
+                <div class="border-l-2 border-orange-900"></div>
                 
                 <!-- Footer Right Section -->
                 <div class="flex flex-col items-center w-1/4">
@@ -23,7 +24,7 @@
             </div>
     
             <!-- Footer Bottom Section (Copyright) -->
-            <div class="mt-6 text-center">
+            <div class="mt-12 text-center">
                 <p class="text-gray-400 text-sm">&copy; 2025 O-Session. All Rights Reserved.</p>
             </div>
         </div>

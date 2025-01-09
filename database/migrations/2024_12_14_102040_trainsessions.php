@@ -16,11 +16,11 @@ return new class extends Migration
             $table->foreignId('class_id')->constrained( 
                 table: 'classes',
                 indexName: 'trainsessions_class_id' 
-            );
+            )->onDelete('cascade');
             $table->foreignId('user_id')->constrained( 
                 table: 'users',
                 indexName: 'trainsessions_user_id' 
-            );
+            )->onDelete('cascade');
             $table->string('image');
             $table->date('trainsession_date');
             $table->time('start_time');
