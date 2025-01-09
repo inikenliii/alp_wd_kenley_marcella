@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
             $table->String('class_name');
-            $table->string('description');
-            $table->foreignId('user_id')->nullable();
+            $table->string('description');    
             $table->timestamps();
         });
     }

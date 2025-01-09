@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('address');
             $table->date('birth_date');
             $table->string('image_profile')->nullable();
+            $table->boolean('isAdmin')->default(false);
             $table->foreignId('class_id')->nullable()->constrained(
                 table: 'classes',
                 indexName: 'users_class_id'

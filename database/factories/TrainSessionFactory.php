@@ -26,7 +26,6 @@ class TrainSessionFactory extends Factory
             'end_time' => $this->faker->time(),
             'description' => $this->faker->text(),
             'class_id' => classs::factory(),
-            'user_id' => User::factory(),  
         ];
     }
 }

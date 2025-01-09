@@ -17,10 +17,6 @@ return new class extends Migration
                 table: 'classes',
                 indexName: 'trainsessions_class_id' 
             );
-            $table->foreignId('user_id')->constrained( 
-                table: 'users',
-                indexName: 'trainsessions_user_id' 
-            );
             $table->string('image');
             $table->date('trainsession_date');
             $table->time('start_time');

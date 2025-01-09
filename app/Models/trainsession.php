@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class trainsession extends Model
 {
@@ -18,7 +19,6 @@ class trainsession extends Model
         'end_time',
         'description',
         'class_id',
-        'user_id',
     ];
 
     protected $table = 'trainsessions';
@@ -33,8 +33,8 @@ class trainsession extends Model
     return $this->belongsTo(classs::class, 'class_id');
     }
     
-    public function user()
+    public function users(): BelongsToMany
     {
-    return $this->belongsTo(User::class, 'user_id');
+    return $this->belongsToMany(User::class, 'train_session_user');
     }
 }

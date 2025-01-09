@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -36,9 +37,9 @@ class User extends Authenticatable
     {
     return $this->belongsTo(classs::class);
     }
-    public function trainSessions()
+    public function trainSessions(): BelongsToMany
     {
-    return $this->hasMany(TrainSession::class, 'user_id', 'id');
+        return $this->belongsToMany(TrainSession::class, 'train_session_user');
     }
 
     protected $fillable = [
