@@ -32,6 +32,7 @@ class UserFactory extends Factory
             'phone_number' => $this->faker->phoneNumber(),
             'address' => $this->faker->address(),
             'birth_date' => $this->faker->date(),
+            //'image_profile' => $this->faker->image(),
             'image_profile' => $this->faker->image(),
             'class_id' => classs::factory(),  
         ];

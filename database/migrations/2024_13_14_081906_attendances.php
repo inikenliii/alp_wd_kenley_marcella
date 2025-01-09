@@ -16,11 +16,11 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained( 
                 table: 'users',
                 indexName: 'attendances_user_id' 
-            );
+            )->onDelete('cascade');
             $table->foreignId('trainsession_id')->constrained( 
                 table: 'trainsessions',
                 indexName: 'attendances_trainsession_id' 
-            );
+            )->onDelete('cascade');
             $table->enum('attendance_status', ['present', 'absent']);
             $table->timestamp('attendance_date');
             $table->timestamps();

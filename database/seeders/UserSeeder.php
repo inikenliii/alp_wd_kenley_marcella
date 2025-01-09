@@ -11,15 +11,14 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
+        // Pastikan classes tersedia
+        $classes = Classs::count() > 0 
+            ? Classs::all() 
+            : Classs::factory(5)->create(); // Buat kelas jika belum ada
 
-    DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-    User::truncate(); // Membersihkan data lama
-    DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        $classes = Classs::all();
-
+        // Buat 100 pengguna dengan logika penempatan ke kelas
         User::factory()
-            ->count(100)
+            ->count(10)
             ->state(function (array $attributes) use ($classes) {
                 $birthDate = $attributes['birth_date'];
                 $age = now()->year - date('Y', strtotime($birthDate));

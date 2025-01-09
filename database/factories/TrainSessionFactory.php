@@ -6,6 +6,8 @@ use App\Models\classs;
 use App\Models\trainsession;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TrainSession>
@@ -27,5 +29,21 @@ class TrainSessionFactory extends Factory
             'description' => $this->faker->text(),
             'class_id' => classs::factory(),
         ];
+    }
+
+    public function up()
+    {
+        Schema::table('trainsession', function (Blueprint $table) {
+            // Add the foreign key constraint
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+    }
+
+    public function down()
+    {
+        Schema::table('trainsession', function (Blueprint $table) {
+            // Drop the foreign key constraint (revert the changes made in up())
+            $table->dropForeign(['user_id']);
+        });
     }
 }

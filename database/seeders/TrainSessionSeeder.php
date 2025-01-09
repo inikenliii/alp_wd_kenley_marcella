@@ -18,50 +18,20 @@ class TrainSessionSeeder extends Seeder
         DB::table('train_session_user')->truncate(); // Bersihkan pivot table
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // Log jumlah awal kelas dan pengguna
-        $this->command->info('Classes count before seeding: ' . Classs::count());
-        $this->command->info('Users count before seeding: ' . User::count());
+        // Pastikan classes ada
+        $classes = Classs::count() > 0 
+            ? Classs::all() 
+            : Classs::factory(5)->create();
 
-        // Ambil semua kelas dari tabel yang sudah ada
-        $classes = Classs::all();
-
-        // Pastikan data kelas ada
-        if ($classes->count() === 0) {
-            $this->command->info('No classes found. Please ensure ClasssSeeder has been run.');
-            return;
-        }
-
-        // Loop untuk setiap kelas
-        foreach ($classes as $class) {
-            // Buat 5 sesi pelatihan untuk setiap kelas
-            $trainSessions = collect();
-
-            foreach (range(1, 5) as $index) {
-                $trainSessions->push(
-                    TrainSession::factory()->create([
-                        'class_id' => $class->id, // Gunakan class_id dari data yang sudah ada
-                    ])
-                );
-            }
-
-            // Ambil pengguna yang terkait dengan kelas ini
-            $usersInClass = User::where('class_id', $class->id)->get();
-
-            // Pastikan ada pengguna di kelas ini
-            if ($usersInClass->isEmpty()) {
-                $this->command->info('No users found for class_id: ' . $class->id);
-                continue;
-            }
-
-            // Hubungkan setiap pengguna dengan sesi pelatihan
-            foreach ($usersInClass as $user) {
-                $user->trainSessions()->syncWithoutDetaching($trainSessions->pluck('id')->toArray());
-            }
-        }
-
-        // Log jumlah akhir
-        $this->command->info('Classes count after seeding: ' . Classs::count());
-        $this->command->info('Users count after seeding: ' . User::count());
-        $this->command->info('Train Sessions count: ' . TrainSession::count());
+        // Buat train sessions hanya untuk user_id 1-10
+        TrainSession::factory()
+            ->count(100)
+            ->state(function () use ($classes) {
+                return [
+                    'class_id' => $classes->random()->id, // Relasi ke class
+                    'user_id' => DB::table('users')->pluck('id')->first(),  // sesuai banyak db user
+                ];
+            })
+            ->create();
     }
 }
