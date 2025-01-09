@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     })->name('home');
 
     Route::get('/profile/{id}', [UserController::class, 'show'])->name('profile');
+    Route::resource('/user', UserController::class);
 
     // Route untuk AttendanceController
     Route::resource('/attendance', AttendanceController::class);

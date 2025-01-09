@@ -22,7 +22,7 @@
                                 ? asset('/images/user_profile.webp')
                                 : asset($pymt->user->image_profile) }}" 
                             alt="User profile" 
-                            class="w-12 h-12 rounded-full border border-orange-900" 
+                            class="w-12 h-12 rounded-full border border-orange-900"
                         />
 
                         {{-- Date, payment status, amount --}}
@@ -33,7 +33,7 @@
                                     <span class="text-md text-orange-900">Rp.{{ number_format($pymt->amount, 0, ',', '.') }}</span>
                                 </div>
 
-                                <div class="flex flex-col justify-center w-1/12">
+                                <div class="flex flex-col justify-center w-1/4 xl:w-1/12">
                                     <div class="flex mb-1">
                                         <span class="text-md text-orange-900 font-medium">Status: </span>
                                         <span class="text-md {{ $pymt->payment_status === 'pending' ? 'text-red-600' : 'text-green-600' }} font-bold">{{ $pymt->payment_status }}</span>
