@@ -31,10 +31,10 @@
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <a href="/home/{{ $slot }}" class="{{ request()-> is ('/home') ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white border-2 border-orange-700 hover:border-orange-400'}}" aria-current="page">Home</a>
-            <a href="/session/{{ $slot }}" class="{{ request()-> is ('/sessiob') ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white'}}" aria-current="page">Session</a>
-            <a href="/attendance/{{ $slot }}" class="{{ request()-> is ('/attendance') ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white'}}" aria-current="page">Attendance</a>
-            <a href="/payment/{{ $slot }}" class="{{ request()-> is ('/payment') ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white'}}" aria-current="page">Payment</a>
+            <a href="/home/{{ $slot }}" class="{{ request()-> is ("home/".$slot) ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white border-2 border-orange-700 hover:border-orange-400'}}" aria-current="page">Home</a>
+            <a href="/session/{{ $slot }}" class="{{ request()-> is ("session/".$slot) ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white'}}" aria-current="page">Session</a>
+            <a href="/attendance/{{ $slot }}" class="{{ request()-> is ("attendance/".$slot) ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white'}}" aria-current="page">Attendance</a>
+            <a href="/payment/{{ $slot }}" class="{{ request()-> is ("payment/".$slot) ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white'}}" aria-current="page">Payment</a>
           
             {{-- <a href="/dbshow/{{ $slot }}" class="{{ request()-> is ('/paymentb') ? 'hidden' : 'rounded-md px-3 py-2 text-sm font-medium text-yellow-400 bg-orange-950 hover:bg-amber-700 hover:text-white'}}" aria-current="page">Database Show</a> --}}
           </div>

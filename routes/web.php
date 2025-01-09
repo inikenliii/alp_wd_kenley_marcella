@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
             "id" => (int) $id,
             'user' => User::with('classs', 'attendance', 'payment', 'trainsession')->findOrFail($id),
         ]);
+        
     })->name('home');
 
     Route::get('/profile/{id}', [UserController::class, 'show'])->name('profile');

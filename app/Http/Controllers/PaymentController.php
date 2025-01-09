@@ -29,4 +29,18 @@ class PaymentController extends Controller
             'payment' => payment::where('user_id', $id)->with('user')->get()
         ]);
     }
+
+    public function update(Request $request, $id)
+    {
+        $payment = Payment::findOrFail($id);
+        
+        if ($payment->payment_status === 'pending') {
+            $payment->payment_status = 'paid';
+            $payment->save();
+
+            return back()->with('success', 'Payment status updated to paid.');
+        }
+
+        return back()->with('error', 'Payment status is already paid.');
+    }
 }

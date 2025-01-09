@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -11,6 +12,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        // Check if the authenticated user id matches the route id
+        if (Auth::id() != $id) {
+            abort(403, 'Unauthorized action.');
+        }
+
         // Retrieve the user and their related models (classs, attendance, payment, trainsession)
         $user = User::with('classs', 'attendance', 'payment', 'trainsession')->findOrFail($id);
 
