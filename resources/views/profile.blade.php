@@ -10,13 +10,14 @@
 
     <div class="flex p-8">
         <!-- Profile Image -->
-        <div class="w-1/3">
-            <img class="size-full rounded-full border-2 border-orange-300" 
+        <div class="w-1/3 h-1/3 overflow-hidden rounded-full border-2 border-orange-300">
+            <img class="object-cover w-full h-full"  
                 src="{{ $user->image_profile == 0 
-                    ? asset('/images/user_profile.webp')
+                    ? asset('/images/user_profile.webp') 
                     : asset($user->image_profile) }}" 
                 alt="Profile Picture">
         </div>
+        
 
         <div class="ml-12 border-l-2 border-orange-200"></div>
         <div class="mr-12"></div>  
@@ -76,7 +77,7 @@
 
             <!-- Logout Button -->
             <a href="#" onclick="document.getElementById('logoutForm').submit();" 
-               class="rounded-lg p-4 text-3xl font-medium text-white bg-red-600 hover:bg-red-800 hover:text-white" 
+               class="ml-4 rounded-lg p-4 text-3xl font-medium text-white cursor-pointer bg-red-600 hover:bg-red-800" 
                aria-current="page">
                 Logout
             </a>
@@ -85,33 +86,97 @@
                 @csrf
             </form>
 
-
             <!-- Delete Account Button -->
             <a href="#" onclick="document.getElementById('delete-account-modal').classList.remove('hidden');" 
-            class="rounded-lg p-4 text-xl font-medium text-white bg-red-500 hover:bg-red-600">Delete Account</a>
-
+               class="ml-4 rounded-lg p-4 text-3xl font-medium text-white cursor-pointer bg-red-500 hover:bg-red-600" 
+               aria-current="page">
+                Delete Account
+            </a>   
             <!-- Modal for Password Confirmation -->
             <div id="delete-account-modal" class="hidden fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center">
-            <div class="bg-white p-8 rounded-lg shadow-lg w-1/3">
-                <h2 class="text-2xl font-semibold text-orange-950">Confirm Account Deletion</h2>
-                <form action="{{ route('user.destroy', $user->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
+                <div class="bg-white p-8 rounded-lg shadow-lg w-1/3">
+                    <h2 class="text-2xl font-semibold text-orange-950">Confirm Account Deletion</h2>
+                    <form action="{{ route('user.destroy', $user->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
 
-                    <!-- Password Input -->
-                    <div class="mt-4">
-                        <label for="password" class="block text-lg font-medium text-gray-700">Enter Your Password</label>
-                        <input type="password" id="password" name="password" class="mt-2 w-full p-2 border border-gray-300 rounded-md" required>
-                    </div>
+                        <!-- Password Input -->
+                        <div class="mt-4">
+                            <label for="password" class="block text-lg font-medium text-gray-700">Enter Your Password</label>
+                            <input type="password" id="password" name="password" class="mt-2 w-full p-2 border border-gray-300 rounded-md" required>
+                        </div>
 
-                    <!-- Submit Button -->
-                    <div class="mt-8 flex justify-between">
-                        <button type="submit" class="rounded-lg p-4 text-xl font-medium text-white bg-blue-500 hover:bg-blue-600">Delete Account</button>
-                        <button type="button" onclick="document.getElementById('delete-account-modal').classList.add('hidden');" class="rounded-lg p-4 text-xl font-medium text-white bg-red-500 hover:bg-red-600">Cancel</button>
-                    </div>
-                </form>
+                        <!-- Submit Button -->
+                        <div class="mt-8 flex justify-between">
+                            <button type="submit" class="rounded-lg p-4 text-xl font-medium text-white bg-blue-500 hover:bg-blue-600">Delete Account</button>
+                            <button type="button" onclick="document.getElementById('delete-account-modal').classList.add('hidden');" class="rounded-lg p-4 text-xl font-medium text-white bg-red-500 hover:bg-red-600">Cancel</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+
+            <!-- Edit User Information Button -->
+            <button id="edit-user-button" class="rounded-lg p-4 text-3xl font-medium text-white bg-yellow-500 hover:bg-yellow-600 cursor-pointer">
+                Edit User Information
+            </button>
+
+            <!-- Edit User Information Modal -->
+            <div id="edit-user-modal" class="hidden fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center">
+                <div class="bg-white p-8 rounded-lg shadow-lg w-1/3">
+                    <h2 class="text-2xl font-semibold text-orange-950">Edit User Information</h2>
+                    <form action="{{ route('user.update', $user->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+
+                        <!-- Username -->
+                        <div class="mt-4">
+                            <label for="username" class="block text-lg font-medium text-gray-700">Username</label>
+                            <input type="text" id="username" name="username" value="{{ old('username', $user->username) }}" class="mt-2 w-full p-2 border border-gray-300 rounded-md" required>
+                        </div>
+
+                        <!-- Full Name -->
+                        <div class="mt-4">
+                            <label for="name" class="block text-lg font-medium text-gray-700">Full Name</label>
+                            <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}" class="mt-2 w-full p-2 border border-gray-300 rounded-md" required>
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div class="mt-4">
+                            <label for="phone_number" class="block text-lg font-medium text-gray-700">Phone Number</label>
+                            <input type="text" id="phone_number" name="phone_number" value="{{ old('phone_number', $user->phone_number) }}" class="mt-2 w-full p-2 border border-gray-300 rounded-md" required>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="mt-4">
+                            <label for="address" class="block text-lg font-medium text-gray-700">Address</label>
+                            <input type="text" id="address" name="address" value="{{ old('address', $user->address) }}" class="mt-2 w-full p-2 border border-gray-300 rounded-md" required>
+                        </div>
+
+                        <!-- Birth Date -->
+                        <div class="mt-4">
+                            <label for="birth_date" class="block text-lg font-medium text-gray-700">Birth Date</label>
+                            <input type="date" id="birth_date" name="birth_date" value="{{ old('birth_date', $user->birth_date) }}" class="mt-2 w-full p-2 border border-gray-300 rounded-md" required>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="mt-8 flex justify-between">
+                            <button type="submit" class="rounded-lg p-4 text-xl font-medium text-white bg-blue-500 hover:bg-blue-600">Save Changes</button>
+                            <button type="button" id="cancel-edit-user" class="rounded-lg p-4 text-xl font-medium text-white bg-red-500 hover:bg-red-600">Cancel</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+
+            <!-- JavaScript for Modal -->
+            <script>
+                document.getElementById('edit-user-button').addEventListener('click', function() {
+                    document.getElementById('edit-user-modal').classList.remove('hidden');
+                });
+
+                document.getElementById('cancel-edit-user').addEventListener('click', function() {
+                    document.getElementById('edit-user-modal').classList.add('hidden');
+                });
+            </script>
 
             
         </div>
