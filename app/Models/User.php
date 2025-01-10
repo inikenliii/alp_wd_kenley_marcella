@@ -35,11 +35,12 @@ class User extends Authenticatable
      }
      public function classs(): BelongsTo
     {
-    return $this->belongsTo(classs::class);
+        return $this->belongsTo(classs::class);
     }
-    public function trainSessions(): BelongsToMany
+    
+    public function trainSessions(): HasMany
     {
-        return $this->belongsToMany(TrainSession::class, 'train_session_user');
+        return $this->hasMany(TrainSession::class, 'user_id');
     }
 
     protected $fillable = [
@@ -50,6 +51,7 @@ class User extends Authenticatable
         'address',
         'birth_date',
         'image_profile',
+        'isAdmin'
     ];
 
     /**
