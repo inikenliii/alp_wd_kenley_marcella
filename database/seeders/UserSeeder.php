@@ -5,18 +5,15 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Classs;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
         // Pastikan classes tersedia
-        $classes = Classs::count() > 0 
-            ? Classs::all() 
-            : Classs::factory(5)->create(); // Buat kelas jika belum ada
+        $classes = Classs::all(); // Ambil semua kelas yang ada
 
-        // Buat 100 pengguna dengan logika penempatan ke kelas
+        // Buat 100 pengguna dengan logika penempatan ke kelas berdasarkan usia
         User::factory()
             ->count(10)
             ->state(function (array $attributes) use ($classes) {
@@ -35,15 +32,16 @@ class UserSeeder extends Seeder
                 return ['class_id' => $classId];
             })
             ->create();
-            User::factory()->create([
-                'username' => 'admin123',
-                'password' => bcrypt('password'),
-                'name' => 'admin',
-                'phone_number' => '081234567890',
-                'address' => 'lalalalalla',
-                'isAdmin' => true,
-            ]);
 
-
+        // Tambahkan user admin secara manual
+        User::create([
+            'username' => 'admin123',
+            'password' => bcrypt('password'),
+            'name' => 'admin',
+            'phone_number' => '081234567890',
+            'address' => 'lalalalalla',
+            'birth_date' => '2005-01-20',
+            'isAdmin' => true,
+        ]);
     }
 }
