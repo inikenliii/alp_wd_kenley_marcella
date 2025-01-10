@@ -10,67 +10,88 @@ class TrainSessionController extends Controller
 {
     public function index()
     {
-        return view('session', [
+        $userId = Auth::id();
+
+        // Fetch all sessions and user-specific sessions
+        $allSessions = TrainSession::with(['classs', 'user'])->get();
+        $userSessions = TrainSession::with(['classs', 'user'])
+            ->where('user_id', $userId)
+            ->get();
+
+        return view('sessions.index', [
             'pagetitle' => 'Train Sessions',
-            'sessions' => TrainSession::with(['classs', 'user'])->get(),
+            'id' => $userId,
+            'allSessions' => $allSessions,
+            'userSessions' => $userSessions,
         ]);
     }
 
     public function show($id)
     {
-        // Check if the authenticated user id matches the route id
+        // Ensure the authenticated user is the same as the given ID
         if (Auth::id() != $id) {
             abort(403, 'Unauthorized action.');
         }
+
+        // Fetch all sessions and user-specific sessions
+        $allSessions = TrainSession::with(['classs', 'user'])->get();
+        $userSessions = TrainSession::with(['classs', 'user'])
+            ->where('user_id', $id)
+            ->get();
+
         return view('session', [
-            'pagetitle' => 'Train Session Detail',
+            'pagetitle' => 'Train Sessions',
             'id' => $id,
-            'sessions' => TrainSession::with(['classs', 'user'])->where('id', $id)->get(),  // Ini akan mengembalikan collection
+            'allSessions' => $allSessions,
+            'userSessions' => $userSessions,
         ]);
     }
+    
     public function create(Request $request)
     {
-    // Validasi data yang dikirim
-    $validatedData = $request->validate([
-        'class_id' => 'required|exists:classes,id',
-        'user_id' => 'required|exists:users,id',
-        'start_time' => 'required|date',
-        'end_time' => 'required|date|after:start_time',
-    ]);
+        // Validasi data yang dikirim
+        $validatedData = $request->validate([
+            'class_id' => 'required|exists:classes,id',
+            'user_id' => 'required|exists:users,id',
+            'start_time' => 'required|date',
+            'end_time' => 'required|date|after:start_time',
+        ]);
 
-    // Buat TrainSession baru
-    $session = TrainSession::create($validatedData);
+        // Buat TrainSession baru
+        $session = TrainSession::create($validatedData);
 
-    return back()->with('success', 'Train session created successfully.');
+        return back()->with('success', 'Train session created successfully.');
     }
+
     public function update(Request $request, $id)
     {
-    $session = TrainSession::findOrFail($id);
+        $session = TrainSession::findOrFail($id);
 
-    // Validasi data yang dikirim
-    $validatedData = $request->validate([
-        'class_id' => 'required|exists:classes,id',
-        'user_id' => 'required|exists:users,id',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        'trainsession_date' => 'required|date',
-        'start_time' => 'required|date_format:H:i',
-        'end_time' => 'required|date_format:H:i|after:start_time',
-        'description' => 'nullable|string',
-    ]);
+        // Validasi data yang dikirim
+        $validatedData = $request->validate([
+            'class_id' => 'required|exists:classes,id',
+            'user_id' => 'required|exists:users,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'trainsession_date' => 'required|date',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
+            'description' => 'nullable|string',
+        ]);
 
-    // Perbarui TrainSession
-    $session->update($validatedData);
+        // Perbarui TrainSession
+        $session->update($validatedData);
 
-    return back()->with('success', 'Train session updated successfully.');
+        return back()->with('success', 'Train session updated successfully.');
     }
+
     public function delete($id)
     {
-    $session = TrainSession::findOrFail($id);
+        $session = TrainSession::findOrFail($id);
 
-    // Hapus TrainSession
-    $session->delete();
+        // Hapus TrainSession
+        $session->delete();
 
-    return back()->with('success', 'Train session deleted successfully.');
+        return back()->with('success', 'Train session deleted successfully.');
     }
 
 

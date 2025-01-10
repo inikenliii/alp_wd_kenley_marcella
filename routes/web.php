@@ -51,8 +51,8 @@ Route::middleware('auth')->group(function () {
     // Route untuk PaymentController
     Route::resource('/payment', PaymentController::class);
 
-    // Route untuk ClassController
-    Route::resource('/classs', ClasssController::class);
+    // // Route untuk ClassController
+    // Route::resource('/classs', ClasssController::class);
 });
 
 
