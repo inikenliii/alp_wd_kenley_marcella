@@ -53,7 +53,6 @@ class AttendanceController extends Controller
     // Validasi data yang dikirim
     $validatedData = $request->validate([
         'attendance_status' => 'required|in:present,absent',
-        'attendance_date' => 'required|date',
     ]);
 
     // Perbarui attendance
