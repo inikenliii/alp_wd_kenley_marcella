@@ -46,7 +46,7 @@
                                             type="submit" 
                                             class="{{ $pymt->payment_status === 'pending' ? 'bg-orange-500 text-white hover:bg-orange-700' : 'bg-orange-700 text-orange-900'}} font-bold py-1 px-2 rounded-md w-full"
                                         >
-                                            {{ $pymt->payment_status === 'pending' ? 'Paid' : 'Paid' }}
+                                            {{ $pymt->payment_status === 'pending' ? 'To Paid' : 'Paid' }}
                                         </button>
                                     </form>
                                 </div>

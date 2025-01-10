@@ -12,22 +12,51 @@
         <h1 class="text-7xl font-bold text-orange-300 text-center">Attendance List</h1>
         <div class="mb-16"></div>
 
-        <!-- Attendance Cards -->
         <div class="flex flex-col gap-y-2 mt-8">
-            @forelse ($attendances as $attend)
-                <div class="w-full flex items-center rounded-xl p-4 bg-white shadow-md">
-                    <img src="{{ asset('/images/user_profile.png') }}" alt="User profile"
-                        class="w-12 h-12 rounded-full" />
-                    <div class="flex flex-col ml-4">
-                        <span class="text-md font-bold">ID: {{ $attend->id }}</span>
-                        <span class="text-md text-gray-600">User ID: {{ $attend->user_id }}</span>
-                        <span class="text-md text-gray-600">Train Session ID: {{ $attend->trainsession_id }}</span>
-                        <span class="text-md text-gray-600">Status: {{ $attend->attendance_status }}</span>
-                        <span class="text-md text-gray-600">Date: {{ $attend->attendance_date }}</span>
+            @forelse ($attendances as $atnd)
+                    <div class="w-full flex items-center rounded-xl p-4 bg-orange-50">
+                        {{-- User Profile --}}
+                        <img 
+                            src="{{ $atnd->user && $atnd->user->image_profile == 0 
+                                ? asset('/images/user_profile.webp')
+                                : asset($atnd->user->image_profile) }}" 
+                            alt="User profile" 
+                            class="w-12 h-12 rounded-full border border-orange-900"
+                        />
+
+                        {{-- Date, payment status, amount --}}
+                        <div class="flex flex-col ml-4 mr-4 w-full">
+                            <div class="flex justify-between">
+                                <div class="flex flex-col justify-center">
+                                    <span class="text-md text-orange-900">{{ $atnd->trainsession->classs->class_name }}</span>
+                                    <span class="text-md text-orange-900">{{ date('d F Y', strtotime($atnd->month_paid)) }}</span>
+                                </div>
+
+                                <div class="flex flex-col justify-center w-1/4 xl:w-1/12">
+                                    <div class="flex mb-1">
+                                        <span class="text-md text-orange-900 font-medium">Status: </span>
+                                        <span class="text-md {{ $atnd->attendance_status === 'pending' ? 'text-red-600' : 'text-green-600' }} font-bold">{{ $atnd->attendance_status }}</span>
+                                    </div>
+                                    
+                                    <form action="{{ route('payment.update', $atnd->id) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button 
+                                            type="submit" 
+                                            class="{{ $atnd->attendance_status === 'pending' ? 'bg-orange-500 text-white hover:bg-orange-700' : 'bg-orange-700 text-orange-900'}} font-bold py-1 px-2 rounded-md w-full"
+                                        >
+                                            {{ $atnd->attendance_status === 'pending' ? 'Paid' : 'Paid' }}
+                                        </button>
+                                    </form>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        
                     </div>
-                </div>
             @empty
-                <h1 class="text-5xl font-bold text-orange-300/50 text-center">No attendance records found.</h1>
+                <h1 class="text-5xl font-bold text-orange-300/50 text-center">No payment records found.</h1>
             @endforelse
         </div>
     </div>
