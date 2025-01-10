@@ -39,7 +39,21 @@ class UserController extends Controller
             'address' => 'required|string|max:255',
             'birth_date' => 'required|date',
             'image_profile' => 'nullable|image|max:1024', // Validate the image if provided
+            'current_password' => 'nullable|string', // Optional field for current password
+            'new_password' => 'nullable|string|min:8|confirmed', // Validate new password and its confirmation
         ]);
+
+        // Check if the current password is provided and correct
+        if ($request->filled('current_password')) {
+            if (!Hash::check($request->current_password, $user->password)) {
+                return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+            }
+
+            // Update the password if new password is provided and valid
+            if ($request->filled('new_password')) {
+                $user->password = Hash::make($request->new_password);
+            }
+        }
 
         // Handle image upload if provided
         if ($request->hasFile('image_profile')) {

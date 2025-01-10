@@ -38,15 +38,14 @@
             <button id="change-profile-image" class="rounded-lg p-4 text-3xl font-medium text-white bg-yellow-500 hover:bg-yellow-600 hover:text-white cursor-pointer">
                 Edit Profile
             </button>
-
             <!-- Edit Profile Image and Information Modal (Hidden by default) -->
             <div id="edit-profile-modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-                <div class="bg-yellow-50 p-8 rounded-lg shadow-lg w-full max-w-lg">
+                <div class="bg-yellow-50 p-8 rounded-lg shadow-lg w-full max-w-lg max-h-[90vh] overflow-auto">
                     <h2 class="text-2xl font-semibold text-orange-800 mb-6">Edit Profile Information</h2>
                     <form method="POST" action="{{ route('user.update', $user->id) }}" enctype="multipart/form-data" class="space-y-6">
                         @csrf
                         @method('PUT')
-
+            
                         <!-- Username -->
                         <div class="mt-4">
                             <label for="username" class="block text-lg font-medium text-orange-800">Username</label>
@@ -55,7 +54,7 @@
                                 <div class="text-red-500 text-sm">{{ $message }}</div>
                             @enderror
                         </div>
-
+            
                         <!-- Full Name -->
                         <div class="mt-4">
                             <label for="name" class="block text-lg font-medium text-orange-800">Full Name</label>
@@ -64,7 +63,7 @@
                                 <div class="text-red-500 text-sm">{{ $message }}</div>
                             @enderror
                         </div>
-
+            
                         <!-- Phone Number -->
                         <div class="mt-4">
                             <label for="phone_number" class="block text-lg font-medium text-orange-800">Phone Number</label>
@@ -73,7 +72,7 @@
                                 <div class="text-red-500 text-sm">{{ $message }}</div>
                             @enderror
                         </div>
-
+            
                         <!-- Address -->
                         <div class="mt-4">
                             <label for="address" class="block text-lg font-medium text-orange-800">Address</label>
@@ -82,7 +81,7 @@
                                 <div class="text-red-500 text-sm">{{ $message }}</div>
                             @enderror
                         </div>
-
+            
                         <!-- Birth Date -->
                         <div class="mt-4">
                             <label for="birth_date" class="block text-lg font-medium text-orange-800">Birth Date</label>
@@ -92,12 +91,36 @@
                             @enderror
                         </div>
 
+                        <!-- Current Password -->
+                        <div class="mt-4">
+                            <label for="current_password" class="block text-lg font-medium text-orange-800">Current Password (Optimal)</label>
+                            <input type="password" name="current_password" class="w-full p-3 border @error('current_password') border-red-500 @else border-orange-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            @error('current_password')
+                                <div class="text-red-500 text-sm">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- New Password -->
+                        <div class="mt-4">
+                            <label for="new_password" class="block text-lg font-medium text-orange-800">New Password (Optimal)</label>
+                            <input type="password" name="new_password" class="w-full p-3 border @error('new_password') border-red-500 @else border-orange-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            @error('new_password')
+                                <div class="text-red-500 text-sm">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Confirm New Password -->
+                        <div class="mt-4">
+                            <label for="new_password_confirmation" class="block text-lg font-medium text-orange-800">Confirm New Password (Optimal)</label>
+                            <input type="password" name="new_password_confirmation" class="w-full p-3 border @error('new_password_confirmation') border-red-500 @else border-orange-200 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        </div>
+            
                         <!-- Profile Image -->
                         <div class="flex items-center">
                             <label for="image_profile" class="block text-lg font-medium text-orange-800 mr-4">Change Profile Image</label>
                                 <input type="file" id="image_profile" name="image_profile" class="mt-2 w-full p-2 border border-orange-200 rounded-md" accept="image/*">
                         </div>
-
+            
                         <!-- Submit Button -->
                         <div class="mt-8 flex justify-between">
                             <button type="submit" class="w-2/4 p-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500">Save Changes</button>
@@ -105,8 +128,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
-
+            </div>            
             <!-- JavaScript to toggle modal visibility -->
             <script>
                 // Show the modal when the button is clicked
