@@ -12,27 +12,30 @@ class AttendanceSeeder extends Seeder
 {
     public function run(): void
     {
-
+        // Hapus data existing sebelum seeding
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Attendance::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
+        // Pastikan users ada
+        $users = User::count() > 0 
+            ? User::all() 
+            : User::factory(100)->create();
 
-        $users = User::all();
-        $trainSessions = TrainSession::all();
+        // Pastikan train sessions ada
+        $trainSessions = trainsession::count() > 0 
+            ? trainsession::all() 
+            : trainsession::factory(100)->create();
 
-        foreach ($users as $user) {
-            // Ambil sesi pelatihan yang sesuai dengan kelas user
-            $sessionsForClass = $trainSessions->where('class_id', $user->class_id);
-
-            foreach ($sessionsForClass as $session) {
-                // Buat attendance untuk user dan sesi pelatihan
-                Attendance::firstOrCreate([
-                    'user_id' => $user->id,
-                    'trainsession_id' => $session->id,
-                ], [
-                    'attendance_date' => now()->toDateString(), // Berikan nilai untuk kolom attendance_date
-                ]);
-            }
-        }
+        // Buat attendance dengan kombinasi unik
+        Attendance::factory()
+            ->count(10)
+            ->state(function () use ($users, $trainSessions) {
+                return [
+                    'user_id' => $users->random()->id,
+                    'trainsession_id' => $trainSessions->random()->id,
+                ];
+            })
+            ->create();
     }
 }

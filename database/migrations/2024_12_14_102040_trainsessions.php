@@ -11,12 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('trainsessions', callback: function (Blueprint $table): void {
+        Schema::create('trainsessions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('class_id')
-                ->constrained('classes', 'id') // Relasi ke tabel classes
-                ->onDelete('cascade');        // Hapus sesi jika kelas dihapus
-
+            $table->foreignId('class_id')->constrained( 
+                table: 'classes',
+                indexName: 'trainsessions_class_id' 
+            )->onDelete('cascade');
+            $table->foreignId('user_id')->constrained( 
+                table: 'users',
+                indexName: 'trainsessions_user_id' 
+            )->onDelete('cascade');
             $table->string('image');
             $table->date('trainsession_date');
             $table->time('start_time');
