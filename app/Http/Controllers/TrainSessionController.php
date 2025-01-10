@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\classs;
 use App\Models\trainsession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,34 +36,70 @@ class TrainSessionController extends Controller
         }
 
         // Fetch all sessions and user-specific sessions
-        $allSessions = TrainSession::with(['classs', 'user'])->get();
+        $allSessions = TrainSession::with(['classs', 'user'])->get(); // Eager load classs and user
         $userSessions = TrainSession::with(['classs', 'user'])
             ->where('user_id', $id)
             ->get();
+
+        // Fetch all classes for the create modal dropdown
+        $allClasses = classs::all();
+        $users = User::all(); // Fetch all users for the trainer dropdown
 
         return view('session', [
             'pagetitle' => 'Train Sessions',
             'id' => $id,
             'allSessions' => $allSessions,
             'userSessions' => $userSessions,
+            'allClasses' => $allClasses,
+            'users' => $users,
         ]);
     }
+
+
     
-    public function create(Request $request)
+    // public function create(Request $request)
+    // {
+    //     // Validasi data yang dikirim
+    //     $validatedData = $request->validate([
+    //         'class_id' => 'required|exists:classes,id',
+    //         'user_id' => 'required|exists:users,id',
+    //         'start_time' => 'required|date',
+    //         'end_time' => 'required|date|after:start_time',
+    //     ]);
+
+    //     // Buat TrainSession baru
+    //     $session = TrainSession::create($validatedData);
+
+    //     return back()->with('success', 'Train session created successfully.');
+    // }
+
+    public function store(Request $request)
     {
-        // Validasi data yang dikirim
-        $validatedData = $request->validate([
+        $request->validate([
             'class_id' => 'required|exists:classes,id',
             'user_id' => 'required|exists:users,id',
-            'start_time' => 'required|date',
-            'end_time' => 'required|date|after:start_time',
+            'image' => 'nullable|image|max:2048',
+            'trainsession_date' => 'required|date',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'description' => 'nullable|string',
         ]);
 
-        // Buat TrainSession baru
-        $session = TrainSession::create($validatedData);
+        $imagePath = $request->file('image') ? $request->file('image')->store('train_sessions', 'public') : null;
 
-        return back()->with('success', 'Train session created successfully.');
+        TrainSession::create([
+            'class_id' => $request->class_id,
+            'user_id' => $request->user_id,
+            'image' => $imagePath,
+            'trainsession_date' => $request->trainsession_date,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'description' => $request->description,
+        ]);
+
+        return redirect("/session/" . Auth::id());
     }
+
 
     public function update(Request $request, $id)
     {

@@ -14,11 +14,11 @@ class classs extends Model
 
     public function users (): HasMany
     {
-        return $this->HasMany(User::class, 'class_id');
+        return $this->hasMany(User::class, 'class_id');
     }
 
     public function trainsessions (): HasMany
     {
-        return $this->HasMany(trainsession::class);
+        return $this->hasMany(trainsession::class);
     }
 }

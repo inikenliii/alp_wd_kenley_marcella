@@ -25,7 +25,7 @@ class trainsession extends Model
 
     public function attendance (): HasMany
     {
-        return $this->HasMany(attendance::class);
+        return $this->hasMany(attendance::class);
     }
 
     public function classs(): BelongsTo
