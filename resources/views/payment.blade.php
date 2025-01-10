@@ -39,14 +39,22 @@
                                         <span class="text-md {{ $pymt->payment_status === 'pending' ? 'text-red-600' : 'text-green-600' }} font-bold">{{ $pymt->payment_status }}</span>
                                     </div>
                                     
-                                    <form action="{{ route('payment.update', $pymt->id) }}" method="POST">
+                                    <form 
+                                        action="{{ $pymt->payment_status === 'pending' ? route('payment.update', $pymt->id) : route('payment.destroy', $pymt->id) }}" 
+                                        method="POST"
+                                        onsubmit="return $pymt->payment_status === 'pending' ? true : confirm('Are you sure you want to delete this payment?')"
+                                    >
                                         @csrf
-                                        @method('PATCH')
+                                        @if($pymt->payment_status === 'pending')
+                                            @method('PATCH')
+                                        @else
+                                            @method('DELETE')
+                                        @endif
                                         <button 
                                             type="submit" 
-                                            class="{{ $pymt->payment_status === 'pending' ? 'bg-orange-500 text-white hover:bg-orange-700' : 'bg-orange-700 text-orange-900'}} font-bold py-1 px-2 rounded-md w-full"
+                                            class="{{ $pymt->payment_status === 'pending' ? 'bg-orange-500 text-white hover:bg-orange-700' : 'bg-red-500 text-white hover:bg-red-700' }} font-bold py-1 px-2 rounded-md w-full"
                                         >
-                                            {{ $pymt->payment_status === 'pending' ? 'Paid' : 'Paid' }}
+                                            {{ $pymt->payment_status === 'pending' ? 'To Paid' : 'Delete' }}
                                         </button>
                                     </form>
                                 </div>

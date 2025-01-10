@@ -58,6 +58,7 @@ class AuthController extends Controller
         'birth_date' => $request->birth_date,
         'image_profile' => null, // Default value, can be changed later
         'class_id' => $classId,
+        'isAdmin' => $request->isAdmin
     ]);
 
     // Log in the user

@@ -33,41 +33,43 @@ class AttendanceController extends Controller
     }
     public function create(Request $request)
     {
-    // Validasi data yang dikirim
-    $validatedData = $request->validate([
-        'user_id' => 'required|exists:users,id',
-        'trainsession_id' => 'required|exists:trainsessions,id',
-        'attendance_status' => 'required|in:present,absent',
-        'attendance_date' => 'required|date',
-    ]);
+        // Validasi data yang dikirim
+        $validatedData = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'trainsession_id' => 'required|exists:trainsessions,id',
+            'attendance_status' => 'required|in:present,absent',
+            'attendance_date' => 'required|date',
+        ]);
 
-    // Buat attendance baru
-    Attendance::create($validatedData);
+        // Buat attendance baru
+        Attendance::create($validatedData);
 
-    return back()->with('success', 'Attendance created successfully.');
+        return back()->with('success', 'Attendance created successfully.');
     }
+
     public function update(Request $request, $id)
     {
-    $attendance = Attendance::findOrFail($id);
+        $attendance = Attendance::findOrFail($id);
 
-    // Validasi data yang dikirim
-    $validatedData = $request->validate([
-        'attendance_status' => 'required|in:present,absent',
-    ]);
+        // Validasi data yang dikirim
+        $validatedData = $request->validate([
+            'attendance_status' => 'required|in:present,absent',
+        ]);
 
-    // Perbarui attendance
-    $attendance->update($validatedData);
+        // Perbarui attendance
+        $attendance->update($validatedData);
 
-    return back()->with('success', 'Attendance updated successfully.');
+        return back()->with('success', 'Attendance updated successfully.');
     }
-    public function delete($id)
+    
+    public function destroy($id)
     {
-    $attendance = Attendance::findOrFail($id);
+        $attendance = Attendance::findOrFail($id);
 
-    // Hapus attendance
-    $attendance->delete();
+        // Hapus attendance
+        $attendance->delete();
 
-    return back()->with('success', 'Attendance deleted successfully.');
+        return back()->with('success', 'Attendance deleted successfully.');
     }
 
 
