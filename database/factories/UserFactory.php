@@ -33,7 +33,7 @@ class UserFactory extends Factory
             'address' => $this->faker->address(),
             'birth_date' => $this->faker->date(),
             //'image_profile' => $this->faker->image(),
-            'image_profile' => $this->faker->image(),
+            'image_profile' => 0, // not use faker->image so faster seed
             'class_id' => Classs::inRandomOrder()->first()->id,  
         ];
     }

@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
             'phone_number' => '081234567890',
             'address' => 'lalalalalla',
             'isAdmin' => true,
-            'birth_date' => '', // Tentukan tanggal lahir untuk admin
+            'birth_date' => '2000-01-01', // Tentukan tanggal lahir untuk admin
             'class_id' => $classes->where('class_name', 'Adult')->first()->id, // Default ke kelas Adult
         ]);
     }

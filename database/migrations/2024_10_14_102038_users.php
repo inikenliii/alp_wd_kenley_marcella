@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('address');
             $table->date('birth_date')->nullable();
-            $table->string('image_profile')->nullable();
+            $table->string('image_profile')->default(0);
             $table->boolean('isAdmin')->default(false);
             $table->foreignId('class_id')->nullable()->constrained(
                 table: 'classes',
