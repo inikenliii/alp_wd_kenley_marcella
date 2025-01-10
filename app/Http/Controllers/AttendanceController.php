@@ -31,4 +31,46 @@ class AttendanceController extends Controller
             'attendances' => Attendance::with(['user', 'trainsession.classs'])->where('id', $id)->get(),
         ]);
     }
+    public function create(Request $request)
+    {
+    // Validasi data yang dikirim
+    $validatedData = $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'trainsession_id' => 'required|exists:trainsessions,id',
+        'attendance_status' => 'required|in:present,absent',
+        'attendance_date' => 'required|date',
+    ]);
+
+    // Buat attendance baru
+    Attendance::create($validatedData);
+
+    return back()->with('success', 'Attendance created successfully.');
+    }
+    public function update(Request $request, $id)
+    {
+    $attendance = Attendance::findOrFail($id);
+
+    // Validasi data yang dikirim
+    $validatedData = $request->validate([
+        'attendance_status' => 'required|in:present,absent',
+        'attendance_date' => 'required|date',
+    ]);
+
+    // Perbarui attendance
+    $attendance->update($validatedData);
+
+    return back()->with('success', 'Attendance updated successfully.');
+    }
+    public function delete($id)
+    {
+    $attendance = Attendance::findOrFail($id);
+
+    // Hapus attendance
+    $attendance->delete();
+
+    return back()->with('success', 'Attendance deleted successfully.');
+    }
+
+
+
 }
