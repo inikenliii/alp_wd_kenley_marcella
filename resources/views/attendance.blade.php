@@ -28,7 +28,7 @@
                         <div class="flex flex-col ml-4 mr-4 w-full">
                             <div class="flex justify-between">
                                 <div class="flex flex-col justify-center">
-                                    <span class="text-md text-orange-900">{{ $atnd->trainsession->classs->class_name }}</span>
+                                    <span class="text-md text-orange-900">{{ $atnd->trainsession }}</span>
                                     <span class="text-md text-orange-900">{{ date('d F Y', strtotime($atnd->month_paid)) }}</span>
                                 </div>
 
@@ -45,7 +45,7 @@
                                             type="submit" 
                                             class="{{ $atnd->attendance_status === 'pending' ? 'bg-orange-500 text-white hover:bg-orange-700' : 'bg-orange-700 text-orange-900'}} font-bold py-1 px-2 rounded-md w-full"
                                         >
-                                            {{ $atnd->attendance_status === 'pending' ? 'Paid' : 'Paid' }}
+                                            {{ $atnd->attendance_status === 'pending' ? 'Attend' : 'Delete' }}
                                         </button>
                                     </form>
                                 </div>
