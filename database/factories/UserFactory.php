@@ -34,7 +34,7 @@ class UserFactory extends Factory
             'birth_date' => $this->faker->date(),
             //'image_profile' => $this->faker->image(),
             'image_profile' => $this->faker->image(),
-            'class_id' => classs::factory(),  
+            //'class_id' => classs::factory(),  
         ];
     }
 }

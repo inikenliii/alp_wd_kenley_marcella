@@ -25,7 +25,8 @@ class ClasssController extends Controller
 
         return view('classs', [
             'pagetitle' => 'Classes',
-            'class' => Classs::all(),
+            'id' => $id,
+            'class' => classs::with(['users', 'trainsessions'])->get()
         ]);
     }
 }
