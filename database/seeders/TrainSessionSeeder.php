@@ -2,20 +2,21 @@
 
 namespace Database\Seeders;
 
-use App\Models\TrainSession;
-use App\Models\User;
 use App\Models\Classs;
+use App\Models\TrainSession;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class TrainSessionSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
-        // Nonaktifkan foreign key checks untuk menghindari error saat truncate
+        // Hapus data existing sebelum seeding
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        TrainSession::truncate(); // Bersihkan tabel train_sessions
-        DB::table('train_session_user')->truncate(); // Bersihkan pivot table
+        TrainSession::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // Pastikan classes ada

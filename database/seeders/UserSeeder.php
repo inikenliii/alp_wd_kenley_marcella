@@ -2,13 +2,15 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\Classs;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
         // Pastikan classes tersedia
@@ -16,34 +18,28 @@ class UserSeeder extends Seeder
             ? Classs::all() 
             : Classs::factory(5)->create(); // Buat kelas jika belum ada
 
-        // Buat 100 pengguna dengan logika penempatan ke kelas
+        // Buat 10 pengguna dengan logika penempatan ke kelas
         User::factory()
             ->count(10)
             ->state(function (array $attributes) use ($classes) {
-                $birthDate = $attributes['birth_date'];
-                $age = now()->year - date('Y', strtotime($birthDate));
+                // Tentukan class_id berdasarkan rentang umur
+                $birthDate = $attributes['birth_date']; // Tanggal lahir dari factory
+                $age = now()->year - date('Y', strtotime($birthDate)); // Hitung umur
 
+                // Tentukan kelas berdasarkan umur
                 $classId = match (true) {
-                    $age >= 10 && $age <= 12 => $classes->where('class_name', 'KU 12')->first()->id,
-                    $age >= 12 && $age <= 14 => $classes->where('class_name', 'KU 14')->first()->id,
-                    $age >= 14 && $age <= 16 => $classes->where('class_name', 'KU 16')->first()->id,
-                    $age >= 16 && $age <= 18 => $classes->where('class_name', 'KU 18')->first()->id,
-                    $age > 18 => $classes->where('class_name', 'Adult')->first()->id,
+                    $age >= 10 && $age <= 12 => $classes->where('class_name', 'KU 12')->first()->id ?? $classes->random()->id,
+                    $age >= 12 && $age <= 14 => $classes->where('class_name', 'KU 14')->first()->id ?? $classes->random()->id,
+                    $age >= 14 && $age <= 16 => $classes->where('class_name', 'KU 16')->first()->id ?? $classes->random()->id,
+                    $age >= 16 && $age <= 18 => $classes->where('class_name', 'KU 18')->first()->id ?? $classes->random()->id,
+                    $age > 18 => $classes->where('class_name', 'Adult')->first()->id ?? $classes->random()->id,
                     default => $classes->random()->id,
                 };
 
-                return ['class_id' => $classId];
+                return [
+                    'class_id' => $classId, // Tetapkan class_id berdasarkan logika
+                ];
             })
             ->create();
-            User::factory()->create([
-                'username' => 'admin123',
-                'password' => bcrypt('password'),
-                'name' => 'admin',
-                'phone_number' => '081234567890',
-                'address' => 'lalalalalla',
-                'isAdmin' => true,
-            ]);
-
-
     }
 }
