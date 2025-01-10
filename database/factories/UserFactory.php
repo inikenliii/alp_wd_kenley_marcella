@@ -33,8 +33,8 @@ class UserFactory extends Factory
             'address' => $this->faker->address(),
             'birth_date' => $this->faker->date(),
             //'image_profile' => $this->faker->image(),
-            'image_profile' => 0,
-            'isAdmin' => false //$this->faker->boolean()
+            'image_profile' => $this->faker->image(),
+            'class_id' => classs::factory(),  
         ];
     }
 }

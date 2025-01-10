@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
             ? Classs::all() 
             : Classs::factory(5)->create(); // Buat kelas jika belum ada
 
-        // Buat 10 pengguna dengan logika penempatan ke kelas
+        // Buat 100 pengguna dengan logika penempatan ke kelas
         User::factory()
             ->count(10)
             ->state(function (array $attributes) use ($classes) {
