@@ -12,6 +12,13 @@ class attendance extends Model
 
     protected $table = 'attendances';
 
+    protected $fillable = [
+        'user_id',
+        'trainsession_id',
+        'attendance_status',
+        'attendance_date',
+    ];
+
     public function User (): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

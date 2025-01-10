@@ -13,6 +13,16 @@ class trainsession extends Model
 
     protected $table = 'trainsessions';
 
+    protected $fillable = [
+        'class_id',
+        'user_id',
+        'image',
+        'trainsession_date',
+        'start_time',
+        'end_time',
+        'description',
+    ];
+
     public function attendance (): HasMany
     {
         return $this->HasMany(attendance::class);

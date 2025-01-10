@@ -26,7 +26,7 @@ class TrainSessionSeeder extends Seeder
 
         // Buat train sessions hanya untuk user_id 1-10
         TrainSession::factory()
-            ->count(100)
+            ->count(10)
             ->state(function () use ($classes) {
                 return [
                     'class_id' => $classes->random()->id, // Relasi ke class
