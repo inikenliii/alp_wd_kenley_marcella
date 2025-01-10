@@ -43,18 +43,18 @@ class PaymentController extends Controller
 
         return back()->with('error', 'Payment status is already paid.');
     }
-    public function delete($id)
+    public function destroy($id)
     {
-    $payment = Payment::findOrFail($id);
+        $payment = Payment::findOrFail($id);
 
-    // Check if the authenticated user is authorized to delete the payment
-    if (Auth::id() != $payment->user_id) {
-        abort(403, 'Unauthorized action.');
-    }
+        // Check if the authenticated user is authorized to delete the payment
+        if (Auth::id() != $payment->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
 
-    // Delete the payment
-    $payment->delete();
+        // Delete the payment
+        $payment->delete();
 
-    return back()->with('success', 'Payment deleted successfully.');
+        return back()->with('success', 'Payment deleted successfully.');
     }
 }
