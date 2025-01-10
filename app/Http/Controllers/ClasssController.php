@@ -10,7 +10,7 @@ class ClasssController extends Controller
 {
     public function index()
     {
-        return view('classs.index', [
+        return view('classs', [
             'pagetitle' => 'Classes',
             'classes' => Classs::all(),
         ]);
@@ -23,9 +23,9 @@ class ClasssController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        return view('classs.show', [
-            'title' => 'Class Detail',
-            'class' => Classs::findOrFail($id),
+        return view('classs', [
+            'pagetitle' => 'Classes',
+            'class' => Classs::all(),
         ]);
     }
 }
