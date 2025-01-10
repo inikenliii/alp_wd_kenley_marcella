@@ -31,11 +31,17 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+        // Validate user information fields
         $request->validate([
-            'image_profile' => 'required|image|max:1024', // Validate that the file is an image
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'name' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:15',
+            'address' => 'required|string|max:255',
+            'birth_date' => 'required|date',
+            'image_profile' => 'nullable|image|max:1024', // Validate the image if provided
         ]);
 
-        // Handle image upload
+        // Handle image upload if provided
         if ($request->hasFile('image_profile')) {
             // Delete old profile image if exists
             if ($user->image_profile && file_exists(storage_path('app/public/' . $user->image_profile))) {
@@ -45,10 +51,18 @@ class UserController extends Controller
             // Store the new image
             $path = $request->file('image_profile')->store('profile_images', 'public');
             $user->image_profile = $path;
-            $user->save();
         }
 
-        return redirect()->route('profile', $user->id)->with('success', 'Profile image updated successfully');
+        // Update user information fields
+        $user->update([
+            'username' => $request->input('username'),
+            'name' => $request->input('name'),
+            'phone_number' => $request->input('phone_number'),
+            'address' => $request->input('address'),
+            'birth_date' => $request->input('birth_date'),
+        ]);
+
+        return redirect()->route('profile', $user->id)->with('success', 'Profile updated successfully');
     }
 
     public function destroy(Request $request, User $user)
