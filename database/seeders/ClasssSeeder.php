@@ -2,17 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\classs;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Classs;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ClasssSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Classs::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         $classData = [
             ['class_name' => 'KU 12', 'description' => 'Untuk usia 10-12 tahun'],
             ['class_name' => 'KU 14', 'description' => 'Untuk usia 12-14 tahun'],
@@ -22,7 +23,7 @@ class ClasssSeeder extends Seeder
         ];
 
         foreach ($classData as $class) {
-            Classs::factory()->create($class);
+            Classs::updateOrCreate(['class_name' => $class['class_name']], $class);
         }
     }
 }

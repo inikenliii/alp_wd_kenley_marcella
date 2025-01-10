@@ -34,7 +34,7 @@ class User extends Authenticatable
      }
      public function classs(): BelongsTo
     {
-    return $this->belongsTo(classs::class);
+    return $this->belongsTo(classs::class, 'class_id');
     }
     public function trainsession (): HasMany
      {

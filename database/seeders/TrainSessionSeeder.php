@@ -2,37 +2,37 @@
 
 namespace Database\Seeders;
 
-use App\Models\Classs;
 use App\Models\TrainSession;
+use App\Models\Classs;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class TrainSessionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // Hapus data existing sebelum seeding
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        TrainSession::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        // Loop over all classes
+        $classes = Classs::all();
 
-        // Pastikan classes ada
-        $classes = Classs::count() > 0 
-            ? Classs::all() 
-            : Classs::factory(5)->create();
+        foreach ($classes as $class) {
+            // Get all users in this class (users already have class_id set)
+            $users = $class->users;
 
-        // Buat train sessions hanya untuk user_id 1-10
-        TrainSession::factory()
-            ->count(10)
-            ->state(function () use ($classes) {
-                return [
-                    'class_id' => $classes->random()->id, // Relasi ke class
-                    'user_id' => DB::table('users')->pluck('id')->first(),  // sesuai banyak db user
-                ];
-            })
-            ->create();
+            // Jika kelas tidak memiliki pengguna, lanjutkan ke kelas berikutnya
+            if ($users->isEmpty()) {
+                continue; // Skip jika tidak ada pengguna
+            }
+
+            // Buat 5 sesi pelatihan untuk setiap kelas
+            for ($i = 0; $i < 5; $i++) {
+                // Pilih pengguna secara acak dari kelas ini
+                $user = $users->random();
+
+                // Buat sesi pelatihan untuk pengguna ini
+                TrainSession::factory()->create([
+                    'class_id' => $class->id,
+                    'user_id' => $user->id,
+                ]);
+            }
+        }
     }
 }

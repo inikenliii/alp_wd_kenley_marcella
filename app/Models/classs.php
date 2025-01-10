@@ -14,7 +14,7 @@ class classs extends Model
 
     public function users (): HasMany
     {
-        return $this->HasMany(User::class);
+        return $this->HasMany(User::class, 'class_id');
     }
 
     public function trainsessions (): HasMany

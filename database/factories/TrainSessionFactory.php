@@ -27,7 +27,7 @@ class TrainSessionFactory extends Factory
             'start_time' => $this->faker->time(),
             'end_time' => $this->faker->time(),
             'description' => $this->faker->text(),
-            'class_id' => classs::factory(),
+            'class_id' => Classs::inRandomOrder()->first()->id,
             'user_id' => User::factory(),  
         ];
     }

@@ -21,7 +21,7 @@ return new class extends Migration
                 table: 'users',
                 indexName: 'trainsessions_user_id' 
             )->onDelete('cascade');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->date('trainsession_date');
             $table->time('start_time');
             $table->time('end_time');
