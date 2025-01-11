@@ -23,7 +23,7 @@ class TrainSessionSeeder extends Seeder
             }
 
             // Buat 5 sesi pelatihan untuk setiap kelas
-            for ($i = 0; $i < 5; $i++) {
+            for ($i = 1; $i <= 5; $i++) {
                 // Pilih pengguna secara acak dari kelas ini
                 $user = $users->random();
 
