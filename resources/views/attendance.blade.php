@@ -64,7 +64,7 @@
                         
                     </div>
             @empty
-                <h1 class="text-5xl font-bold text-orange-300/50 text-center">No payment records found.</h1>
+                <h1 class="text-5xl font-bold text-orange-300/50 text-center">No attendance records found.</h1>
             @endforelse
         </div>
     </div>
