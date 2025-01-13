@@ -24,48 +24,48 @@ class AuthController extends Controller
 
     // Handle registration
     public function register(Request $request)
-{
-    $request->validate([
-        'username' => 'required|string|unique:users,username|max:255',
-        'password' => 'required|string|confirmed|min:8',
-        'name' => 'required|string|max:255',
-        'phone_number' => 'required|string',
-        'address' => 'required|string',
-        'birth_date' => 'required|date',
-    ]);
+    {
+        $request->validate([
+            'username' => 'required|string|unique:users,username|max:255',
+            'password' => 'required|string|confirmed|min:8',
+            'name' => 'required|string|max:255',
+            'phone_number' => 'required|string',
+            'address' => 'required|string',
+            'birth_date' => 'required|date',
+        ]);
 
-    // Calculate the user's age
-    $birthDate = $request->birth_date;
-    $age = now()->year - date('Y', strtotime($birthDate));
+        // Calculate the user's age
+        $birthDate = $request->birth_date;
+        $age = now()->year - date('Y', strtotime($birthDate));
 
-    // Determine the class_id based on the age range
-    $classId = match (true) {
-        $age >= 10 && $age <= 12 => \App\Models\Classs::where('class_name', 'KU 12')->first()->id ?? null,
-        $age >= 12 && $age <= 14 => \App\Models\Classs::where('class_name', 'KU 14')->first()->id ?? null,
-        $age >= 14 && $age <= 16 => \App\Models\Classs::where('class_name', 'KU 16')->first()->id ?? null,
-        $age >= 16 && $age <= 18 => \App\Models\Classs::where('class_name', 'KU 18')->first()->id ?? null,
-        $age > 18 => \App\Models\Classs::where('class_name', 'Adult')->first()->id ?? null,
-        default => null,
-    };
+        // Determine the class_id based on the age range
+        $classId = match (true) {
+            $age >= 10 && $age <= 12 => \App\Models\Classs::where('class_name', 'KU 12')->first()->id ?? null,
+            $age >= 12 && $age <= 14 => \App\Models\Classs::where('class_name', 'KU 14')->first()->id ?? null,
+            $age >= 14 && $age <= 16 => \App\Models\Classs::where('class_name', 'KU 16')->first()->id ?? null,
+            $age >= 16 && $age <= 18 => \App\Models\Classs::where('class_name', 'KU 18')->first()->id ?? null,
+            $age > 18 => \App\Models\Classs::where('class_name', 'Adult')->first()->id ?? null,
+            default => null,
+        };
 
-    // Create the user
-    $user = User::create([
-        'username' => $request->username,
-        'password' => \Illuminate\Support\Facades\Hash::make($request->password),
-        'name' => $request->name,
-        'phone_number' => $request->phone_number,
-        'address' => $request->address,
-        'birth_date' => $request->birth_date,
-        'image_profile' => null, // Default value, can be changed later
-        'class_id' => $classId,
-        'isAdmin' => $request->isAdmin
-    ]);
+        // Create the user
+        $user = User::create([
+            'username' => $request->username,
+            'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+            'name' => $request->name,
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+            'birth_date' => $request->birth_date,
+            'image_profile' => null, // Default value, can be changed later
+            'class_id' => $classId,
+            // 'isAdmin' => $request->isAdmin
+        ]);
 
-    // Log in the user
-    Auth::login($user);
+        // Log in the user
+        Auth::login($user);
 
-    return redirect()->route('home', ['id' => $user->id]);
-}
+        return redirect()->route('home', ['id' => $user->id]);
+    }
 
 
     // Show login form
@@ -75,7 +75,8 @@ class AuthController extends Controller
         if (Auth::check()) {
             // Redirect to the home page if the user is already logged in
             return redirect()->route('home', ['id' => Auth::id()]);
-        } else {
+        }
+        else {
             return view('auth.login');
         }
     }

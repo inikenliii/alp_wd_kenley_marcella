@@ -50,11 +50,11 @@
             @enderror
             <div class="mb-5"></div>
 
-            <!-- Is Admin Checkbox -->
+            {{-- <!-- Is Admin Checkbox -->
             <div class="flex items-center mb-5">
                 <input type="checkbox" name="isAdmin" value="1" class="mr-2" id="isAdmin">
                 <label for="isAdmin" class="text-sm text-orange-800">This account is Admin</label>
-            </div>
+            </div> --}}
         
             <button type="submit" class="w-full p-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500">Register</button>
         

@@ -11,9 +11,9 @@
     <div class="p-4">
         <h1 class="text-7xl font-bold text-orange-300 text-center">Train Sessions</h1>
         <div class="mb-8"></div>
-
-        <!-- Switch for toggling views (visible only for admins) -->
+        
         @if (Auth::user()->isAdmin)
+            <!-- Switch for toggling views (visible only for admins) -->
             <div class="flex mb-6">
                 <button id="mySessionsBtn" class="px-6 py-2 text-lg font-semibold text-white bg-orange-500 rounded-l-lg hover:bg-orange-600">
                     My Sessions
@@ -22,14 +22,39 @@
                     All Sessions
                 </button>
             </div>
-        @endif
-        
-        <!-- Create Button (visible only for admins) -->
-        @if (Auth::user()->isAdmin)
+
+            <!-- Create Button (visible only for admins) -->
             <div class="flex justify-center mb-6">
                 <button id="create-session-btn" class="px-6 py-2 text-lg font-semibold text-white bg-green-500 rounded-lg hover:bg-green-600">
                     + Create Train Session
                 </button>
+            </div>
+
+            <!-- Class Filter Dropdown -->
+            <select id="classFilter" class="w-full p-3 border border-orange-200 rounded-lg hidden">
+                <option value="all">All Classes</option>
+                @foreach ($allClasses as $class)
+                    <option value="{{ $class->id }}">{{ $class->class_name }}</option>
+                @endforeach
+            </select>
+
+            <!-- All Sessions -->
+            <div id="allSessions" class="hidden flex flex-col gap-y-2 mt-8">
+                @foreach ($allSessions as $session)
+                    <div class="w-full flex items-center rounded-xl p-4 bg-white">
+                        <img src="{{ asset($session->image) }}" alt="Session image"
+                            class="w-12 h-12 rounded-full object-cover" />
+                        <div class="flex flex-col mx-8">
+                            <span class="text-md font-bold">{{ $session->classs->class_name }}</span>
+                            <span class="text-sm text-gray-400">{{ $session->user->name }}</span>
+                        </div>
+                        <div class="flex flex-col mx-8">
+                            <span class="text-md text-gray-400">{{ date('d M Y', strtotime($session->trainsession_date)) }}</span>
+                            <span class="text-sm text-gray-400">{{ date('H:i', strtotime($session->start_time)) }} - {{ date('H:i', strtotime($session->end_time)) }}</span>
+                        </div>
+                        <span class="text-md text-gray-400 mx-8 flex-grow">{{ $session->description }}</span>
+                    </div>
+                @endforeach
             </div>
         @endif
 
@@ -50,28 +75,10 @@
                     <span class="text-md text-gray-400 mx-8 flex-grow">{{ $trainses->description }}</span>
                 </div>
             @empty
-                <h3 class="text-5xl mt-8 font-semibold text-orange-300/50 text-center">You have no train sessions.</h3>
+                <h3 class="text-5xl mt-8 font-bold text-orange-300/50 text-center">You have no train sessions</h3>
             @endforelse
         </div>
 
-        <!-- All Sessions -->
-        <div id="allSessions" class="hidden flex flex-col gap-y-2 mt-8">
-            @foreach ($allSessions as $session)
-                <div class="w-full flex items-center rounded-xl p-4 bg-white">
-                    <img src="{{ asset($session->image) }}" alt="Session image"
-                        class="w-12 h-12 rounded-full object-cover" />
-                    <div class="flex flex-col mx-8">
-                        <span class="text-md font-bold">{{ $session->classs->class_name }}</span>
-                        <span class="text-sm text-gray-400">{{ $session->user->name }}</span>
-                    </div>
-                    <div class="flex flex-col mx-8">
-                        <span class="text-md text-gray-400">{{ date('d M Y', strtotime($session->trainsession_date)) }}</span>
-                        <span class="text-sm text-gray-400">{{ date('H:i', strtotime($session->start_time)) }} - {{ date('H:i', strtotime($session->end_time)) }}</span>
-                    </div>
-                    <span class="text-md text-gray-400 mx-8 flex-grow">{{ $session->description }}</span>
-                </div>
-            @endforeach
-        </div>
     </div>
 
     <!-- Create TrainSession Modal -->
@@ -146,25 +153,131 @@
 
     <!-- JavaScript to handle modal and toggle between sessions -->
     <script>
-        // Toggle visibility for My Sessions and All Sessions
-        document.getElementById('mySessionsBtn').addEventListener('click', function () {
-            document.getElementById('mySessions').classList.remove('hidden');
-            document.getElementById('allSessions').classList.add('hidden');
-        });
+        document.addEventListener('DOMContentLoaded', function () {
+    // Button and view elements
+    const mySessionsBtn = document.getElementById('mySessionsBtn');
+    const allSessionsBtn = document.getElementById('allSessionsBtn');
+    const mySessions = document.getElementById('mySessions');
+    const allSessions = document.getElementById('allSessions');
+    const createSessionBtn = document.getElementById('create-session-btn');
+    const createSessionModal = document.getElementById('create-session-modal');
+    const cancelCreateModalBtn = document.getElementById('cancel-create-modal');
+    const classFilter = document.getElementById('classFilter');
+    const filteredSessionsContainer = document.createElement('div'); // Container for filtered sessions
+    const allSessionsData = @json($allSessions);
 
-        document.getElementById('allSessionsBtn').addEventListener('click', function () {
-            document.getElementById('allSessions').classList.remove('hidden');
-            document.getElementById('mySessions').classList.add('hidden');
-        });
+    // Append the filtered sessions container to the DOM (only if not already present)
+    if (!document.getElementById('filteredSessions')) {
+        filteredSessionsContainer.id = 'filteredSessions';
+        filteredSessionsContainer.classList.add('hidden', 'flex', 'flex-col', 'gap-y-2', 'mt-8');
+        allSessions.parentNode.appendChild(filteredSessionsContainer);
+    }
 
-        // Show Create Train Session Modal
-        document.getElementById('create-session-btn').addEventListener('click', function () {
-            document.getElementById('create-session-modal').classList.remove('hidden');
-        });
+    // Helper function: Ensure elements exist
+    function checkElementsExist(elements) {
+        for (const [key, value] of Object.entries(elements)) {
+            if (!value) {
+                console.error(`Missing element: ${key}. Check your HTML.`);
+                return false;
+            }
+        }
+        return true;
+    }
 
-        // Hide Create Train Session Modal
-        document.getElementById('cancel-create-modal').addEventListener('click', function () {
-            document.getElementById('create-session-modal').classList.add('hidden');
-        });
+    if (!checkElementsExist({ mySessionsBtn, allSessionsBtn, mySessions, allSessions, createSessionBtn, createSessionModal, cancelCreateModalBtn, classFilter })) {
+        return; // Stop execution if elements are missing
+    }
+
+    // Function to toggle visibility of sessions and elements
+    function toggleSessions(showMySessions) {
+        if (showMySessions) {
+            // Show My Sessions
+            mySessions.classList.remove('hidden');
+            allSessions.classList.add('hidden');
+            filteredSessionsContainer.classList.add('hidden');
+
+            // Update button styles
+            mySessionsBtn.classList.add('bg-orange-500', 'text-white');
+            mySessionsBtn.classList.remove('bg-orange-200', 'text-orange-500');
+            allSessionsBtn.classList.add('bg-orange-200', 'text-orange-500');
+            allSessionsBtn.classList.remove('bg-orange-500', 'text-white');
+
+            // Show Create Button, hide Class Filter
+            createSessionBtn.classList.remove('hidden');
+            classFilter.classList.add('hidden');
+        } else {
+            // Show All Sessions
+            allSessions.classList.remove('hidden');
+            mySessions.classList.add('hidden');
+            filteredSessionsContainer.classList.add('hidden');
+
+            // Update button styles
+            allSessionsBtn.classList.add('bg-orange-500', 'text-white');
+            allSessionsBtn.classList.remove('bg-orange-200', 'text-orange-500');
+            mySessionsBtn.classList.add('bg-orange-200', 'text-orange-500');
+            mySessionsBtn.classList.remove('bg-orange-500', 'text-white');
+
+            // Show Class Filter, hide Create Button
+            createSessionBtn.classList.add('hidden');
+            classFilter.classList.remove('hidden');
+        }
+    }
+
+    // Event listeners for toggling sessions
+    mySessionsBtn.addEventListener('click', () => toggleSessions(true));
+    allSessionsBtn.addEventListener('click', () => toggleSessions(false));
+
+    // Show and hide the create session modal
+    createSessionBtn.addEventListener('click', function () {
+        createSessionModal.classList.remove('hidden');
+    });
+
+    cancelCreateModalBtn.addEventListener('click', function () {
+        createSessionModal.classList.add('hidden');
+    });
+
+    // Function to filter sessions by class
+    function filterSessionsByClass(classId) {
+        filteredSessionsContainer.innerHTML = ''; // Clear previous sessions
+
+        const filteredSessions = classId === 'all'
+            ? allSessionsData
+            : allSessionsData.filter(session => session.class_id == classId);
+
+        if (filteredSessions.length > 0) {
+            filteredSessions.forEach(session => {
+                const sessionElement = document.createElement('div');
+                sessionElement.classList.add('w-full', 'flex', 'items-center', 'rounded-xl', 'p-4', 'bg-white');
+                sessionElement.innerHTML = `
+                    <img src="${session.image}" alt="Session image" class="w-12 h-12 rounded-full object-cover" />
+                    <div class="flex flex-col mx-8">
+                        <span class="text-md font-bold">${session.classs.class_name}</span>
+                        <span class="text-sm text-gray-400">${session.user.name}</span>
+                    </div>
+                    <div class="flex flex-col mx-8">
+                        <span class="text-md text-gray-400">${session.trainsession_date}</span>
+                        <span class="text-sm text-gray-400">${session.start_time} - ${session.end_time}</span>
+                    </div>
+                    <span class="text-md text-gray-400 mx-8 flex-grow">${session.description}</span>
+                `;
+                filteredSessionsContainer.appendChild(sessionElement);
+            });
+        }
+        else {
+            filteredSessionsContainer.innerHTML = '<h3 class="text-5xl mt-8 font-bold text-orange-300/50 text-center">No sessions available for this class</h3>';
+        }
+
+        // Show filtered sessions, hide others
+        allSessions.classList.add('hidden');
+        mySessions.classList.add('hidden');
+        filteredSessionsContainer.classList.remove('hidden');
+    }
+
+    // Event listener for class filter dropdown
+    classFilter.addEventListener('change', function () {
+        const classId = this.value;
+        filterSessionsByClass(classId);
+    });
+});
     </script>
 </x-layout>
