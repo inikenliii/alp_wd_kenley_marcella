@@ -12,15 +12,17 @@
         <h1 class="text-7xl font-bold text-orange-300 text-center">Train Sessions</h1>
         <div class="mb-8"></div>
 
-        <!-- Switch for toggling views -->
-        <div class="flex mb-6">
-            <button id="mySessionsBtn" class="px-6 py-2 text-lg font-semibold text-white bg-orange-500 rounded-l-lg hover:bg-orange-600">
-                My Sessions
-            </button>
-            <button id="allSessionsBtn" class="px-6 py-2 text-lg font-semibold text-orange-500 bg-orange-200 rounded-r-lg hover:bg-orange-300">
-                All Sessions
-            </button>
-        </div>
+        <!-- Switch for toggling views (visible only for admins) -->
+        @if (Auth::user()->isAdmin)
+            <div class="flex mb-6">
+                <button id="mySessionsBtn" class="px-6 py-2 text-lg font-semibold text-white bg-orange-500 rounded-l-lg hover:bg-orange-600">
+                    My Sessions
+                </button>
+                <button id="allSessionsBtn" class="px-6 py-2 text-lg font-semibold text-orange-500 bg-orange-200 rounded-r-lg hover:bg-orange-300">
+                    All Sessions
+                </button>
+            </div>
+        @endif
         
         <!-- Create Button (visible only for admins) -->
         @if (Auth::user()->isAdmin)
