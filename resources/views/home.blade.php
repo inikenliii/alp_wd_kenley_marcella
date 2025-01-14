@@ -11,9 +11,9 @@
         <h1 class="font-bold text-4xl text-white p-6 bg-opacity-50 bg-black rounded-lg">Welcome {{ $user->name }}</h1>
     </div>
 
-    {{-- <div>
+    <div>
         <h1 class="h-[1700px]">a</h1>
-    </div> --}}
+    </div>
     
     <x-footer></x-footer>
 

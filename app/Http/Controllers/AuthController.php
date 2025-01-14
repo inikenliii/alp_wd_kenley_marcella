@@ -56,7 +56,7 @@ class AuthController extends Controller
             'phone_number' => $request->phone_number,
             'address' => $request->address,
             'birth_date' => $request->birth_date,
-            'image_profile' => null, // Default value, can be changed later
+            'image_profile' => 0, // Default value, can be changed later
             'class_id' => $classId,
             // 'isAdmin' => $request->isAdmin
         ]);
