@@ -29,49 +29,119 @@
                 </button>
 
             </div>
-
-            <!-- All Sessions -->
-            <div id="allSessions" class="flex flex-col gap-y-2 mt-8">
-                @foreach ($allSessions as $session)
-                    <div class="w-full flex items-center rounded-xl p-4 bg-white">
-                        <img src="{{ asset($session->image) }}" alt="Session image"
-                            class="w-12 h-12 rounded-full object-cover" />
-                        <div class="flex flex-col mx-8">
-                            <span class="text-md font-bold">{{ $session->classs->class_name }}</span>
-                            <span class="text-sm text-gray-400">{{ $session->user->name }}</span>
-                        </div>
-                        <div class="flex flex-col mx-8">
-                            <span class="text-md text-gray-400">{{ date('d M Y', strtotime($session->trainsession_date)) }}</span>
-                            <span class="text-sm text-gray-400">{{ date('H:i', strtotime($session->start_time)) }} - {{ date('H:i', strtotime($session->end_time)) }}</span>
-                        </div>
-                        <span class="text-md text-gray-400 mx-8 flex-grow">{{ $session->description }}</span>
-                    </div>
-                @endforeach
-            </div>
-        @else
-            <!-- My Sessions -->
-            <div id="mySessions" class="flex flex-col gap-y-2 mt-8">
-                @forelse ($userSessions as $trainses)
-                    <div class="w-full flex items-center rounded-xl p-4 bg-white">
-                        <img src="{{ asset($trainses->image) }}" alt="Session image"
-                            class="w-12 h-12 rounded-full object-cover" />
-                        <div class="flex flex-col mx-8">
-                            <span class="text-md font-bold">{{ $trainses->classs->class_name }}</span> <!-- Access 'class_name' for the class -->
-                            <span class="text-sm text-gray-400">{{ $trainses->user->name }}</span>
-                        </div>
-                        <div class="flex flex-col mx-8">
-                            <span class="text-md text-gray-400">{{ date('d M Y', strtotime($trainses->trainsession_date)) }}</span>
-                            <span class="text-sm text-gray-400">{{ date('H:i', strtotime($trainses->start_time)) }} - {{ date('H:i', strtotime($trainses->end_time)) }}</span>
-                        </div>
-                        <span class="text-md text-gray-400 mx-8 flex-grow">{{ $trainses->description }}</span>
-                    </div>
-                @empty
-                    <h3 class="text-5xl mt-8 font-bold text-orange-300/50 text-center">You have no train sessions</h3>
-                @endforelse
-            </div>
         @endif
 
+        <!-- All Sessions -->
+        <div id="allSessions" class="flex flex-col gap-y-2 mt-8">
+            @foreach ($trainSessions as $session)
+                <div class="w-full flex items-center rounded-xl p-4 bg-white">
+                    <img src="{{ asset($session->image) }}" alt="Session image"
+                        class="w-12 h-12 rounded-full object-cover" />
+                    <div class="flex flex-col mx-8">
+                        <span class="text-md font-bold">{{ $session->classs->class_name }}</span>
+                        <span class="text-sm text-gray-400">{{ $session->user->name }}</span>
+                    </div>
+                    <div class="flex flex-col mx-8">
+                        <span class="text-md text-gray-400">{{ date('d M Y', strtotime($session->trainsession_date)) }}</span>
+                        <span class="text-sm text-gray-400">{{ date('H:i', strtotime($session->start_time)) }} - {{ date('H:i', strtotime($session->end_time)) }}</span>
+                    </div>
+                    <span class="text-md text-gray-400 mx-8 flex-grow">{{ $session->description }}</span>
+                </div>
+            @endforeach
+        </div>
+
     </div>
+
+    <!-- JavaScript to handle modal and toggle between sessions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    // Elements
+    const createSessionBtn = document.getElementById('create-session-btn');
+    const createSessionModal = document.getElementById('create-session-modal');
+    const cancelCreateModalBtn = document.getElementById('cancel-create-modal');
+    const classFilter = document.getElementById('classFilter');
+    const filteredSessionsContainer = document.getElementById('allSessions');
+    const allSessionsData = @json($trainSessions); // Pass PHP data to JavaScript
+
+    // Helper Function: Log missing elements and abort if necessary
+    function checkElementsExist(elements) {
+        for (const [key, element] of Object.entries(elements)) {
+            if (!element) {
+                console.error(`Missing element: ${key}. Check your HTML.`);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Ensure all required elements exist
+    if (!checkElementsExist({
+        createSessionBtn,
+        createSessionModal,
+        cancelCreateModalBtn,
+        classFilter,
+        filteredSessionsContainer
+    })) {
+        return; // Abort if essential elements are missing
+    }
+
+    // Function to Filter Sessions by Class
+    function filterSessionsByClass(classId) {
+        // Clear the current session list
+        filteredSessionsContainer.innerHTML = '';
+
+        // Filter sessions based on classId
+        const filteredSessions = classId === 'all'
+            ? allSessionsData // Show all sessions
+            : allSessionsData.filter(session => session.class_id == classId); // Match class_id
+
+        // Check if filtered sessions exist
+        if (filteredSessions.length > 0) {
+            filteredSessions.forEach(session => {
+                // Create a session card
+                const sessionElement = document.createElement('div');
+                sessionElement.classList.add('w-full', 'flex', 'items-center', 'rounded-xl', 'p-4', 'bg-white');
+                sessionElement.innerHTML = `
+                    <img src="{{ asset('${session.image}') }}" alt="Session image" class="w-12 h-12 rounded-full object-cover" />
+                    <div class="flex flex-col mx-8">
+                        <span class="text-md font-bold">${session.classs.class_name}</span>
+                        <span class="text-sm text-gray-400">${session.user.name}</span>
+                    </div>
+                    <div class="flex flex-col mx-8">
+                        <span class="text-md text-gray-400">${session.trainsession_date}</span>
+                        <span class="text-sm text-gray-400">${session.start_time} - ${session.end_time}</span>
+                    </div>
+                    <span class="text-md text-gray-400 mx-8 flex-grow">${session.description}</span>
+                `;
+                // Append the session to the container
+                filteredSessionsContainer.appendChild(sessionElement);
+            });
+        } else {
+            // Show "no sessions available" message
+            filteredSessionsContainer.innerHTML = `
+                <h3 class="text-5xl mt-8 font-bold text-orange-300/50 text-center">
+                    No sessions available for this class
+                </h3>
+            `;
+        }
+    }
+
+    // Event Listener for Class Filter Dropdown
+    classFilter.addEventListener('change', function () {
+        const classId = this.value;
+        filterSessionsByClass(classId);
+    });
+
+    // Show/Hide Create Session Modal
+    createSessionBtn.addEventListener('click', function () {
+        createSessionModal.classList.remove('hidden');
+    });
+    cancelCreateModalBtn.addEventListener('click', function () {
+        createSessionModal.classList.add('hidden');
+    });
+});
+
+    </script>
 
     <!-- Create TrainSession Modal -->
     <div id="create-session-modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
@@ -142,95 +212,4 @@
             </form>
         </div>
     </div>
-
-    <!-- JavaScript to handle modal and toggle between sessions -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-        // Elements
-        const createSessionBtn = document.getElementById('create-session-btn');
-        const createSessionModal = document.getElementById('create-session-modal');
-        const cancelCreateModalBtn = document.getElementById('cancel-create-modal');
-        const classFilter = document.getElementById('classFilter');
-        const filteredSessionsContainer = document.getElementById('allSessions');
-        const allSessionsData = @json($allSessions); // Pass PHP data to JavaScript
-
-        // Helper Function: Log missing elements and abort if necessary
-        function checkElementsExist(elements) {
-            for (const [key, element] of Object.entries(elements)) {
-                if (!element) {
-                    console.error(`Missing element: ${key}. Check your HTML.`);
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        // Ensure all required elements exist
-        if (!checkElementsExist({
-            createSessionBtn,
-            createSessionModal,
-            cancelCreateModalBtn,
-            classFilter,
-            filteredSessionsContainer
-        })) {
-            return; // Abort if essential elements are missing
-        }
-
-        // Function to Filter Sessions by Class
-        function filterSessionsByClass(classId) {
-            // Clear the current session list
-            filteredSessionsContainer.innerHTML = '';
-
-            // Filter sessions based on classId
-            const filteredSessions = classId === 'all'
-                ? allSessionsData // Show all sessions
-                : allSessionsData.filter(session => session.class_id == classId); // Match class_id
-
-            // Check if filtered sessions exist
-            if (filteredSessions.length > 0) {
-                filteredSessions.forEach(session => {
-                    // Create a session card
-                    const sessionElement = document.createElement('div');
-                    sessionElement.classList.add('w-full', 'flex', 'items-center', 'rounded-xl', 'p-4', 'bg-white');
-                    sessionElement.innerHTML = `
-                        <img src="${session.image}" alt="Session image" class="w-12 h-12 rounded-full object-cover" />
-                        <div class="flex flex-col mx-8">
-                            <span class="text-md font-bold">${session.classs.class_name}</span>
-                            <span class="text-sm text-gray-400">${session.user.name}</span>
-                        </div>
-                        <div class="flex flex-col mx-8">
-                            <span class="text-md text-gray-400">${session.trainsession_date}</span>
-                            <span class="text-sm text-gray-400">${session.start_time} - ${session.end_time}</span>
-                        </div>
-                        <span class="text-md text-gray-400 mx-8 flex-grow">${session.description}</span>
-                    `;
-                    // Append the session to the container
-                    filteredSessionsContainer.appendChild(sessionElement);
-                });
-            } else {
-                // Show "no sessions available" message
-                filteredSessionsContainer.innerHTML = `
-                    <h3 class="text-5xl mt-8 font-bold text-orange-300/50 text-center">
-                        No sessions available for this class
-                    </h3>
-                `;
-            }
-        }
-
-        // Event Listener for Class Filter Dropdown
-        classFilter.addEventListener('change', function () {
-            const classId = this.value;
-            filterSessionsByClass(classId);
-        });
-
-        // Show/Hide Create Session Modal
-        createSessionBtn.addEventListener('click', function () {
-            createSessionModal.classList.remove('hidden');
-        });
-        cancelCreateModalBtn.addEventListener('click', function () {
-            createSessionModal.classList.add('hidden');
-        });
-        
-    });
-    </script>
 </x-layout>

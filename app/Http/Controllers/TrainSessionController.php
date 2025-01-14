@@ -35,11 +35,10 @@ class TrainSessionController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        // Fetch all sessions and user-specific sessions
-        $allSessions = TrainSession::with(['classs', 'user'])->get(); // Eager load classs and user
-        $userSessions = TrainSession::with(['classs', 'user'])
-            ->where('user_id', $id)
-            ->get();
+        $trainSessions = TrainSession::with(['classs', 'user'])->where('user_id', $id)->get();
+        if (Auth::check() && Auth::user()->isAdmin) {
+            $trainSessions = TrainSession::with(['classs', 'user'])->get();
+        }
 
         // Fetch all classes for the create modal dropdown
         $allClasses = classs::all();
@@ -48,8 +47,7 @@ class TrainSessionController extends Controller
         return view('session', [
             'pagetitle' => 'Train Sessions',
             'id' => $id,
-            'allSessions' => $allSessions,
-            'userSessions' => $userSessions,
+            'trainSessions' => $trainSessions,
             'allClasses' => $allClasses,
             'users' => $users,
         ]);
