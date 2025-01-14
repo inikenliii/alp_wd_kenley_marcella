@@ -13,18 +13,21 @@
         <div class="mb-8"></div>
         
         @if (Auth::check() && Auth::user()->isAdmin)
-            <!-- Create Button (visible only for admins) -->
             <div class="flex justify-center mb-6">
-                <!-- Class Filter Dropdown -->
+
+                <!-- Class Filter Dropdown (visible only for admins) -->
                 <select id="classFilter" class="w-full p-2 border border-orange-200 rounded-lg">
                     <option value="all">All Classes</option>
                     @foreach ($allClasses as $class)
                         <option value="{{ $class->id }}">{{ $class->class_name }}</option>
                     @endforeach
                 </select>
+
+                <!-- Create Button (visible only for admins) -->
                 <button id="create-session-btn" class="px-6 w-2/12 ml-4 text-lg font-bold text-white bg-green-500 rounded-lg hover:bg-green-600">
                     + Create
                 </button>
+
             </div>
 
             <!-- All Sessions -->

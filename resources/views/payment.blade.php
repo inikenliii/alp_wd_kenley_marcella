@@ -12,7 +12,7 @@
     <div class="p-4">
         <h1 class="text-7xl font-bold text-orange-300 text-center">Payment</h1>
         <div class="mb-16"></div>
-
+        
         <div class="flex flex-col gap-y-2 mt-8">
             @forelse ($payment as $pymt)
                     <div class="w-full flex items-center rounded-xl p-4 bg-orange-50">
@@ -29,6 +29,9 @@
                         <div class="flex flex-col ml-4 mr-4 w-full">
                             <div class="flex justify-between">
                                 <div class="flex flex-col justify-center">
+                                    @if (Auth::check() && Auth::user()->isAdmin)
+                                        <span class="text-md text-orange-900">{{ $pymt->user->name }}</span>
+                                    @endif
                                     <span class="text-md text-orange-900">{{ date('d F Y', strtotime($pymt->month_paid)) }}</span>
                                     <span class="text-md text-orange-900">Rp.{{ number_format($pymt->amount, 0, ',', '.') }}</span>
                                 </div>

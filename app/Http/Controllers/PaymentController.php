@@ -23,10 +23,15 @@ class PaymentController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        $payment = payment::where('user_id', $id)->with('user')->get();
+        if (Auth::check() && Auth::user()->isAdmin) {
+            $payment = payment::all();
+        }
+
         return view('payment', [
             'pagetitle' => 'Payment Detail',
             'id' => $id,
-            'payment' => payment::where('user_id', $id)->with('user')->get()
+            'payment' => $payment
         ]);
     }
 
