@@ -25,12 +25,18 @@ class AttendanceController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        $attendance = Attendance::with(['user', 'trainsession.classs'])->where('id', $id)->get();
+        if (Auth::check() && Auth::user()->isAdmin) {
+            $attendance = attendance::all();
+        }
+
         return view('attendance', [
             'pagetitle' => 'Attendance',
             'id' => $id,
-            'attendances' => Attendance::with(['user', 'trainsession.classs'])->where('id', $id)->get(),
+            'attendances' => $attendance,
         ]);
     }
+    
     public function create(Request $request)
     {
         // Validasi data yang dikirim

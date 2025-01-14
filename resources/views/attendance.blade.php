@@ -28,6 +28,9 @@
                         <div class="flex flex-col ml-4 mr-4 w-full">
                             <div class="flex justify-between">
                                 <div class="flex flex-col justify-center">
+                                    @if (Auth::check() && Auth::user()->isAdmin)
+                                        <span class="text-md text-orange-900">{{ $atnd->user->name }}</span>
+                                    @endif
                                     <span class="text-md text-orange-900">{{ $atnd->trainsession }}</span>
                                     <span class="text-md text-orange-900">{{ date('d F Y', strtotime($atnd->month_paid)) }}</span>
                                 </div>
@@ -35,25 +38,25 @@
                                     <div class="flex flex-col justify-center w-1/4 xl:w-1/12">
                                         <div class="flex mb-1">
                                             <span class="text-md text-orange-900 font-medium">Status: </span>
-                                            <span class="text-md {{ $atnd->attendance_status === 'pending' ? 'text-red-600' : 'text-green-600' }} font-bold">{{ $atnd->attendance_status }}</span>
+                                            <span class="text-md {{ $atnd->attendance_status === 'absent' ? 'text-red-600' : 'text-green-600' }} font-bold">{{ $atnd->attendance_status }}</span>
                                         </div>
                                         
                                         <form 
-                                            action="{{ $atnd->attendance_status === 'pending' ? route('attendance.update', $pymt->id) : route('attendance.destroy', $atnd->id) }}" 
+                                            action="{{ $atnd->attendance_status === 'absent' ? route('attendance.update', $atnd->id) : route('attendance.destroy', $atnd->id) }}" 
                                             method="POST"
-                                            onsubmit="return $atnd->attendance_status === 'pending' ? true : confirm('Are you sure you want to delete this attendance?')"
+                                            onsubmit="return $atnd->attendance_status === 'absent' ? true : confirm('Are you sure you want to delete this attendance?')"
                                         >
                                             @csrf
-                                            @if($atnd->attendance_status === 'pending')
+                                            @if($atnd->attendance_status === 'absent')
                                                 @method('PATCH')
                                             @else
                                                 @method('DELETE')
                                             @endif
                                             <button 
                                                 type="submit" 
-                                                class="{{ $atnd->attendance_status === 'pending' ? 'bg-orange-500 text-white hover:bg-orange-700' : 'bg-red-500 text-white hover:bg-red-700' }} font-bold py-1 px-2 rounded-md w-full"
+                                                class="{{ $atnd->attendance_status === 'absent' ? 'bg-orange-500 text-white hover:bg-orange-700' : 'bg-red-500 text-white hover:bg-red-700' }} font-bold py-1 px-2 rounded-md w-full"
                                             >
-                                                {{ $atnd->attendance_status === 'pending' ? 'To Paid' : 'Delete' }}
+                                                {{ $atnd->attendance_status === 'absent' ? 'Present' : 'Delete' }}
                                             </button>
                                         </form>
                                     </div>
