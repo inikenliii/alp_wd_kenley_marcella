@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\classs;
 use App\Models\trainsession;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -94,7 +95,7 @@ class TrainSessionController extends Controller
 
     // Buat sesi pelatihan untuk setiap pengguna
     foreach ($users as $user) {
-        TrainSession::create([
+        $session = TrainSession::create([
             'class_id' => $request->class_id,
             'user_id' => $user->id,
             'image' => $imagePath,
@@ -103,10 +104,19 @@ class TrainSessionController extends Controller
             'end_time' => $request->end_time,
             'description' => $request->description,
         ]);
+
+        // Create attendance entry for each user
+        Attendance::create([
+            'user_id' => $user->id,
+            'trainsession_id' => $session->id,
+            'attendance_status' => 'absent',  // Default to 'absent'
+            'attendance_date' => $request->trainsession_date,
+        ]);
     }
 
     return redirect("/session/" . Auth::id())->with('success', 'Train sessions created successfully for all users in the class.');
 }
+
 
 
 
