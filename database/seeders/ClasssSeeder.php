@@ -10,11 +10,7 @@ class ClasssSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Classs::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        $classData = [
+        $classes = [
             ['class_name' => 'KU 12', 'description' => 'Untuk usia 10-12 tahun'],
             ['class_name' => 'KU 14', 'description' => 'Untuk usia 12-14 tahun'],
             ['class_name' => 'KU 16', 'description' => 'Untuk usia 14-16 tahun'],
@@ -22,8 +18,11 @@ class ClasssSeeder extends Seeder
             ['class_name' => 'Adult', 'description' => 'Untuk usia 19 tahun ke atas'],
         ];
 
-        foreach ($classData as $class) {
-            Classs::updateOrCreate(['class_name' => $class['class_name']], $class);
+        foreach ($classes as $class) {
+            Classs::firstOrCreate(
+                ['class_name' => $class['class_name']],
+                $class
+            );
         }
     }
 }

@@ -10,63 +10,46 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+// Home page redirection
 Route::get('/', function () {
     return redirect('/login');
 });
 
-// Registration
+// Registration routes
 Route::get('/register', [AuthController::class, 'showRegistrationForm']);
 Route::post('/register', [AuthController::class, 'register']);
-// Login
+
+// Login routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-// Logout
+
+// Logout route
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
-
     Route::get('/home/{id}', function ($id) {
-        // Check if the authenticated user id matches the route id
         if (Auth::id() != $id) {
             abort(403, 'Unauthorized action.');
         }
-
         return view('home', [
-            "pagetitle" => "Home",
-            "id" => (int) $id,
+            'pagetitle' => 'Home',
+            'id' => $id,
             'user' => User::with('classs', 'attendance', 'payment', 'trainsession')->findOrFail($id),
         ]);
-        
     })->name('home');
 
     Route::get('/profile/{id}', [UserController::class, 'show'])->name('profile');
     Route::resource('/user', UserController::class);
 
-    // Route untuk AttendanceController
+    // Routes for AttendanceController
     Route::resource('/attendance', AttendanceController::class);
 
-    // Route untuk TrainSessionController
+    // Routes for TrainSessionController
     Route::resource('/session', TrainSessionController::class);
 
-    // Route untuk PaymentController
-    // Payment routes
+    // Routes for PaymentController
     Route::resource('/payment', PaymentController::class);
 
-    // Route untuk ClassController
+    // Routes for ClassController
     Route::resource('/classs', ClasssController::class);
 });
-
-
-
-
-// Route::get('/dbshow/{id}', function ($id) {
-//     return view('dbshow', [
-//         'pagetitle' => 'Database Show',
-//         'id' => $id,
-//         'users' => User::with('classs')->get(),
-//         'classes' => classs::all(),
-//         'trainsession' => trainsession::all(),
-//         'attendence' => attendance::all(),
-//         'payments' => payment::with('user')->get(),
-//     ]);
-// });

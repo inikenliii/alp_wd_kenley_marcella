@@ -11,26 +11,24 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Pastikan data kelas tersedia
-        $classes = Classs::count() > 0 
-            ? Classs::all() 
-            : $this->createDefaultClasses();
+        // Create default classes if not exists
+        $classes = Classs::count() > 0 ? Classs::all() : $this->createDefaultClasses();
 
-        // Tentukan kelas berdasarkan aturan usia
+        // Helper function to assign class by age
         $getClassByAge = function ($birthDate) use ($classes) {
             $age = now()->year - date('Y', strtotime($birthDate));
 
             return match (true) {
-                $age >= 10 && $age <= 12 => $classes->where('class_name', 'KU 12')->first()->id,
-                $age >= 12 && $age <= 14 => $classes->where('class_name', 'KU 14')->first()->id,
-                $age >= 14 && $age <= 16 => $classes->where('class_name', 'KU 16')->first()->id,
-                $age >= 16 && $age <= 18 => $classes->where('class_name', 'KU 18')->first()->id,
-                $age > 18 => $classes->where('class_name', 'Adult')->first()->id,
+                $age >= 10 && $age <= 12 => $classes->where('class_name', 'KU 12')->first()?->id,
+                $age >= 12 && $age <= 14 => $classes->where('class_name', 'KU 14')->first()?->id,
+                $age >= 14 && $age <= 16 => $classes->where('class_name', 'KU 16')->first()?->id,
+                $age >= 16 && $age <= 18 => $classes->where('class_name', 'KU 18')->first()?->id,
+                $age > 18 => $classes->where('class_name', 'Adult')->first()?->id,
                 default => null,
             };
         };
 
-        // Buat pengguna khusus (contoh kenley123)
+        // Create specific users
         User::create([
             'username' => 'kenley123',
             'password' => Hash::make('password'),
@@ -42,7 +40,7 @@ class UserSeeder extends Seeder
             'class_id' => $getClassByAge('2005-01-20'),
         ]);
 
-        // Buat pengguna dengan umur 11-18
+        // Create users aged 11-18
         $users = [
             ['username' => 'user11', 'birth_date' => '2014-01-01'],
             ['username' => 'user12', 'birth_date' => '2013-01-01'],
@@ -67,7 +65,7 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        // Buat admin
+        // Create admin
         User::create([
             'username' => 'admin123',
             'password' => Hash::make('password'),
@@ -81,7 +79,7 @@ class UserSeeder extends Seeder
     }
 
     /**
-     * Buat kelas default jika belum ada.
+     * Create default classes if not exists.
      */
     private function createDefaultClasses()
     {
@@ -98,24 +96,5 @@ class UserSeeder extends Seeder
         }
 
         return Classs::all();
-    }
-
-    /**
-     * Tentukan kelas berdasarkan usia saat registrasi.
-     */
-    public static function assignClassBasedOnAge(string $birthDate): ?int
-    {
-        $classes = Classs::all();
-
-        $age = now()->year - date('Y', strtotime($birthDate));
-
-        return match (true) {
-            $age >= 10 && $age <= 12 => $classes->where('class_name', 'KU 12')->first()?->id,
-            $age >= 12 && $age <= 14 => $classes->where('class_name', 'KU 14')->first()?->id,
-            $age >= 14 && $age <= 16 => $classes->where('class_name', 'KU 16')->first()?->id,
-            $age >= 16 && $age <= 18 => $classes->where('class_name', 'KU 18')->first()?->id,
-            $age > 18 => $classes->where('class_name', 'Adult')->first()?->id,
-            default => null,
-        };
     }
 }

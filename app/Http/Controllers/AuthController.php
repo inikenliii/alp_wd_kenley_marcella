@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Classs;  // Import the Class model
+use App\Models\Classs;  // Import model Classs
+use App\Models\TrainSession; // Import model TrainSession
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -25,6 +27,7 @@ class AuthController extends Controller
     // Handle registration
     public function register(Request $request)
     {
+        // Validate incoming data
         $request->validate([
             'username' => 'required|string|unique:users,username|max:255',
             'password' => 'required|string|confirmed|min:8',
@@ -34,71 +37,80 @@ class AuthController extends Controller
             'birth_date' => 'required|date',
         ]);
 
-        // Calculate the user's age
-        $birthDate = $request->birth_date;
-        $age = now()->year - date('Y', strtotime($birthDate));
+        // Calculate age
+        $birthDate = Carbon::parse($request->birth_date);
+        $age = $birthDate->age;
 
-        // Determine the class_id based on the age range
-        $classId = match (true) {
-            $age >= 10 && $age <= 12 => \App\Models\Classs::where('class_name', 'KU 12')->first()->id ?? null,
-            $age >= 12 && $age <= 14 => \App\Models\Classs::where('class_name', 'KU 14')->first()->id ?? null,
-            $age >= 14 && $age <= 16 => \App\Models\Classs::where('class_name', 'KU 16')->first()->id ?? null,
-            $age >= 16 && $age <= 18 => \App\Models\Classs::where('class_name', 'KU 18')->first()->id ?? null,
-            $age > 18 => \App\Models\Classs::where('class_name', 'Adult')->first()->id ?? null,
-            default => null,
-        };
+        // Get appropriate class based on age
+        $class = Classs::where('class_name', $this->getClassByAge($age))->first();
 
-        // Create the user
-        $user = User::create([
+        // Create user with class_id
+        $userData = [
             'username' => $request->username,
-            'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+            'password' => Hash::make($request->password),
             'name' => $request->name,
             'phone_number' => $request->phone_number,
             'address' => $request->address,
             'birth_date' => $request->birth_date,
-            'image_profile' => 0, // Default value, can be changed later
-            'class_id' => $classId,
-            // 'isAdmin' => $request->isAdmin
-        ]);
+            'image_profile' => 0,
+            'class_id' => $class->id, // Set class_id
+        ];
 
-        // Log in the user
+        // Create the user
+        $user = User::create($userData);
         Auth::login($user);
 
+        // Create TrainSession for the new user
+        $this->createTrainSession($user, $class);
+
+        // Redirect to the home page
         return redirect()->route('home', ['id' => $user->id]);
     }
 
+    // Function to determine class name based on age
+    private function getClassByAge($age)
+    {
+        if ($age >= 19) return 'Adult';
+        if ($age >= 16) return 'KU 18';
+        if ($age >= 14) return 'KU 16';
+        if ($age >= 12) return 'KU 14';
+        return 'KU 12';
+    }
+
+    // Function to create TrainSession
+    private function createTrainSession($user, $class)
+    {
+        $trainSession = new TrainSession();
+        $trainSession->class_id = $class->id;
+        $trainSession->user_id = $user->id;
+        $trainSession->trainsession_date = now();
+        $trainSession->start_time = now();
+        $trainSession->end_time = now()->addHours(1); // Example duration
+        $trainSession->description = 'Training session for new user';
+        $trainSession->save();
+    }
 
     // Show login form
     public function showLoginForm()
     {
-        // Check if the user is already logged in
         if (Auth::check()) {
-            // Redirect to the home page if the user is already logged in
             return redirect()->route('home', ['id' => Auth::id()]);
         }
-        else {
-            return view('auth.login');
-        }
+        return view('auth.login');
     }
 
-    public function login(Request $request) 
+    // Handle login
+    public function login(Request $request)
     {
-        // Get the username and password from the request
+        // Get the credentials from the request
         $credentials = $request->only('username', 'password');
 
-        // Attempt to authenticate the user
+        // Attempt to log in the user
         if (Auth::attempt($credentials)) {
-            // Store the authenticated user's ID in the session
-            session(['user_id' => Auth::id()]);
-
-            // Redirect to the intended route or home page
             return redirect()->route('home', ['id' => Auth::id()]);
         }
 
-        // If authentication fails, return an error
-        return back()->withErrors([
-            'username' => 'The provided credentials do not match our records.',
-        ]);
+        return back()->withErrors(['username' => 'The provided credentials do not match our records.']);
     }
 
     // Handle logout

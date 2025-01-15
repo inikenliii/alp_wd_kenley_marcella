@@ -162,12 +162,17 @@
                 // Check if filtered sessions exist
                 if (filteredSessions.length > 0) {
                     filteredSessions.forEach(session => {
+                        // Create link element
+                        const linkElement = document.createElement('a');
+                        linkElement.href = `/classs/${session.id}`;
+                        linkElement.classList.add('w-full');
+
                         // Create a session card
                         const sessionElement = document.createElement('div');
                         sessionElement.classList.add('w-full', 'flex', 'items-center', 'rounded-xl', 'p-4', 'bg-orange-50');
                         sessionElement.innerHTML = `
-                            <img src="{{ asset($session->image ?: '/images/backlit-basketball.jpg') }}" alt="Session image" class="w-1/12 h-16 rounded-lg object-cover" />
-                            <div class="flex flex-col mx-8 w-1/5">
+                            <img src="/storage/${session.image}" class="w-1/12 h-16 rounded-lg object-cover">
+                            <div class="flex flex-col mx-8 w-1/12 h-16">
                                 <span class="text-md font-bold text-orange-950">${session.classs.class_name}</span>
                                 <span class="text-sm text-orange-900">${session.user.name}</span>
                             </div>
@@ -175,7 +180,7 @@
                                 <span class="text-md text-orange-900">${session.trainsession_date}</span>
                                 <span class="text-sm text-orange-900">${session.start_time} - ${session.end_time}</span>
                             </div>
-                            <span class="text-md text-orange-900 mx-8 flex-grow truncate w-full">${session.description}</span>
+                            <span class="text-md text-orange-900 mx-8 flex-grow truncate w-7/12">${session.description}</span>
                         `;
                         // Append the session to the container
                         filteredSessionsContainer.appendChild(sessionElement);
