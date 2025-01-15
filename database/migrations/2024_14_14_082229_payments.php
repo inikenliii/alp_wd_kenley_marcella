@@ -19,7 +19,7 @@ return new class extends Migration
             )->onDelete('cascade');
             $table->date('payment_date')->nullable(); // Bisa nullable jika pembayaran belum dilakukan
             $table->decimal('amount', 10, 2); // Presisi dan skala untuk nilai keuangan
-            $table->string('month_paid', 50); // Panjang string maksimum diatur
+            $table->string('month_paid', 50)->nullable(); // Panjang string maksimum diatur
             $table->enum('payment_status', ['paid', 'pending'])->default('pending'); // Default status 'pending'
             $table->timestamps();
         });

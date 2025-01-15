@@ -42,7 +42,7 @@ class TrainSessionSeeder extends Seeder
                     // Create a training session for the user
                     TrainSession::create([
                         'trainsession_date' => $sessionDate->format('Y-m-d'), // Format date (e.g., '2025-01-15')
-                        'image' => 'https://via.placeholder.com/150',
+                        'image' => '/images/backlit-basketball.jpg',
                         'start_time' => $startTime->format('H:i:s'),  // Format time (e.g., '08:00:00', '09:00:00')
                         'end_time' => $endTime->format('H:i:s'),      // Format time (e.g., '10:00:00', '11:00:00')
                         'description' => 'Training Session ' . $i . ' for Class ' . $class->class_name,
