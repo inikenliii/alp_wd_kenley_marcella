@@ -15,7 +15,7 @@
         @if (Auth::check() && Auth::user()->isAdmin)
             <div class="flex justify-center mb-6">
 
-                <!-- Class Filter Dropdown (visible only for admins) -->
+                <!-- Class Filter ropdown (visible only for admins) -->
                 <select id="classFilter" class="w-full p-2 border border-orange-400 rounded-lg bg-orange-50 text-orange-900">
                     <option value="all">All Classes</option>
                     @foreach ($allClasses as $class)

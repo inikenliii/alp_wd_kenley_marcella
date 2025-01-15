@@ -49,7 +49,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('/session', TrainSessionController::class);
 
     // Route untuk PaymentController
+    // Payment routes
     Route::resource('/payment', PaymentController::class);
+
 
     // // Route untuk ClassController
     // Route::resource('/classs', ClasssController::class);
