@@ -32,7 +32,7 @@
                                     @if (Auth::check() && Auth::user()->isAdmin)
                                         <span class="text-md text-orange-900">{{ $pymt->user->name }}</span>
                                     @endif
-                                    <span class="text-md text-orange-900">{{ date('d F Y', strtotime($pymt->month_paid)) }}</span>
+                                    <span class="text-md text-orange-900">{{ date('d F Y', strtotime($pymt->payment_date)) }}</span>
                                     <span class="text-md text-orange-900">Rp.{{ number_format($pymt->amount, 0, ',', '.') }}</span>
                                 </div>
 
