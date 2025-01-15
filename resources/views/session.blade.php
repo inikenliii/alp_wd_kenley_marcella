@@ -171,7 +171,7 @@
                         const sessionElement = document.createElement('div');
                         sessionElement.classList.add('w-full', 'flex', 'items-center', 'rounded-xl', 'p-4', 'bg-orange-50');
                         sessionElement.innerHTML = `
-                            <img src="/storage/${session.image}" class="w-1/12 h-16 rounded-lg object-cover">
+                            <img src="{{ asset($session->image ?: '/images/backlit-basketball.jpg') }}" alt="Session image" class="w-1/12 h-16 rounded-lg object-cover" />
                             <div class="flex flex-col mx-8 w-1/12 h-16">
                                 <span class="text-md font-bold text-orange-950">${session.classs.class_name}</span>
                                 <span class="text-sm text-orange-900">${session.user.name}</span>
