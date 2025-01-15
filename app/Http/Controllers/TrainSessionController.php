@@ -20,7 +20,7 @@ class TrainSessionController extends Controller
             ->where('user_id', $userId)
             ->get();
 
-        return view('sessions.index', [
+        return view('session', [
             'pagetitle' => 'Train Sessions',
             'id' => $userId,
             'allSessions' => $allSessions,
