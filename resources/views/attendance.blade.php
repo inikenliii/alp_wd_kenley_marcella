@@ -32,7 +32,7 @@
                                         <span class="text-md text-orange-900">{{ $atnd->user->name }}</span>
                                     @endif
                                     <span class="text-md text-orange-900">{{ $atnd->trainsession }}</span>
-                                    <span class="text-md text-orange-900">{{ date('d F Y', strtotime($atnd->month_paid)) }}</span>
+                                    <span class="text-md text-orange-900">{{ date('d F Y', strtotime($atnd->attendance_date)) }}</span>
                                 </div>
                                     
                                     <div class="flex flex-col justify-center w-1/4 xl:w-1/12">
