@@ -41,9 +41,8 @@ class TrainSessionController extends Controller
             $trainSessions = TrainSession::with(['classs', 'user'])->get();
         }
 
-        // Fetch all classes for the create modal dropdown
         $allClasses = classs::all();
-        $users = User::all(); // Fetch all users for the trainer dropdown
+        $users = User::all();
 
         return view('session', [
             'pagetitle' => 'Train Sessions',
@@ -117,38 +116,39 @@ class TrainSessionController extends Controller
     return redirect("/session/" . Auth::id())->with('success', 'Train sessions created successfully for all users in the class.');
 }
 
+public function update(Request $request, $id)
+{
+    $trainSession = TrainSession::findOrFail($id);
 
+    $validatedData = $request->validate([
+        'class_id' => 'required|exists:classes,id',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'trainsession_date' => 'required|date',
+        'start_time' => 'nullable|date_format:H:i',
+        'end_time' => 'nullable|date_format:H:i|after:start_time',
+        'description' => 'nullable|string',
+    ]);
 
-
-    public function update(Request $request, $id)
-    {
-        $session = TrainSession::findOrFail($id);
-
-        // Validasi data yang dikirim
-        $validatedData = $request->validate([
-            'class_id' => 'required|exists:classes,id',
-            'user_id' => 'required|exists:users,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'trainsession_date' => 'required|date',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
-            'description' => 'nullable|string',
-        ]);
-
-        // Perbarui TrainSession
-        $session->update($validatedData);
-
-        return back()->with('success', 'Train session updated successfully.');
+    // Save the image if it exists
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('train_sessions', 'public');
+        $validatedData['image'] = $imagePath;
     }
 
-    public function delete($id)
+    $trainSession->update($validatedData);
+
+    return back();
+}
+
+
+    public function destroy($id)
     {
         $session = TrainSession::findOrFail($id);
 
         // Hapus TrainSession
         $session->delete();
 
-        return back()->with('success', 'Train session deleted successfully.');
+        return redirect("/session/" . Auth::id());
     }
 
 

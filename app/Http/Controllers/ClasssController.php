@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\classs;
 use App\Models\trainsession;
 use Illuminate\Http\Request;
@@ -31,9 +32,14 @@ class ClasssController extends Controller
             }
         }
 
+        $allClasses = classs::all();
+        $users = User::all();
+
         return view('sessiondetail', [
             'pagetitle' => 'Train Session Details',
             'trainSession' => $trainSession,
+            'allClasses' => $allClasses,
+            'users' => $users
         ]);
 
         // return view('classs', [
