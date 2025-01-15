@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\payment;
+use App\Models\trainsession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,6 +37,26 @@ class PaymentController extends Controller
         ]);
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id', // This will always be the user of the session
+            'amount' => 'required|numeric|min:1',
+            'payment_date' => 'required|date',
+        ]);
+
+        Payment::create([
+            'user_id' => $request->user_id, // Taken from the session
+            'amount' => $request->amount,
+            'payment_date' => $request->payment_date,
+            'month_paid' => Carbon::parse($request->payment_date)->format('F Y'),
+        ]);
+
+        session()->flash('success', 'Payment created successfully!');
+
+        return back();
+    }
+
     public function update(Request $request, $id)
     {
         $payment = Payment::findOrFail($id);
@@ -48,6 +70,7 @@ class PaymentController extends Controller
 
         return back()->with('error', 'Payment status is already paid.');
     }
+
     public function destroy($id)
     {
         $payment = Payment::findOrFail($id);

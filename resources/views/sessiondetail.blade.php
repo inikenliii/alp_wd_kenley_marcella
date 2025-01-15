@@ -37,7 +37,7 @@
             <div class="mt-8">
                 <h2 class="text-2xl font-semibold text-orange-400">Description</h2>
                 <p class="text-lg mt-2 text-orange-100">
-                    {{ $trainSession->description }}
+                    {!! nl2br(e($trainSession->description)) !!}     {{-- nl2br means accept enter --}}
                 </p>
             </div>
         </div>
@@ -49,10 +49,16 @@
                 Back to Sessions
             </a>
             @if (Auth::check() && Auth::user()->isAdmin)
+                <!-- Create Payment Button -->
+                <button id="create-payment-button" class="px-6 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700">
+                    Create Payment
+                </button>
+
                 <button id="edit-button" 
                     class="px-6 py-3 bg-yellow-600 text-white font-bold rounded-lg hover:bg-yellow-700">
                     Edit Session
                 </button>
+
                 <form method="POST" action="{{ route('session.destroy', $trainSession->id) }}" 
                     onsubmit="return confirm('Are you sure you want delete this session?')">
                     @csrf
@@ -62,15 +68,22 @@
                         Delete Session
                     </button>
                 </form>
+
             @endif
         </div>
     </div>
+
+    @if (session('success'))
+        <script>
+            alert("{{ session('success') }}");
+        </script>
+    @endif
 
     <!-- Edit TrainSession Modal -->
     <div id="edit-session-modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
         <div class="bg-yellow-50 p-8 rounded-lg shadow-lg w-full max-w-lg max-h-[90vh] overflow-auto">
             <h2 class="text-2xl font-semibold text-orange-800 mb-6">Edit Train Session</h2>
-            <form method="POST" action="{{ route('session.update', $trainSession->id) }}" enctype="multipart/form-data" class="space-y-6">
+            <form method="POST" action="{{ route('session.update', $trainSession->id) }}" onsubmit="alert('Payment created successfully!');" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 @method('PUT')
             
@@ -153,6 +166,52 @@
         </div>
     </div>
 
+    <!-- Create Payment Modal -->
+    <div id="create-payment-modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+        <div class="bg-yellow-50 p-8 rounded-lg shadow-lg w-full max-w-lg max-h-[90vh] overflow-auto">
+
+            <h2 class="text-2xl font-semibold text-orange-800 mb-6">Create Payment</h2>
+            <form method="POST" action="{{ route('payment.store') }}" enctype="multipart/form-data" class="space-y-6">
+                @csrf
+
+                <!-- Session ID (hidden) -->
+                <input type="hidden" name="session_id" value="{{ $trainSession->id }}">
+
+                <!-- User ID (hidden and pre-filled with trainSession user_id) -->
+                <input type="hidden" name="user_id" value="{{ $trainSession->user_id }}">
+
+                <!-- Amount -->
+                <div class="mt-4">
+                    <label for="amount" class="block text-lg font-medium text-orange-800">Amount</label>
+                    <input type="number" name="amount" class="w-full p-3 border @error('amount') border-red-500 @else border-orange-200 @enderror rounded-lg" value="">
+                    @error('amount')
+                        <div class="text-red-500 text-sm">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Payment Date -->
+                <div class="mt-4">
+                    <label for="payment_date" class="block text-lg font-medium text-orange-800">Payment Date</label>
+                    <input type="date" name="payment_date" class="w-full p-3 border @error('payment_date') border-red-500 @else border-orange-200 @enderror rounded-lg" value="">
+                    @error('payment_date')
+                        <div class="text-red-500 text-sm">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Submit Button -->
+                <div class="mt-8 flex justify-between">
+                    <button type="submit" class="w-2/4 p-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600">
+                        Create Payment
+                    </button>
+                    <button type="button" id="cancel-create-payment-modal" class="w-1/3 p-3 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
     <script>
         document.getElementById('edit-button').addEventListener('click', () => {
             document.getElementById('edit-session-modal').classList.remove('hidden');
@@ -160,6 +219,14 @@
         document.getElementById('cancel-edit-modal').addEventListener('click', () => {
             document.getElementById('edit-session-modal').classList.add('hidden');
         });
+
+        document.getElementById('create-payment-button').addEventListener('click', () => {
+            document.getElementById('create-payment-modal').classList.remove('hidden');
+        });
+        document.getElementById('cancel-create-payment-modal').addEventListener('click', () => {
+            document.getElementById('create-payment-modal').classList.add('hidden');
+        });
+
     </script>
 
 </x-layout>
