@@ -34,19 +34,21 @@
         <!-- All Sessions -->
         <div id="allSessions" class="flex flex-col gap-y-2 mt-8">
             @forelse ($trainSessions as $session)
-                <div class="w-full flex items-center rounded-xl p-4 bg-orange-50">
-                    <img src="{{ asset($session->image ?: '/images/backlit-basketball.jpg') }}" alt="Session image"
-                        class="w-1/12 h-16 rounded-lg object-cover" />
-                    <div class="flex flex-col mx-8 w-1/5">
-                        <span class="text-md font-bold text-orange-950">{{ $session->classs->class_name }}</span>
-                        <span class="text-sm text-orange-900">{{ $session->user->name }}</span>
+                <a href="/classs/{{ $session->id }}">
+                    <div class="w-full flex items-center rounded-xl p-4 bg-orange-50">
+                        <img src="{{ asset($session->image ?: '/images/backlit-basketball.jpg') }}" alt="Session image"
+                            class="w-1/12 h-16 rounded-lg object-cover" />
+                        <div class="flex flex-col mx-8 w-1/5">
+                            <span class="text-md font-bold text-orange-950">{{ $session->classs->class_name }}</span>
+                            <span class="text-sm text-orange-900">{{ $session->user->name }}</span>
+                        </div>
+                        <div class="flex flex-col mx-8 w-2/12">
+                            <span class="text-md text-orange-900">{{ date('d M Y', strtotime($session->trainsession_date)) }}</span>
+                            <span class="text-sm text-orange-900">{{ date('H:i', strtotime($session->start_time)) }} - {{ date('H:i', strtotime($session->end_time)) }}</span>
+                        </div>
+                        <p class="mt-2 text-orange-900 text-sm truncate w-7/12">{{ $session->description }}</p>
                     </div>
-                    <div class="flex flex-col mx-8 w-2/12">
-                        <span class="text-md text-orange-900">{{ date('d M Y', strtotime($session->trainsession_date)) }}</span>
-                        <span class="text-sm text-orange-900">{{ date('H:i', strtotime($session->start_time)) }} - {{ date('H:i', strtotime($session->end_time)) }}</span>
-                    </div>
-                    <p class="mt-2 text-orange-900 text-sm truncate w-7/12">{{ $session->description }}</p>
-                </div>
+                </a>
             @empty
                 <h1 class="text-5xl font-bold text-orange-300/50 text-center">No Train Session records found.</h1>
             @endforelse
