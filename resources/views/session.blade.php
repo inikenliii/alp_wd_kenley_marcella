@@ -56,73 +56,64 @@
 
     <!-- Create TrainSession Modal -->
     <div id="create-session-modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-        <div class="bg-yellow-50 p-8 rounded-lg shadow-lg w-full max-w-lg max-h-[90vh] overflow-auto">
-            <h2 class="text-2xl font-semibold text-orange-800 mb-6">Create Train Session</h2>
-            <form method="POST" action="{{ route('session.store') }}" enctype="multipart/form-data" class="space-y-6">
-                @csrf
+    <div class="bg-yellow-50 p-8 rounded-lg shadow-lg w-full max-w-lg max-h-[90vh] overflow-auto">
+        <h2 class="text-2xl font-semibold text-orange-800 mb-6">Create Train Session</h2>
+        <form method="POST" action="{{ route('session.store') }}" enctype="multipart/form-data" class="space-y-6">
+            @csrf
+            <!-- Class -->
+            <div class="mt-4">
+                <label for="class_id" class="block text-lg font-medium text-orange-800">Class</label>
+                <select name="class_id" id="class_id" class="w-full p-3 border border-orange-200 rounded-lg">
+                    @foreach ($allClasses as $class) <!-- Loop through all classes -->
+                        <option value="{{ $class->id }}">{{ $class->class_name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-                <!-- Class -->
-                <div class="mt-4">
-                    <label for="class_id" class="block text-lg font-medium text-orange-800">Class</label>
-                    <select name="class_id" id="class_id" class="w-full p-3 border border-orange-200 rounded-lg">
-                        @foreach ($allClasses as $class) <!-- Loop through all classes -->
-                            <option value="{{ $class->id }}">{{ $class->class_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+            <!-- Image -->
+            <div class="mt-4">
+                <label for="image" class="block text-lg font-medium text-orange-800">Session Image</label>
+                <input type="file" name="image" id="image" class="w-full p-3 border border-orange-200 rounded-lg">
+            </div>
 
-                <!-- User -->
-                <div class="mt-4">
-                    <label for="user_id" class="block text-lg font-medium text-orange-800">Trainer</label>
-                    <select name="user_id" id="user_id" class="w-full p-3 border border-orange-200 rounded-lg mt-2">
-                        @foreach ($users as $trainer) <!-- Loop through all users -->
-                            <option value="{{ $trainer->id }}">{{ $trainer->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+            <!-- Date -->
+            <div class="mt-4">
+                <label for="trainsession_date" class="block text-lg font-medium text-orange-800">Date</label>
+                <input type="date" name="trainsession_date" class="w-full p-3 border border-orange-200 rounded-lg">
+            </div>
 
-                <!-- Image -->
-                <div class="mt-4">
-                    <label for="image" class="block text-lg font-medium text-orange-800">Session Image</label>
-                    <input type="file" name="image" id="image" class="w-full p-3 border border-orange-200 rounded-lg">
-                </div>
+            <!-- Start Time -->
+            <div class="mt-4">
+                <label for="start_time" class="block text-lg font-medium text-orange-800">Start Time</label>
+                <input type="time" name="start_time" class="w-full p-3 border border-orange-200 rounded-lg">
+            </div>
 
-                <!-- Date -->
-                <div class="mt-4">
-                    <label for="trainsession_date" class="block text-lg font-medium text-orange-800">Date</label>
-                    <input type="date" name="trainsession_date" class="w-full p-3 border border-orange-200 rounded-lg">
-                </div>
+            <!-- End Time -->
+            <div class="mt-4">
+                <label for="end_time" class="block text-lg font-medium text-orange-800">End Time</label>
+                <input type="time" name="end_time" class="w-full p-3 border border-orange-200 rounded-lg">
+            </div>
 
-                <!-- Start Time -->
-                <div class="mt-4">
-                    <label for="start_time" class="block text-lg font-medium text-orange-800">Start Time</label>
-                    <input type="time" name="start_time" class="w-full p-3 border border-orange-200 rounded-lg">
-                </div>
+            <!-- Description -->
+            <div class="mt-4">
+                <label for="description" class="block text-lg font-medium text-orange-800">Description</label>
+                <textarea name="description" id="description" rows="4" class="w-full p-3 border border-orange-200 rounded-lg"></textarea>
+            </div>
 
-                <!-- End Time -->
-                <div class="mt-4">
-                    <label for="end_time" class="block text-lg font-medium text-orange-800">End Time</label>
-                    <input type="time" name="end_time" class="w-full p-3 border border-orange-200 rounded-lg">
-                </div>
-
-                <!-- Description -->
-                <div class="mt-4">
-                    <label for="description" class="block text-lg font-medium text-orange-800">Description</label>
-                    <textarea name="description" id="description" rows="4" class="w-full p-3 border border-orange-200 rounded-lg"></textarea>
-                </div>
-
-                <!-- Submit Button -->
-                <div class="mt-8 flex justify-between">
-                    <button type="submit" class="w-2/4 p-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600">
-                        Create Session
-                    </button>
-                    <button type="button" id="cancel-create-modal" class="w-1/3 p-3 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600">
-                        Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
+            <!-- Submit Button -->
+            <div class="mt-8 flex justify-between">
+                <button type="submit" class="w-2/4 p-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600">
+                    Create Session
+                </button>
+                <button type="button" id="cancel-create-modal" class="w-1/3 p-3 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600">
+                    Cancel
+                </button>
+            </div>
+        </form>
     </div>
+</div>
+
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

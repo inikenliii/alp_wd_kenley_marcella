@@ -72,31 +72,42 @@ class TrainSessionController extends Controller
     // }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'class_id' => 'required|exists:classes,id',
-            'user_id' => 'required|exists:users,id',
-            'image' => 'nullable|image|max:2048',
-            'trainsession_date' => 'required|date',
-            'start_time' => 'required',
-            'end_time' => 'required',
-            'description' => 'nullable|string',
-        ]);
+{
+    $request->validate([
+        'class_id' => 'required|exists:classes,id',
+        'image' => 'nullable|image|max:2048',
+        'trainsession_date' => 'required|date',
+        'start_time' => 'required',
+        'end_time' => 'required',
+        'description' => 'nullable|string',
+    ]);
 
-        $imagePath = $request->file('image') ? $request->file('image')->store('train_sessions', 'public') : null;
+    // Simpan gambar jika ada
+    $imagePath = $request->file('image') ? $request->file('image')->store('train_sessions', 'public') : null;
 
+    // Ambil semua pengguna dalam kelas yang ditentukan
+    $users = User::where('class_id', $request->class_id)->get();
+
+    if ($users->isEmpty()) {
+        return back()->withErrors(['class_id' => 'No users are enrolled in the selected class.']);
+    }
+
+    // Buat sesi pelatihan untuk setiap pengguna
+    foreach ($users as $user) {
         TrainSession::create([
             'class_id' => $request->class_id,
-            'user_id' => $request->user_id,
+            'user_id' => $user->id,
             'image' => $imagePath,
             'trainsession_date' => $request->trainsession_date,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'description' => $request->description,
         ]);
-
-        return redirect("/session/" . Auth::id());
     }
+
+    return redirect("/session/" . Auth::id())->with('success', 'Train sessions created successfully for all users in the class.');
+}
+
 
 
     public function update(Request $request, $id)
