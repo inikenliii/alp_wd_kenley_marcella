@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Attendance;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // Show registration form
+
     public function showRegistrationForm()
     {
         // Check if the user is already logged in
@@ -24,7 +25,7 @@ class AuthController extends Controller
         }
     }
 
-    // Handle registration
+    
     public function register(Request $request)
     {
         // Validate incoming data
@@ -34,7 +35,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'phone_number' => 'required|string',
             'address' => 'required|string',
-            'birth_date' => 'required|date',
+            'birth_date' => 'required|date|before:' . now()->subYears(10)->format('Y-m-d'),
         ]);
 
         // Calculate age
@@ -67,7 +68,7 @@ class AuthController extends Controller
         return redirect()->route('home', ['id' => $user->id]);
     }
 
-    // Function to determine class name based on age
+
     private function getClassByAge($age)
     {
         if ($age >= 19) return 'Adult';
@@ -88,6 +89,13 @@ class AuthController extends Controller
         $trainSession->end_time = now()->addHours(1); // Example duration
         $trainSession->description = 'Training session for new user';
         $trainSession->save();
+
+        Attendance::create([
+            'user_id' => Auth::id(),
+            'trainsession_id' => $trainSession->id,
+            'attendance_status' => 'absent', // Default status
+            'attendance_date' => $trainSession->trainsession_date,
+        ]);
     }
 
     // Show login form
