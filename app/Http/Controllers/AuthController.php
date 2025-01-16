@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Http\Controllers\TrainSession;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Classs;  // Import the Class model
+use App\Models\Classs;  // Import model Classs
+use App\Models\TrainSession; // Import model TrainSession
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -112,6 +112,13 @@ class AuthController extends Controller
         $trainSession->end_time = now()->addHours(1); // Example duration
         $trainSession->description = 'Training session for new user';
         $trainSession->save();
+
+        Attendance::create([
+            'user_id' => Auth::id(),
+            'trainsession_id' => $trainSession->id,
+            'attendance_status' => 'absent', // Default status
+            'attendance_date' => $trainSession->trainsession_date,
+        ]);
     }
 
     // Show login form
@@ -123,6 +130,7 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    // Handle login
     public function login(Request $request)
     {
         // Get the credentials from the request
