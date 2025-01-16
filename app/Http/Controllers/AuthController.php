@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Http\Controllers\TrainSession;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Classs;  // Import model Classs
-use App\Models\TrainSession; // Import model TrainSession
+use App\Models\Classs;  // Import the Class model
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -35,27 +35,50 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'phone_number' => 'required|string',
             'address' => 'required|string',
-            'birth_date' => 'required|date|before:' . now()->subYears(10)->format('Y-m-d'),
+            'birth_date' => 'required|date',
         ]);
 
-        // Calculate age
-        $birthDate = Carbon::parse($request->birth_date);
-        $age = $birthDate->age;
+    // Calculate age
+    $birthDate = Carbon::parse($request->birth_date);
+    $age = $birthDate->age;
 
-        // Get appropriate class based on age
-        $class = Classs::where('class_name', $this->getClassByAge($age))->first();
+    // Get all classes
+    $classes = Classs::all();
+    
+    if ($classes->isEmpty()) {
+        $seeder = new \Database\Seeders\ClasssSeeder();
+        $seeder->run();
+        $classes = Classs::all();
+    }
 
-        // Create user with class_id
-        $userData = [
-            'username' => $request->username,
-            'password' => Hash::make($request->password),
-            'name' => $request->name,
-            'phone_number' => $request->phone_number,
-            'address' => $request->address,
-            'birth_date' => $request->birth_date,
-            'image_profile' => 0,
-            'class_id' => $class->id, // Set class_id
-        ];
+    // Find appropriate class
+    $class = null;
+    
+    // Strict comparison from oldest to youngest
+    if ($age >= 19) {
+        $class = Classs::where('class_name', 'Adult')->first();
+    } elseif ($age >= 16) {
+        $class = Classs::where('class_name', 'KU 18')->first();
+    } elseif ($age >= 14) {
+        $class = Classs::where('class_name', 'KU 16')->first();
+    } elseif ($age >= 12) {
+        $class = Classs::where('class_name', 'KU 14')->first();
+    } elseif ($age >= 10) {
+        $class = Classs::where('class_name', 'KU 12')->first();
+    }
+
+
+    // Create the user with explicit class_id
+    $userData = [
+        'username' => $request->username,
+        'password' => Hash::make($request->password),
+        'name' => $request->name,
+        'phone_number' => $request->phone_number,
+        'address' => $request->address,
+        'birth_date' => $request->birth_date,
+        'image_profile' => 0,
+        'class_id' => $class->id  // Explicitly set the class_id
+    ];
 
         // Create the user
         $user = User::create($userData);
@@ -68,7 +91,7 @@ class AuthController extends Controller
         return redirect()->route('home', ['id' => $user->id]);
     }
 
-
+    // Function to determine class name based on age
     private function getClassByAge($age)
     {
         if ($age >= 19) return 'Adult';
@@ -89,13 +112,6 @@ class AuthController extends Controller
         $trainSession->end_time = now()->addHours(1); // Example duration
         $trainSession->description = 'Training session for new user';
         $trainSession->save();
-
-        Attendance::create([
-            'user_id' => Auth::id(),
-            'trainsession_id' => $trainSession->id,
-            'attendance_status' => 'absent', // Default status
-            'attendance_date' => $trainSession->trainsession_date,
-        ]);
     }
 
     // Show login form
@@ -107,7 +123,6 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    // Handle login
     public function login(Request $request)
     {
         // Get the credentials from the request
