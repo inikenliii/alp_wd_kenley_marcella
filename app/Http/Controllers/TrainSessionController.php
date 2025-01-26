@@ -72,6 +72,7 @@ class TrainSessionController extends Controller
         ]);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         $imagePath = $request->file('image') ? $request->file('image')->store('train_sessions', 'public') : null;
 
         $users = User::where('class_id', $request->class_id)->get();
@@ -101,6 +102,8 @@ class TrainSessionController extends Controller
 
         return redirect("/session" . Auth::id())->with('success', 'Train sessions created successfully for all users in the class.');
 =======
+=======
+>>>>>>> parent of 4a6556c (ini ya)
         // Create attendance entry for each user
         Attendance::create([
             'user_id' => $user->id,
@@ -108,6 +111,9 @@ class TrainSessionController extends Controller
             'attendance_status' => 'absent',  // Default to 'absent'
             'attendance_date' => $request->trainsession_date,
         ]);
+<<<<<<< HEAD
+>>>>>>> parent of 4a6556c (ini ya)
+=======
 >>>>>>> parent of 4a6556c (ini ya)
     }
 
