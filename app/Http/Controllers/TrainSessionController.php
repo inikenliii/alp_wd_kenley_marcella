@@ -33,13 +33,27 @@ class TrainSessionController extends Controller
     }
 
     public function show($id)
-{
-    $trainSession = TrainSession::with(['classs', 'user'])->findOrFail($id);
+    {
+        if (Auth::id() != $id) {
+            abort(403, 'Unauthorized action.');
+        }
 
-    return view('train_session.show', [
-        'trainSession' => $trainSession,
-    ]);
-}
+        $trainSessions = TrainSession::with(['classs', 'user'])->where('user_id', $id)->get();
+        if (Auth::check() && Auth::user()->isAdmin) {
+            $trainSessions = TrainSession::with(['classs', 'user'])->get();
+        }
+
+        $allClasses = classs::all();
+        $users = User::all();
+
+        return view('session', [
+            'pagetitle' => 'Train Sessions',
+            'id' => $id,
+            'trainSessions' => $trainSessions,
+            'allClasses' => $allClasses,
+            'users' => $users,
+        ]);
+    }
 
     public function store(Request $request)
     {
