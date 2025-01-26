@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+<<<<<<< HEAD
+=======
+use App\Http\Controllers\TrainSession;
+use App\Models\Attendance;
+>>>>>>> parent of 4a6556c (ini ya)
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Classs;  // Import model Classs
-use App\Models\TrainSession; // Import model TrainSession
+use App\Models\Classs;  // Import the Class model
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -122,7 +126,6 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    // Handle login
     public function login(Request $request)
     {
         // Get the credentials from the request
