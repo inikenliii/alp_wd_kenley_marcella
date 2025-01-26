@@ -76,7 +76,7 @@ class PaymentController extends Controller
         $payment = Payment::findOrFail($id);
 
         // Check if the authenticated user is authorized to delete the payment
-        if (!Auth::user()->isAdmin && Auth::id() != $payment->user_id) {
+        if (Auth::id() != $payment->user_id) {
             abort(403, 'Unauthorized action.');
         }
 
