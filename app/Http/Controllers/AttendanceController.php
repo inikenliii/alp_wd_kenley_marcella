@@ -25,7 +25,7 @@ class AttendanceController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $attendance = Attendance::with(['user', 'trainsession.classs'])->where('user_id', $id)->get();
+        $attendance = Attendance::with(['user', 'trainsession.classs'])->where('id', $id)->get();
         if (Auth::check() && Auth::user()->isAdmin) {
             $attendance = attendance::all();
         }

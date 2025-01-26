@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Classs;
-use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -101,7 +100,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:15',
             'address' => 'required|string|max:255',
-            'birth_date' => 'required|date|before:' . now()->subYears(10)->format('Y-m-d'),
+            'birth_date' => 'required|date',
         ]);
 
         $birthDate = $request->input('birth_date');
@@ -116,8 +115,6 @@ class UserController extends Controller
             'birth_date' => $birthDate,
             'class_id' => $classId,
         ]);
-
-        
 
         Auth::login($user);
 
@@ -150,14 +147,5 @@ class UserController extends Controller
             $age > 18 => $classes->where('class_name', 'Adult')->first()?->id, // Untuk umur lebih dari 18
             default => null, // Jika tidak sesuai kategori
         };
-
-        if ($classId) {
-            Attendance::create([
-                'user_id' => Auth::id(),
-                'trainsession_id' => $session->id,
-                'attendance_status' => 'absent', // Default status
-                'attendance_date' => $request->trainsession_date,
-            ]);
-        }
     }
 }

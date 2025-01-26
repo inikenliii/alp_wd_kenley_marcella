@@ -93,6 +93,6 @@ class TrainSessionController extends Controller
             ]);
         }
 
-        return redirect("/session/". Auth::id())->with('success', 'Train sessions created successfully for all users in the class.');
+        return redirect("/session" . Auth::id())->with('success', 'Train sessions created successfully for all users in the class.');
     }
 }

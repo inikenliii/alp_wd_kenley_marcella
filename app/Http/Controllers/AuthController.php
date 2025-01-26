@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\Attendance;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -13,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-
+    // Show registration form
     public function showRegistrationForm()
     {
         // Check if the user is already logged in
@@ -25,7 +24,7 @@ class AuthController extends Controller
         }
     }
 
-    
+    // Handle registration
     public function register(Request $request)
     {
         // Validate incoming data
@@ -112,13 +111,6 @@ class AuthController extends Controller
         $trainSession->end_time = now()->addHours(1); // Example duration
         $trainSession->description = 'Training session for new user';
         $trainSession->save();
-
-        Attendance::create([
-            'user_id' => Auth::id(),
-            'trainsession_id' => $trainSession->id,
-            'attendance_status' => 'absent', // Default status
-            'attendance_date' => $trainSession->trainsession_date,
-        ]);
     }
 
     // Show login form
